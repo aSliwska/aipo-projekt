@@ -1,0 +1,7 @@
+opencv-python
+pytesseract
+ultralytics
+scikit-learn
+spacy
+roboflow
+requests
