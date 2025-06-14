@@ -1,0 +1,16 @@
+[project]
+name = "aipo"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "openalpr>=1.1.0",
+    "opencv-python>=4.11.0.86",
+    "pytesseract>=0.3.13",
+    "requests>=2.32.4",
+    "roboflow>=1.1.66",
+    "scikit-learn>=1.7.0",
+    "spacy>=3.8.7",
+    "ultralytics>=8.3.155",
+]
