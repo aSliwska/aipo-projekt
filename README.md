@@ -3,7 +3,7 @@ Project for AiPO.
 
 ---
 ## Dataset
-Data: https://drive.google.com/drive/folders/1nmdyPdUMOLT9aDzbtC55K6U4akBT9X3L?usp=drive_link
+Clips: https://drive.google.com/drive/folders/1nmdyPdUMOLT9aDzbtC55K6U4akBT9X3L?usp=drive_link
 
 |ID |Link to source                              |Country     |City    |Minute start|Minute end|Lat                |Lon               |Coordinate accuracy|
 |---|-------------------------------------------|---------|----------|------------|-------------|-------------------|------------------|----------------------|
