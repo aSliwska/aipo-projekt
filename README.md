@@ -1,6 +1,5 @@
 # aipo-projekt
 Project for AiPO.
-
 ---
 ## Dataset
 Clips: https://drive.google.com/drive/folders/1nmdyPdUMOLT9aDzbtC55K6U4akBT9X3L?usp=drive_link
