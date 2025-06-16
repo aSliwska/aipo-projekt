@@ -166,7 +166,6 @@ class MultiObjectDetector:
                     x1, y1, x2, y2 = bbox
                     roi = frame[y1:y2, x1:x2]
                     text = text_extractor.extract_text(roi)
-
                     # Tylko obiekty Z TEKSTEM są billboardami
                     if text and len(text.strip()) > 2:  # Minimum 3 znaki tekstu
                         try:
@@ -214,7 +213,6 @@ class MultiObjectDetector:
         detections = []
         height, width = frame.shape[:2]
         frame_area = width * height
-
         # Wykryj standardowe obiekty (pojazdy, znaki)
         for result in results:
             for i, box in enumerate(result.boxes.xyxy):
@@ -357,7 +355,6 @@ def main():
     logging.info("Starting video processing (vehicles, signs, billboards)")
     video_path = input("Podaj ścieżkę do pliku wideo: ").strip()
     video_file = Path(video_path)
-
     if not video_file.is_file():
         logging.error("Nie znaleziono pliku wideo: %s", video_path)
         logging.info("Nie znaleziono pliku wideo.")
@@ -394,14 +391,12 @@ def main():
     detector = MultiObjectDetector("yolov8n.pt")
     plate_recognizer = PlateRecognizer()
     text_extractor = TextExtractor()
-
     # Sprawdź dozwolone klasy modelu
     logging.info("Wykrywane klasy w modelu:")
     for class_id, class_name in detector.model.names.items():
         if class_id in detector.allowed_classes:
             logging.info(f"{class_id}: {class_name}")
     logging.info("+ Billboardy (prostokąty z tekstem)")
-
     cap = cv2.VideoCapture(str(video_file))
     if not cap.isOpened():
         logging.error("Nie można otworzyć pliku wideo: %s", video_path)
@@ -447,7 +442,6 @@ def main():
 
                 frame_count += 1
                 pbar.update(1)
-
                 if frame_count % 10 != 0:
                     continue
 
@@ -561,7 +555,6 @@ def main():
                     info_msg = f"[{frame_count}] {config['name']}: {class_name} (conf: {conf:.2f})"
                     for info in additional_info:
                         info_msg += f" | {info}"
-
                     tqdm.write(info_msg)
                     frame_info.append(info_msg)
 
@@ -602,7 +595,6 @@ def main():
 
         finally:
             cap.release()
-
     logging.info("Video processing finished")
     logging.info(f"Total frames processed: {processed_frames}/{total_frames}")
 
