@@ -424,9 +424,7 @@ def main():
                     elif detection['category'] == 'traffic_signs':
                         sign_detections.append(detection)
                     elif detection['category'] == 'billboards':
-                        billboard_detections.append(detection)
-
-                # SPRAWDŹ TABLICE REJESTRACYJNE DLA POJAZDÓW
+                        billboard_detections.append(detection)                # SPRAWDŹ TABLICE REJESTRACYJNE DLA POJAZDÓW
                 vehicles_with_plates = []
                 for detection in vehicle_detections:
                     x1, y1, x2, y2 = detection['bbox']
@@ -436,6 +434,14 @@ def main():
                     if plates:
                         detection['plates'] = plates
                         vehicles_with_plates.append(detection)
+                        
+                        # Zapisz nowe tablice do pliku
+                        for plate in plates:
+                            if plate not in seen_plates:
+                                seen_plates.add(plate)
+                                with open(plates_txt_path, 'a', encoding='utf-8') as f:
+                                    f.write(f"{plate}\n")
+                                tqdm.write(f"New plate detected: {plate}")
                 
                 vehicle_detections = vehicles_with_plates
 
@@ -544,8 +550,7 @@ def main():
                         cv2.imwrite(str(output_path), frame)
                     
                     tqdm.write(f"Frame {frame_count} saved to {output_path}")
-                    
-                    # AKTUALIZUJ PASEK Z INFORMACJĄ O ZAPISANIU
+                      # AKTUALIZUJ PASEK Z INFORMACJĄ O ZAPISANIU
                     pbar.set_postfix(saved=str(output_path.name))
 
         finally:
@@ -553,6 +558,22 @@ def main():
         
     logging.info("Video processing finished")
     logging.info(f"Total frames processed: {processed_frames}/{total_frames}")
+    
+    # Summary report
+    logging.info("=== PROCESSING SUMMARY ===")
+    logging.info(f"Unique plates detected: {len(seen_plates)}")
+    if seen_plates:
+        logging.info(f"Plates file: {plates_txt_path}")
+        for plate in sorted(seen_plates):
+            logging.info(f"  - {plate}")
+    
+    # Count saved images by category
+    for category, dir_path in output_dirs.items():
+        if dir_path.exists():
+            image_count = len(list(dir_path.glob("*.jpg")))
+            logging.info(f"{category.capitalize()} images saved: {image_count}")
+    
+    logging.info("=== END SUMMARY ===")
 
 
 if __name__ == "__main__":
