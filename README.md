@@ -72,7 +72,8 @@ Znane problemy:
 3. Lista krajów na świecie [1](https://www.britannica.com/topic/list-of-countries-1993160), [2](https://en.wikipedia.org/wiki/Left-_and_right-hand_traffic)
 4. [Nominatim Usage Policy](https://operations.osmfoundation.org/policies/nominatim/)
 5. [Dokumentacja GeoPy](https://geopy.readthedocs.io/en/stable/)
-6.
+6. [Korekcja perspektywy - punkt horyzontu](https://notbrainsurgery.livejournal.com/40465.html)
+7. [Korekcja perspektywy - bounding box + układ równań](https://github.com/kuangzijian/Image-Stitching-and-Perspective-Correction)
 
 
 ## Podział zadań
@@ -83,7 +84,7 @@ Znane problemy:
 - Kamil Krzysztofek - tworzenie testowego datasetu, rozpoznawanie języka
 - Patryk Madej - 
 - Adam Niewczas - GUI
-- Arkadiusz Rudy - 
+- Arkadiusz Rudy - OCR
 - Wiktor Szewczyk - 
 - wszyscy - dokumentacja
 

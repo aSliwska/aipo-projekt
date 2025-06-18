@@ -64,6 +64,20 @@ def invert(data : dict):
     image = data["image"]
     return { "image" : cv2.bitwise_not(image)}
 
+
+def increase_contrast_shift_clip(data: dict) -> dict:
+    image = data["image"]
+    # Convert to float for processing
+    img_float = image.astype(np.float32)
+
+    img_shifted = img_float - 16
+    img_scaled = img_shifted * 1.125
+
+    img_clipped = np.clip(img_scaled, 0, 255).astype(np.uint8)
+
+    return {"image" : img_clipped}
+
+
 def to_grayscale(data: dict):
     gray = cv2.cvtColor(data["image"], cv2.COLOR_BGR2GRAY)
     return { "image": gray }
@@ -146,6 +160,7 @@ def ocr_pipeline(data : dict, just_text_region : bool = False, runocr : bool = T
 
     data = equalize_histogram(data)
     data = to_grayscale(data)
+    data = increase_contrast_shift_clip(data)
     # data = bn.otsu_binarize(data) #bn.adaptive_binarize(data)
     # data = open(data)
     
@@ -159,10 +174,11 @@ def ocr_pipeline(data : dict, just_text_region : bool = False, runocr : bool = T
 
 
 if __name__ == "__main__":
-    FILENAME = "test6.png"
+    FILENAME = "test8.png"
     PATH = "."
     runocr = True
     
     data = read_img(None)
+    #data = ocr_pipeline(data,True, runocr=runocr)
     data = ocr_pipeline(data, runocr=runocr)
     data = save(data)

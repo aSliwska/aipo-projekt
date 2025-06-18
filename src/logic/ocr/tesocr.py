@@ -3,16 +3,16 @@ import numpy as np
 import cv2
 
 GROUPS = {
-    # 'thai'         : ['tha'],
-    # 'chinese_tra'  : ['chi_tra'],
-    # 'bengali'      : ['ben', 'asm'],
-    # 'arabic'       : ['ara', 'fas', 'urd', 'uig'],
-    # 'devanagari'   : ['hin', 'mar', 'nep'],
-    # 'chinese_sim'  : ['chi_sim'],
-    # 'japanese'     : ['jpn'],
-    # 'korean'       : ['kor'],
-    # 'telugu'       : ['tel'],
-    # 'kannada'      : ['kan'],
+    'thai'         : ['tha'],
+    'chinese_tra'  : ['chi_tra'],
+    'bengali'      : ['ben', 'asm'],
+    'arabic'       : ['ara', 'fas', 'urd', 'uig'],
+    'devanagari'   : ['hin', 'mar', 'nep'],
+    'chinese_sim'  : ['chi_sim'],
+    'japanese'     : ['jpn'],
+    'korean'       : ['kor'],
+    'telugu'       : ['tel'],
+    'kannada'      : ['kan'],
     'cyrillic'     : ['rus', 'srp', 'bel', 'bul', 'ukr', 'mon'],
     'latin'        : [
         'eng', 'afr', 'aze', 'bos', 'ces', 'cym', 'dan', 'deu',
@@ -23,7 +23,7 @@ GROUPS = {
     ]
 }
 
-def ocr_multigroup(data: dict, min_conf: float = 0.7, debug: bool = False, lang_groups: dict = GROUPS) -> dict:
+def ocr_multigroup(data: dict, min_conf: float = 0.6, debug: bool = False, lang_groups: dict = GROUPS) -> dict:
     """
     Perform OCR with pytesseract across multiple language groups.
     Args:
