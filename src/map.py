@@ -1,12 +1,15 @@
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk
+
+from networkx.algorithms.distance_measures import radius
 from tkintermapview import TkinterMapView
 import time
 import threading
 import imageio
 from PIL import Image, ImageTk
 import math
+from logic import analysis
 
 video_reader = None
 circle = None
@@ -35,14 +38,10 @@ def draw_circle_on_map(map_widget, lat, lon, radius_m=500, color_outline="blue",
     polygon = map_widget.set_polygon(points, outline_color=color_outline)
     return polygon
 
-# Simulated video analysis function
+# video analysis function
 def analyze_video(path, frame_skip):
     print(f"Analyzing file: {path}")
-    for i in range(101):
-        time.sleep(0.02)
-        progress_var.set(i)
-        progress_bar.update()
-    return 52.2297, 21.0122  # Warsaw
+    return analysis.analyze_video(path, frame_skip)
 
 def select_file():
     file_types = [("Video Files", "*.mp4 *.avi *.mov *.mkv"), ("All Files", "*.*")]
@@ -66,12 +65,12 @@ def start_analysis(file_path):
     progress_var.set(0)
 
     def run():
-        lat, lon = analyze_video(file_path, frame_skip)
+        cords = analyze_video(file_path, frame_skip)
 
         def after_analysis():
-            show_map(lat, lon)
+            show_map(cords[0][0], cords[0][1], cords[1])
             play_video(file_path)
-            label_file.config(text=f"Analysis completed. Coordinates: {lat}, {lon}")
+            label_file.config(text=f"Analysis completed. Coordinates: {cords[0][0]}, {cords[0][1]}")
             progress_bar.pack_forget()
 
         window.after(0, after_analysis)
@@ -79,7 +78,7 @@ def start_analysis(file_path):
     threading.Thread(target=run).start()
 
 
-def show_map(lat, lon):
+def show_map(lat, lon, radius):
     global circle
     map_widget.pack(expand=True, fill="both")
     map_widget.set_position(lat, lon)
@@ -89,7 +88,7 @@ def show_map(lat, lon):
     if circle:
         circle.delete()
 
-    circle = draw_circle_on_map(map_widget, lat, lon, radius_m=500)
+    circle = draw_circle_on_map(map_widget, lat, lon, radius_m=radius)
 
 def play_video(file_path):
     global video_reader
