@@ -11,7 +11,7 @@ def predict_place(countries_by_road_side, countries_by_road_signs, countries_by_
                   regions_by_car_license_plates, countries_by_language, places_with_distances):
     """Calls OpenStreetMaps to find the most fitting place based on given params.
     Keyword arguments:
-    countries_by_road_side -- list of country names that match the side of the road the vehicle on the video drove on
+    countries_by_road_side -- list of country names that match the side of the road the vehicle in the video drove on
     countries_by_road_signs -- list of country names that match the road signs that appear in the video
     countries_by_car_license_plates -- list of country names that match the vehicle license plates that appear in the video
     regions_by_car_license_plates -- list of region names that match the vehicle license plates that appear in the video
