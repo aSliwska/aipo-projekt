@@ -122,7 +122,7 @@ Wykorzystane narzędzia:
 ### 7. OCR
 
 #### Tryb klatki:
-Klatka jest heurystycznie poddawana dwustopniowemu powiększaniu i wyostrzaniu, w celu uwypuklenia tekstu i sprowadzenia go do obszaru optymalnej pracy sieci OCR. Preprocessing zakłada następnie equalizację histogramu i konwersję do skali szarości. Następnie klatka jest poddawana parsowaniu przez sieć OCR.
+Klatka jest heurystycznie poddawana dwustopniowemu powiększaniu i wyostrzaniu, w celu uwypuklenia tekstu i sprowadzenia go możliwie jak najbliżej do obszaru optymalnej pracy sieci OCR. Preprocessing zakłada następnie equalizację histogramu i konwersję do skali szarości. W dalszej kolejności, klatka jest poddawana parsowaniu przez sieć OCR.
 
 #### Tryb precyzyjny:
 Ten tryb zakłada, że na wejście zostaje podany sam tekst wraz z pewnym jego rejonem (zestaw linii tekstu, krawędzie tabliczki). Pomiędzy stopiami przetwarzania zachodzi korekcja perspektywy i rotacji obrazu. Główna metoda opiera się o znalezienie punktu horyzontu na podstawie znalezionych linii obrysu (transformacja Hough), obliczenie macierzy homeografii i następnie korekcji. W przypadku nieznalezienia żadnego punktu zbiegu lub wykrycia niewystarczającej liczby linii, zostaje uruchomiona bardziej złożona i jednocześnie bardziej zawodna metoda obliczenia macierzy homeografii w oparciu o rozwiązanie układu równań liniowych niedookreślonego (układ 8 równań z 9 niewiadomymi) z użyciem rozkładu SVD dla 4 wierzchołków tła. Wierzchołki są dobierane automatycznie poprzez wykrywanie kwadratowych konturów.

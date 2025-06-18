@@ -15,7 +15,7 @@ def correct_horizontal_perspective(
     canny_high=None,#150,
     hough_rho=1,
     hough_theta=np.pi / 180,
-    hough_threshold=150,
+    hough_threshold=160,
     horizontal_angle_thresh=np.pi / 3,
     vp_center_thresh=0.1,
     debug=False

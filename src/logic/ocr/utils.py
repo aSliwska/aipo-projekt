@@ -1,7 +1,7 @@
 import functools
 import inspect
 import cv2
-
+import numpy as np
 
 def inject_settings(settings: dict):
     """

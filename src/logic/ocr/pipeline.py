@@ -140,6 +140,7 @@ def ocr_pipeline(data : dict, just_text_region : bool = False, runocr : bool = T
     if just_text_region: #try correcting only if the input is a text region; otherwise do not even attempt
         try:
             #raise(RuntimeError())
+            data = fade_edges(data)
             data = pc.correct_horizontal_perspective(data, debug=True) #good enough, reliable & generally sufficient
             pass
         except RuntimeError as e:
@@ -174,11 +175,11 @@ def ocr_pipeline(data : dict, just_text_region : bool = False, runocr : bool = T
 
 
 if __name__ == "__main__":
-    FILENAME = "test8.png"
-    PATH = "."
-    runocr = True
+    FILENAME = "test1.jpg"
+    PATH = "test_images"
+    runocr = False
     
     data = read_img(None)
-    #data = ocr_pipeline(data,True, runocr=runocr)
-    data = ocr_pipeline(data, runocr=runocr)
+    data = ocr_pipeline(data,True, runocr=runocr) #precise
+    #data = ocr_pipeline(data, runocr=runocr) #frame
     data = save(data)
