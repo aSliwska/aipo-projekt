@@ -1,7 +1,7 @@
 import osm.open_street_maps as osm
 import cv2
 
-def analyze_video(path_to_video):
+def analyze_video(path_to_video, frame_skip):
     vid = cv2.VideoCapture(path_to_video)
 
     countries_by_road_side = []
@@ -13,7 +13,11 @@ def analyze_video(path_to_video):
 
     ret, frame = vid.read()
     i = 0
+
     while (ret):
+        if i % frame_skip == 0:
+            pass
+
         # TODO: analyze the frame
         ret, frame = vid.read()
         i+=1
@@ -23,4 +27,4 @@ def analyze_video(path_to_video):
         regions_by_car_license_plates, countries_by_language, places_with_distances)
 
 if __name__ == "__main__":
-    analyze_video('../../road_videos/1.mp4')
+    analyze_video('../../road_videos/1.mp4', 10)
