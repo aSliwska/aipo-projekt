@@ -91,6 +91,9 @@ Wykorzystane narzędzia:
 ### 3. Wykrywanie ruchu prawo- i lewostronnego
 System odróżnienia ruchu prawo- od lewo-stronnego działa na podstawie algorytmu Ultra-Fast-Lane-Detection i modelu YOLOv8. YOLOv8 wykrywa objekty drogowe, z których w tym przypadku ważne są samochody. Ultra-Fast-Lane-Detection wykrywa pasy drogowe, co pozawala rozmieścić te samochody na wykrytych pasach. Ta informacja jest później klasyfikowana przez klasyczny oraz bardzo prosty algorytm Random Forest z biblioteki Scikit-learn.
 
+Wymagania:
+- Plik "culane_18.pth" należy pobrać za linkiem [https://drive.usercontent.google.com/open?id=1WCYyur5ZaWczH15ecmeDowrW30xcLrCn&authuser=0], oraz przenieść do folderu src/logic.
+
 Wykorzystane narzędzia:
 - [YOLOv8](https://docs.ultralytics.com/models/yolov8/)
 - [Ultra-Fast-Lane-Detection](https://github.com/cfzd/Ultra-Fast-Lane-Detection)
