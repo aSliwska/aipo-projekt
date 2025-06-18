@@ -351,6 +351,241 @@ def geolocate_text(text):
 
 
 # ========== Main Function ==========
+def process_video_frames(
+    video_file,
+    detector,
+    plate_recognizer,
+    text_extractor,
+    text_clf,
+    output_dirs,
+    plates_txt_path,
+    start_frame=0,
+    frame_interval=10,
+):
+    """
+    Processes video frames to detect vehicles, signs, billboards, recognize plates, annotate, and save frames.
+    Uses process_frame for each frame.
+    """
+    cap = cv2.VideoCapture(str(video_file))
+    if not cap.isOpened():
+        logging.error("Nie można otworzyć pliku wideo: %s", video_file)
+        return
+
+    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    logging.info(f"Video info: {total_frames} frames, {fps:.2f} FPS")
+
+    frame_count = 0
+    processed_frames = 0
+    seen_plates = set()
+
+    with (
+        tqdm(
+            total=total_frames,
+            desc="Processing video",
+            unit="frames",
+            position=0,
+            leave=True,
+        ) as pbar,
+        logging_redirect_tqdm(),
+    ):
+        try:
+            while True:
+                ret, frame = cap.read()
+                if not ret:
+                    tqdm.write("No more frames to read. Exiting loop.")
+                    break
+
+                frame_count += 1
+                pbar.update(1)
+                if frame_count < start_frame or frame_count % frame_interval != 0:
+                    continue
+
+                processed_frames += 1
+                pbar.set_description(
+                    f"Processing frame {frame_count}/{total_frames} (analyzed: {processed_frames})"
+                )
+
+                seen_plates, output_path, frame_info = process_frame(
+                    frame,
+                    frame_count,
+                    detector,
+                    plate_recognizer,
+                    text_extractor,
+                    text_clf,
+                    output_dirs,
+                    plates_txt_path,
+                    seen_plates,
+                )
+                if output_path:
+                    tqdm.write(f"Frame {frame_count} saved to {output_path}")
+                    pbar.set_postfix(saved=str(output_path.name))
+        finally:
+            cap.release()
+    logging.info("Video processing finished")
+    logging.info(f"Total frames processed: {processed_frames}/{total_frames}")
+    return seen_plates, processed_frames, total_frames
+
+
+def process_frame(
+    frame,
+    frame_count,
+    detector,
+    plate_recognizer,
+    text_extractor,
+    text_clf,
+    output_dirs=None,
+    plates_txt_path=None,
+    seen_plates=None,
+    save_to_file=False,
+):
+    """
+    Processes a single frame to detect vehicles, signs, billboards, recognize plates, annotate, and optionally save the frame.
+    Returns updated seen_plates, output_path (if saved), and frame_info.
+    """
+    if seen_plates is None:
+        seen_plates = set()
+
+    detections = detector.detect(frame, text_extractor, text_clf)
+    frame_info = []
+
+    # Kategoryzuj wykrycia w ramce
+    vehicle_detections = []
+    sign_detections = []
+    billboard_detections = []
+
+    for detection in detections:
+        if detection["category"] == "vehicles":
+            vehicle_detections.append(detection)
+        elif detection["category"] == "traffic_signs":
+            sign_detections.append(detection)
+        elif detection["category"] == "billboards":
+            billboard_detections.append(detection)
+
+    vehicles_with_plates = []
+    for detection in vehicle_detections:
+        x1, y1, x2, y2 = detection["bbox"]
+        roi = frame[y1:y2, x1:x2]
+        plates = plate_recognizer.recognize(roi)
+
+        if plates:
+            detection["plates"] = plates
+            vehicles_with_plates.append(detection)
+
+            # Zapisz nowe tablice do pliku jeśli wymagane
+            if save_to_file and plates_txt_path is not None:
+                for plate in plates:
+                    if plate not in seen_plates:
+                        seen_plates.add(plate)
+                        with open(plates_txt_path, "a", encoding="utf-8") as f:
+                            f.write(f"{plate}\n")
+                        logging.info(f"New plate detected: {plate}")
+
+    vehicle_detections = vehicles_with_plates
+
+    all_detections = (
+        vehicle_detections + sign_detections + billboard_detections
+    )
+
+    for detection in all_detections:
+        x1, y1, x2, y2 = detection["bbox"]
+        category = detection["category"]
+        config = detection["config"]
+        class_name = detection["class_name"]
+        conf = detection["confidence"]
+        roi = frame[y1:y2, x1:x2]
+        cv2.rectangle(frame, (x1, y1), (x2, y2), config["color"], 2)
+        label_text = f"{config['name']}: {class_name}"
+        additional_info = []
+        if category == "vehicles":
+            plates = detection.get("plates", [])
+            if plates:
+                plate_text = ", ".join(plates)
+                additional_info.append(f"Rejestracja: {plate_text}")
+                label_text += f" ({plate_text})"
+        elif category == "traffic_signs":
+            text = text_extractor.extract_text(roi)
+            if text:
+                try:
+                    text_label = text_clf.predict(text)
+                    additional_info.append(f"Tekst: {text} ({text_label})")
+                    label_text += f" - {text}"
+                    if text_label == "city":
+                        lat, lon = geolocate_text(text)
+                        if lat and lon:
+                            additional_info.append(f"Lokalizacja: {lat}, {lon}")
+                except:
+                    additional_info.append(f"Tekst: {text}")
+            else:
+                additional_info.append("Znak bez tekstu")
+        elif category == "billboards":
+            text = detection.get("detected_text", "")
+            text_label = detection.get("text_classification", "")
+            if text:
+                additional_info.append(f"Billboard: {text} ({text_label})")
+                label_text += f" - {text}"
+                if text_label in ["city", "brand"]:
+                    lat, lon = geolocate_text(text)
+                    if lat and lon:
+                        additional_info.append(f"Lokalizacja: {lat}, {lon}")
+        cv2.putText(
+            frame,
+            label_text,
+            (x1, y1 - 10),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.5,
+            config["color"],
+            2,
+        )
+        info_msg = f"[{frame_count}] {config['name']}: {class_name} (conf: {conf:.2f})"
+        for info in additional_info:
+            info_msg += f" | {info}"
+        logging.info(info_msg)
+        frame_info.append(info_msg)
+    output_path = None
+    if save_to_file and (vehicle_detections or sign_detections or billboard_detections):
+        detection_types = []
+        if vehicle_detections:
+            detection_types.append("cars")
+        if sign_detections:
+            detection_types.append("signs")
+        if billboard_detections:
+            detection_types.append("billboards")
+        if len(detection_types) == 1:
+            if detection_types[0] == "cars":
+                output_dir = output_dirs["vehicles"]
+                filename = f"car_frame_{frame_count}.jpg"
+            elif detection_types[0] == "signs":
+                output_dir = output_dirs["traffic_signs"]
+                filename = f"sign_frame_{frame_count}.jpg"
+            else:
+                output_dir = output_dirs["billboards"]
+                filename = f"billboard_frame_{frame_count}.jpg"
+        else:
+            output_dir = output_dirs["mixed"]
+            filename = (
+                f"mixed_frame_{frame_count}_{'_'.join(detection_types)}.jpg"
+            )
+        output_path = output_dir / filename
+        ext = os.path.splitext(str(output_path))[1].lower()
+        if ext == ".jpg" or ext == ".jpeg":
+            cv2.imwrite(
+                str(output_path),
+                frame,
+                [int(cv2.IMWRITE_JPEG_QUALITY), 100],
+            )
+        elif ext == ".png":
+            cv2.imwrite(
+                str(output_path),
+                frame,
+                [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
+            )
+        else:
+            cv2.imwrite(str(output_path), frame)
+        logging.info(f"Frame {frame_count} saved to {output_path}")
+    return seen_plates, output_path, frame_info
+
+
 def main():
     logging.info("Starting video processing (vehicles, signs, billboards)")
     video_path = input("Podaj ścieżkę do pliku wideo: ").strip()
@@ -397,20 +632,6 @@ def main():
         if class_id in detector.allowed_classes:
             logging.info(f"{class_id}: {class_name}")
     logging.info("+ Billboardy (prostokąty z tekstem)")
-    cap = cv2.VideoCapture(str(video_file))
-    if not cap.isOpened():
-        logging.error("Nie można otworzyć pliku wideo: %s", video_path)
-        return
-
-    # POLICZ CAŁKOWITĄ LICZBĘ RAMEK
-    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-    fps = cap.get(cv2.CAP_PROP_FPS)
-    logging.info(f"Video info: {total_frames} frames, {fps:.2f} FPS")
-
-    frame_count = 0
-    processed_frames = 0
-
-    # Utwórz katalogi dla różnych kategorii
     output_base = Path("outputs")
     output_dirs = {
         "vehicles": output_base / "cars",
@@ -418,225 +639,30 @@ def main():
         "billboards": output_base / "billboards",
         "mixed": output_base / "mixed",
     }
-
     # Utwórz wszystkie katalogi
     for dir_path in output_dirs.values():
         dir_path.mkdir(parents=True, exist_ok=True)
 
     plates_txt_path = output_base / "plates.txt"
-    seen_plates = set()
-
-    with (
-        tqdm(
-            total=total_frames,
-            desc="Processing video",
-            unit="frames",
-            position=0,
-            leave=True,
-        ) as pbar,
-        logging_redirect_tqdm(),
-    ):
-        try:
-            while True:
-                ret, frame = cap.read()
-                if not ret:
-                    tqdm.write("No more frames to read. Exiting loop.")
-                    break
-
-                frame_count += 1
-                pbar.update(1)
-                if frame_count % 10 != 0:
-                    continue
-
-                processed_frames += 1
-                pbar.set_description(
-                    f"Processing frame {frame_count}/{total_frames} (analyzed: {processed_frames})"
-                )
-
-                detections = detector.detect(frame, text_extractor, text_clf)
-                frame_info = []
-
-                # Kategoryzuj wykrycia w ramce
-                vehicle_detections = []
-                sign_detections = []
-                billboard_detections = []
-
-                for detection in detections:
-                    if detection["category"] == "vehicles":
-                        vehicle_detections.append(detection)
-                    elif detection["category"] == "traffic_signs":
-                        sign_detections.append(detection)
-                    elif detection["category"] == "billboards":
-                        billboard_detections.append(
-                            detection
-                        )  # SPRAWDŹ TABLICE REJESTRACYJNE DLA POJAZDÓW
-                vehicles_with_plates = []
-                for detection in vehicle_detections:
-                    x1, y1, x2, y2 = detection["bbox"]
-                    roi = frame[y1:y2, x1:x2]
-                    plates = plate_recognizer.recognize(roi)
-
-                    if plates:
-                        detection["plates"] = plates
-                        vehicles_with_plates.append(detection)
-
-                        # Zapisz nowe tablice do pliku
-                        for plate in plates:
-                            if plate not in seen_plates:
-                                seen_plates.add(plate)
-                                with open(plates_txt_path, "a", encoding="utf-8") as f:
-                                    f.write(f"{plate}\n")
-                                tqdm.write(f"New plate detected: {plate}")
-
-                vehicle_detections = vehicles_with_plates
-
-                # Przetwórz wszystkie wykrycia
-                all_detections = (
-                    vehicle_detections + sign_detections + billboard_detections
-                )
-
-                for detection in all_detections:
-                    x1, y1, x2, y2 = detection["bbox"]
-                    category = detection["category"]
-                    config = detection["config"]
-                    class_name = detection["class_name"]
-                    conf = detection["confidence"]
-
-                    # Wyciągnij ROI
-                    roi = frame[y1:y2, x1:x2]
-
-                    # Rysuj prostokąt z odpowiednim kolorem
-                    cv2.rectangle(frame, (x1, y1), (x2, y2), config["color"], 2)
-
-                    label_text = f"{config['name']}: {class_name}"
-                    additional_info = []
-
-                    # Analiza specyficzna dla kategorii
-                    if category == "vehicles":
-                        plates = detection.get("plates", [])
-                        if plates:
-                            plate_text = ", ".join(plates)
-                            additional_info.append(f"Rejestracja: {plate_text}")
-                            label_text += f" ({plate_text})"
-
-                    elif category == "traffic_signs":
-                        text = text_extractor.extract_text(roi)
-                        if text:
-                            try:
-                                text_label = text_clf.predict(text)
-                                additional_info.append(f"Tekst: {text} ({text_label})")
-                                label_text += f" - {text}"
-
-                                if text_label == "city":
-                                    lat, lon = geolocate_text(text)
-                                    if lat and lon:
-                                        additional_info.append(
-                                            f"Lokalizacja: {lat}, {lon}"
-                                        )
-                            except:
-                                additional_info.append(f"Tekst: {text}")
-                        else:
-                            additional_info.append("Znak bez tekstu")
-
-                    elif category == "billboards":
-                        text = detection.get("detected_text", "")
-                        text_label = detection.get("text_classification", "")
-
-                        if text:
-                            additional_info.append(f"Billboard: {text} ({text_label})")
-                            label_text += f" - {text}"
-
-                            if text_label in ["city", "brand"]:
-                                lat, lon = geolocate_text(text)
-                                if lat and lon:
-                                    additional_info.append(f"Lokalizacja: {lat}, {lon}")
-
-                    # Dodaj etykietę na obraz
-                    cv2.putText(
-                        frame,
-                        label_text,
-                        (x1, y1 - 10),
-                        cv2.FONT_HERSHEY_SIMPLEX,
-                        0.5,
-                        config["color"],
-                        2,
-                    )
-
-                    # Logowanie informacji
-                    info_msg = f"[{frame_count}] {config['name']}: {class_name} (conf: {conf:.2f})"
-                    for info in additional_info:
-                        info_msg += f" | {info}"
-                    tqdm.write(info_msg)
-                    frame_info.append(info_msg)
-
-                # Zapisz ramkę do odpowiedniego katalogu
-                if vehicle_detections or sign_detections or billboard_detections:
-                    # Określ katalog docelowy
-                    detection_types = []
-                    if vehicle_detections:
-                        detection_types.append("cars")
-                    if sign_detections:
-                        detection_types.append("signs")
-                    if billboard_detections:
-                        detection_types.append("billboards")
-
-                    if len(detection_types) == 1:
-                        if detection_types[0] == "cars":
-                            output_dir = output_dirs["vehicles"]
-                            filename = f"car_frame_{frame_count}.jpg"
-                        elif detection_types[0] == "signs":
-                            output_dir = output_dirs["traffic_signs"]
-                            filename = f"sign_frame_{frame_count}.jpg"
-                        else:
-                            output_dir = output_dirs["billboards"]
-                            filename = f"billboard_frame_{frame_count}.jpg"
-                    else:
-                        output_dir = output_dirs["mixed"]
-                        filename = (
-                            f"mixed_frame_{frame_count}_{'_'.join(detection_types)}.jpg"
-                        )
-
-                    output_path = output_dir / filename
-                    # Save with high quality for JPEG
-                    ext = os.path.splitext(str(output_path))[1].lower()
-                    if ext == ".jpg" or ext == ".jpeg":
-                        cv2.imwrite(
-                            str(output_path),
-                            frame,
-                            [int(cv2.IMWRITE_JPEG_QUALITY), 100],
-                        )
-                    elif ext == ".png":
-                        cv2.imwrite(
-                            str(output_path),
-                            frame,
-                            [int(cv2.IMWRITE_PNG_COMPRESSION), 0],
-                        )
-                    else:
-                        cv2.imwrite(str(output_path), frame)
-
-                    tqdm.write(f"Frame {frame_count} saved to {output_path}")
-                    # AKTUALIZUJ PASEK Z INFORMACJĄ O ZAPISANIU
-                    pbar.set_postfix(saved=str(output_path.name))
-
-        finally:
-            cap.release()
-    logging.info("Video processing finished")
-    logging.info(f"Total frames processed: {processed_frames}/{total_frames}")
-
-    # Summary report
+    seen_plates, processed_frames, total_frames = process_video_frames(
+        video_file,
+        detector,
+        plate_recognizer,
+        text_extractor,
+        text_clf,
+        output_dirs,
+        plates_txt_path,
+    )
     logging.info("=== PROCESSING SUMMARY ===")
     logging.info(f"Unique plates detected: {len(seen_plates)}")
     if seen_plates:
         logging.info(f"Plates file: {plates_txt_path}")
         for plate in sorted(seen_plates):
             logging.info(f"  - {plate}")
-
-    # Count saved images by category
     for category, dir_path in output_dirs.items():
         if dir_path.exists():
             image_count = len(list(dir_path.glob("*.jpg")))
             logging.info(f"{category.capitalize()} images saved: {image_count}")
-
     logging.info("=== END SUMMARY ===")
 
 
