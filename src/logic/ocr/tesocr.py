@@ -58,7 +58,7 @@ def ocr_multigroup(data: dict, min_conf: float = 0.7, debug: bool = False, lang_
 
             # Use image_to_data for bounding box and confidence information
             ocr_data = pytesseract.image_to_data(
-                rgb, config=f'--oem 3 --psm 6 -l {lang}', output_type=pytesseract.Output.DICT
+                rgb, config=f'--oem 3 --psm 11 -l {lang}', output_type=pytesseract.Output.DICT #--psm 6 for regular
             )
 
             for i, raw_text in enumerate(ocr_data['text']):

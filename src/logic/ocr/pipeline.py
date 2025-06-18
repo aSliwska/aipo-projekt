@@ -64,6 +64,32 @@ def invert(data : dict):
     image = data["image"]
     return { "image" : cv2.bitwise_not(image)}
 
+def to_grayscale(data: dict):
+    gray = cv2.cvtColor(data["image"], cv2.COLOR_BGR2GRAY)
+    return { "image": gray }
+
+def equalize_histogram(data: dict):
+    img = data["image"]
+    
+    # If image is grayscale (2D array)
+    if len(img.shape) == 2:
+        equalized = cv2.equalizeHist(img)
+    
+    # If image is BGR (3D array with 3 channels)
+    elif len(img.shape) == 3 and img.shape[2] == 3:
+        # Convert to YCrCb, equalize the Y channel
+        ycrcb = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
+        ycrcb[:, :, 0] = cv2.equalizeHist(ycrcb[:, :, 0])
+        equalized = cv2.cvtColor(ycrcb, cv2.COLOR_YCrCb2BGR)
+    else:
+        raise ValueError("Unsupported image format for histogram equalization.")
+    
+    return { "image": equalized }
+
+def open(data : dict):
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2, 2))
+    return { "image" :  cv2.morphologyEx(data["image"], cv2.MORPH_OPEN, kernel)}
+
 @savepath('out')
 def save(data, path):
     image = data["image"]
@@ -73,7 +99,7 @@ def save(data, path):
 
 
 
-def process_single(data : dict, just_text : bool = False, runocr : bool = True):
+def ocr_pipeline(data : dict, just_text_region : bool = False, runocr : bool = True):
     """
     Process a single image.
 
@@ -84,20 +110,20 @@ def process_single(data : dict, just_text : bool = False, runocr : bool = True):
     Args:
         data (dict): A dictionary containing data for processing. Store the image 
                               as 'image' in the dictionary.
-        just_text (bool, optional): If True, attempts to apply horizontal perspective 
-                                    correction assuming the image region contains only text with some background (!) as a reference for correction.
+        just_text_region (bool, optional): If True, attempts to apply horizontal perspective 
+                                    correction assuming the image region contains only text, with some background (!!) as a reference for correction.
                                     Defaults to False.
         runocr (bool, optional): If True, performs OCR using a multi-group recognizer. 
                                     Defaults to True.
 
     Returns:
         dict or processed image data: The processed data, which includes 
-        'image' (post-processed image), 'boxes' (dictionary 'boxes' : {'group' : ['text', 'conf']}), 'output' (dictionary 'group' : 'text'). 
+        'image' (post-processed image), 'raw' (dictionary 'raw' : {'group' : ['text', 'conf']}), 'output' (dictionary 'group' : 'text'). 
                                       
     """
     data = upscale(data,1.4)
     data = mix_blur(data, 0.6)
-    if just_text: #try correcting only if the input is a text region; otherwise do not even attempt
+    if just_text_region: #try correcting only if the input is a text region; otherwise do not even attempt
         try:
             #raise(RuntimeError())
             data = pc.correct_horizontal_perspective(data, debug=True) #good enough, reliable & generally sufficient
@@ -117,14 +143,17 @@ def process_single(data : dict, just_text : bool = False, runocr : bool = True):
     except RuntimeError as e:
         print(e)
         pass
-    data = bn.otsu_binarize(data) #bn.adaptive_binarize(data)
-    
+
+    data = equalize_histogram(data)
+    data = to_grayscale(data)
+    # data = bn.otsu_binarize(data) #bn.adaptive_binarize(data)
+    # data = open(data)
     
     if runocr:
         data = ocr.ocr_multigroup(data, debug=True)
         plt.imshow(data["debug"])
         plt.show()
-        print(data["boxes"])
+        print(data["raw"])
         print(data["output"])
     return data
 
@@ -135,5 +164,5 @@ if __name__ == "__main__":
     runocr = True
     
     data = read_img(None)
-    data = process_single(data, runocr=runocr)
+    data = ocr_pipeline(data, runocr=runocr)
     data = save(data)
