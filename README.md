@@ -2,10 +2,14 @@
 
 ## Uruchamianie
 
+Wymagania:
+- Plik "culane_18.pth" należy pobrać za linkiem [https://drive.usercontent.google.com/open?id=1WCYyur5ZaWczH15ecmeDowrW30xcLrCn&authuser=0], oraz przenieść do folderu src/logic. Jeżeli jest w postaci archiwum .zip, należy go wypakować.
+
 **Zainstaluj zależności**
    ```bash
+   cd src
    pip install -r requirements.txt
-   python map.py
+   python map.py './logic/config/culane.py'
    ```
 
 ## Wstęp
@@ -89,8 +93,12 @@ Wykorzystane narzędzia:
 - cv2 - do wczytywania pliku wideo
 
 ### 3. Wykrywanie ruchu prawo- i lewostronnego
+System odróżnienia ruchu prawo- od lewo-stronnego działa na podstawie algorytmu Ultra-Fast-Lane-Detection i modelu YOLOv8. YOLOv8 wykrywa objekty drogowe, z których w tym przypadku ważne są samochody. Ultra-Fast-Lane-Detection wykrywa pasy drogowe, co pozawala rozmieścić te samochody na wykrytych pasach. Ta informacja jest później klasyfikowana przez klasyczny oraz bardzo prosty algorytm Random Forest z biblioteki Scikit-learn.
 
-
+Wykorzystane narzędzia:
+- [YOLOv8](https://docs.ultralytics.com/models/yolov8/)
+- [Ultra-Fast-Lane-Detection](https://github.com/cfzd/Ultra-Fast-Lane-Detection)
+  
 ### 4. Znajdywanie i klasyfikacja znaków drogowych
 Podstawową klasą wieloobiektowego detektora opartego na YOLOv8, służącego do detekcji pojazdów, znaków drogowych i billboardów jest MultiObjectDetector. Wykrywa ona 5 klas z COCO: car, motorcycle, bus, truck oraz stop sign, a także geometrycznie, billboardy. Pierwsze 4 z nich wykorzystywane są do klasyfikacji rejestracji pojazdów drogowych, opisanej w następnym punkcie, a wykryte znaki drogowe i billboardy są zapisywane na fotografiach i przekazywane do mechanizmu klasyfikacji tzw. znaków charakterystycznych.
 
@@ -131,7 +139,42 @@ Znane problemy:
 
 
 ### 8. Rozpoznawanie języka i tłumaczenie
+Moduł rozpoznawania języka odpowiedzialny jest za wykrycie w przetworzonych tekstach z OCR języka oraz na zwróceniu listy krajów w których dany język jest językiem urzędowym, bądź powszechnie stosowanym. Jego celem jest na podstawie wykrytego języka zawężenie listy dostępnych do wyboru krajów co może pozwolić na dokładniejszą lokalizację miejsca kamery.
+1. Wejście:
+    data: słownik zawierający teksty z OCR, podzielone według alfabetów.
+    all_countries: lista wszystkich dostępnych krajów.
+3. Wyjście:
+    Słownik {język w zapisie ISO 639-1: lista krajów w których dany język jest używany}
 
+Składniki działania:
+
+a. Detekcja języka (detect_language)
+    Korzystając z funkcji detect_langs wykrywa w frazie języki.
+  
+b. Pobranie listy krajów dla języka (get_countries_for_language)
+    Korzystając z przygotowanego słownika zawierającego wszystkie możliwe do wykrycia przez funkcję detect_langs jezyki oraz listę krajów dla każdego języka, zwracana jest lista krajów dla podanego w argumencie języka.
+
+c. Stworzenie słownika z wykrytymi językami (analyze_phrases)
+    Spośród wszystkich wykrytych języków, wybierane są jedynie te z pewnością powyżej 90% oraz umieszczane w słowniku wraz z pasującymi do nich krajami.
+    Dodatkowo usuwane są wszystkie duplikaty wykrytych języków.
+
+
+Moduł tłumaczenia odpowiedzialny jest za przetłumaczenie przetworzonych tekstów z OCR na język angielski w celu możliwości wykrycia w tekście słów kluczowych w kolejnym module.
+1. Wejście:
+    data: słownik zawierający teksty z OCR, podzielone według alfabetów.
+3. Wyjście:
+    Lista przetłumaczonych wyrażeń.
+
+Składniki działania:
+
+a. Tłumaczenie fraz (translate_phrases)
+    Korzystając z API Google Translatora, otrzymane z OCR wyrażenia tłumaczone są na język angielski.
+    Aby nie przekroczyć limitów użycia API, dodano opóżnienie po każdym z wykonanych requestów.
+    Dodatkowo w przypadku przekroczenia limitów, stworzono mechanizm pominięcia tłumaczenia.
+
+Wykorzystane narzędzia:
+    deep_translator – w celu wykorzystania Google Translatora do tłumaczenia tekstu.
+    langdetect – w celu wykrywania wykorzystanych języków w tekście.
 
 ### 9. Wyciąganie słów kluczowych i odległości z tekstu
 Moduł odpowiedzialny za ekstrakcję nazw własnych (np. nazw miast, firm, organizacji) oraz skojarzonych z nimi odległości (np. "McDonalds 1.2 km ahead") z przetworzonych tekstów pochodzących z OCR i tłumaczeń. Wykorzystywany do późniejszej lokalizacji punktów na mapie. Jego głównym celem jest identyfikacja użytecznych nazw miejsc i ich orientacyjnego oddalenia od aktualnej pozycji kamery.
@@ -203,10 +246,10 @@ Wykorzystane narzędzia:
 
 ## Podział zadań
 - Aleksandra Śliwska – lider zespołu, tworzenie testowego datasetu, iteracja po klatkach filmu, komunikacja z OpenStreetMaps i obliczanie finalnego położenia + promienia niepewności z otrzymanych geolokacji
-- Glib Bersutskyi - 
+- Glib Bersutskyi - Wykrywanie ruchu prawo- i lewostronnego
 - Marcin Kiżewski - 
 - Arkadiusz Korzeniak - Wyciąganie słów kluczowych i odległości z tekstu
-- Kamil Krzysztofek - tworzenie testowego datasetu, rozpoznawanie języka
+- Kamil Krzysztofek - tworzenie testowego datasetu, rozpoznawanie języka, tłumaczenie fraz
 - Patryk Madej - stworzenie szablonu modułu do detekcji i klasyfikacji znaków drogowych, tablic rejestracyjnych oraz informacji z billboardów
 - Adam Niewczas - GUI
 - Arkadiusz Rudy - OCR
