@@ -6,6 +6,7 @@ import pytesseract
 import requests
 import subprocess
 import tempfile
+from typing import Dict, Any
 
 from pathlib import Path
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -406,7 +407,7 @@ def process_video_frames(
                     f"Processing frame {frame_count}/{total_frames} (analyzed: {processed_frames})"
                 )
 
-                seen_plates, output_path, frame_info = process_frame(
+                result = process_frame(
                     frame,
                     frame_count,
                     detector,
@@ -416,7 +417,10 @@ def process_video_frames(
                     output_dirs,
                     plates_txt_path,
                     seen_plates,
+                    save_to_file=True,
                 )
+                seen_plates = result["seen_plates"]
+                output_path = result["output_path"]
                 if output_path:
                     tqdm.write(f"Frame {frame_count} saved to {output_path}")
                     pbar.set_postfix(saved=str(output_path.name))
@@ -438,16 +442,17 @@ def process_frame(
     plates_txt_path=None,
     seen_plates=None,
     save_to_file=False,
-):
+) -> Dict[str, Any]:
     """
     Processes a single frame to detect vehicles, signs, billboards, recognize plates, annotate, and optionally save the frame.
-    Returns updated seen_plates, output_path (if saved), and frame_info.
+    Returns a dictionary with processed detections and outputs.
     """
     if seen_plates is None:
         seen_plates = set()
 
     detections = detector.detect(frame, text_extractor, text_clf)
     frame_info = []
+    processed_detections = []
 
     # Kategoryzuj wykrycia w ramce
     vehicle_detections = []
@@ -455,12 +460,14 @@ def process_frame(
     billboard_detections = []
 
     for detection in detections:
-        if detection["category"] == "vehicles":
-            vehicle_detections.append(detection)
-        elif detection["category"] == "traffic_signs":
-            sign_detections.append(detection)
-        elif detection["category"] == "billboards":
-            billboard_detections.append(detection)
+        # Make a copy to avoid mutating the original
+        det = dict(detection)
+        if det["category"] == "vehicles":
+            vehicle_detections.append(det)
+        elif det["category"] == "traffic_signs":
+            sign_detections.append(det)
+        elif det["category"] == "billboards":
+            billboard_detections.append(det)
 
     vehicles_with_plates = []
     for detection in vehicle_detections:
@@ -514,8 +521,13 @@ def process_frame(
                         lat, lon = geolocate_text(text)
                         if lat and lon:
                             additional_info.append(f"Lokalizacja: {lat}, {lon}")
+                    detection["text"] = text
+                    detection["text_label"] = text_label
+                    if lat and lon:
+                        detection["geolocation"] = {"lat": lat, "lon": lon}
                 except:
                     additional_info.append(f"Tekst: {text}")
+                    detection["text"] = text
             else:
                 additional_info.append("Znak bez tekstu")
         elif category == "billboards":
@@ -528,6 +540,7 @@ def process_frame(
                     lat, lon = geolocate_text(text)
                     if lat and lon:
                         additional_info.append(f"Lokalizacja: {lat}, {lon}")
+                        detection["geolocation"] = {"lat": lat, "lon": lon}
         cv2.putText(
             frame,
             label_text,
@@ -542,6 +555,7 @@ def process_frame(
             info_msg += f" | {info}"
         logging.info(info_msg)
         frame_info.append(info_msg)
+        processed_detections.append(dict(detection))
     output_path = None
     if save_to_file and (vehicle_detections or sign_detections or billboard_detections):
         detection_types = []
@@ -583,7 +597,13 @@ def process_frame(
         else:
             cv2.imwrite(str(output_path), frame)
         logging.info(f"Frame {frame_count} saved to {output_path}")
-    return seen_plates, output_path, frame_info
+    return {
+        "seen_plates": seen_plates,
+        "output_path": output_path,
+        "frame_info": frame_info,
+        "frame": frame,
+        "detections": processed_detections,
+    }
 
 
 def main():
