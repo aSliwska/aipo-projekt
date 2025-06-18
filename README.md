@@ -30,7 +30,7 @@ Wykorzystane narzędzia:
 
 
 ### 4. Znajdywanie i klasyfikacja znaków drogowych
-Podstawową klasą wieloobiektowego detektora opartego na YOLOv8, służącego do detekcji pojazdów, znaków drogowych i billboardów jest MultiObjectDetector. Wykrywa ona 5 klas z COCO: car, motorcycle, bus, track oraz stop sign, a także geometrycznie, billboardy. Pierwsze 4 z nich wykorzystywane są do klasyfikacji rejestracji pojazdów drogowych, opisanej w następnym punkcie, a wykryte znaki drogowe i billboardy są zapisywane na fotografiach i przekazywane do mechanizmu klasyfikacji tzw. znaków charakterystycznych.
+Podstawową klasą wieloobiektowego detektora opartego na YOLOv8, służącego do detekcji pojazdów, znaków drogowych i billboardów jest MultiObjectDetector. Wykrywa ona 5 klas z COCO: car, motorcycle, bus, truck oraz stop sign, a także geometrycznie, billboardy. Pierwsze 4 z nich wykorzystywane są do klasyfikacji rejestracji pojazdów drogowych, opisanej w następnym punkcie, a wykryte znaki drogowe i billboardy są zapisywane na fotografiach i przekazywane do mechanizmu klasyfikacji tzw. znaków charakterystycznych.
 
 Wykorzystane narzędzia:
 - [YOLOv8](https://docs.ultralytics.com/models/yolov8/)
@@ -82,7 +82,7 @@ Wykorzystane narzędzia:
 - Adam Niewczas - GUI
 - Arkadiusz Rudy - 
 - Wiktor Szewczyk - stworzenie modułu do detekecji oraz klasyfikacji znaków drogowych, 
-                    tablic rejestracyjnych oraz billboardow razem z Patrykiem Madejem.
+                    tablic rejestracyjnych oraz billboardów razem z Patrykiem Madejem.
 - wszyscy - dokumentacja
 
 
