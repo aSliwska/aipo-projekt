@@ -1,0 +1,10 @@
+easyocr==1.7.2
+geopy==2.4.1
+matplotlib==3.10.3
+numpy==2.3.0
+opencv_python==4.11.0.86
+pandas==2.3.0
+pytesseract==0.3.13
+rapidfuzz==3.13.0
+spacy==3.8.7
+yake==0.4.8
