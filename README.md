@@ -2,7 +2,11 @@
 
 ## Uruchamianie
 
-
+**Zainstaluj zależności**
+   ```bash
+   pip install -r requirements.txt
+   python map.py
+   ```
 
 ## Wstęp
 Projekt ten jest aplikacją pozwalającą na postawie wideo z dashcamu samochodowego automatycznie określić, gdzie na świecie ono powstało. Dokonuje on oszacowania na podstawie ruchu prawo/lewostronnego, widocznych na wideo znaków drogowych i rejestracji samochodowych, tekstu z szyldów sklepowych i języka, w którym jest on napisany. Zwraca uwagę na nazwy własne i odległości, które mogą z nimi występować na znakach drogowych i bilbordach. Po wyciągnięciu z wideo tych informacji tworzy on zapytania do Nominatim API (OpenStreetMaps) i szacuje położenie na bazie zwróconych list koordynatów.
@@ -33,14 +37,6 @@ Interfejs graficzny w Pythonie umożliwiający analizę plików wideo, przewidyw
 - imageio – odczyt wideo
 - threading – nieblokujące przetwarzanie
 - PIL - odtwarzanie wideo
-
-## Jak uruchomić
-
-1. **Zainstaluj zależności**
-   ```bash
-   pip install -r requirements.txt
-   python map.py
-   ```
    
 ## Zrzuty ekranu
 
