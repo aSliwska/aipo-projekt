@@ -93,4 +93,11 @@ Po ukończonej analizie, można zobaczyć mapę wraz z zaznaczonym punktem i okr
  1. Program obsługuje tylko pliki lokalne
  2. Odtwarzane wideo jest tylko prezentacją, nie można go zatrzymać
 
+## Co nie działa
+
+# GUI
+
+- Wciśnięcie przycisku "reset", podczas odtwarzania wideo, powoduje wyrzuceniem wyjątku, jednak nie wpływa to na kulturę pracy programu czy odczucia użytkownika.
+- Po ponownym wgraniu pliku wideo (po wciśnięciu przycisku reset), pasek postępu chowa się na sam dół programu - aby go zobaczyć, należy rozciągnąc okno programu.
+
 
