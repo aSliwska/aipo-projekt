@@ -2,11 +2,14 @@
 
 ## Uruchamianie
 
+Wymagania:
+- Plik "culane_18.pth" należy pobrać za linkiem [https://drive.usercontent.google.com/open?id=1WCYyur5ZaWczH15ecmeDowrW30xcLrCn&authuser=0], oraz przenieść do folderu src/logic. Jeżeli jest w postaci archiwum .zip, należy go wypakować.
+
 **Zainstaluj zależności**
    ```bash
    cd src
    pip install -r requirements.txt
-   python map.py
+   python map.py './logic/config/culane.py'
    ```
 
 ## Wstęp
@@ -91,9 +94,6 @@ Wykorzystane narzędzia:
 
 ### 3. Wykrywanie ruchu prawo- i lewostronnego
 System odróżnienia ruchu prawo- od lewo-stronnego działa na podstawie algorytmu Ultra-Fast-Lane-Detection i modelu YOLOv8. YOLOv8 wykrywa objekty drogowe, z których w tym przypadku ważne są samochody. Ultra-Fast-Lane-Detection wykrywa pasy drogowe, co pozawala rozmieścić te samochody na wykrytych pasach. Ta informacja jest później klasyfikowana przez klasyczny oraz bardzo prosty algorytm Random Forest z biblioteki Scikit-learn.
-
-Wymagania:
-- Plik "culane_18.pth" należy pobrać za linkiem [https://drive.usercontent.google.com/open?id=1WCYyur5ZaWczH15ecmeDowrW30xcLrCn&authuser=0], oraz przenieść do folderu src/logic.
 
 Wykorzystane narzędzia:
 - [YOLOv8](https://docs.ultralytics.com/models/yolov8/)
@@ -193,7 +193,7 @@ Wykorzystane narzędzia:
 
 ## Podział zadań
 - Aleksandra Śliwska – lider zespołu, tworzenie testowego datasetu, iteracja po klatkach filmu, komunikacja z OpenStreetMaps i obliczanie finalnego położenia + promienia niepewności z otrzymanych geolokacji
-- Glib Bersutskyi - 
+- Glib Bersutskyi - Wykrywanie ruchu prawo- i lewostronnego
 - Marcin Kiżewski - 
 - Arkadiusz Korzeniak - Wyciąganie słów kluczowych i odległości z tekstu
 - Kamil Krzysztofek - tworzenie testowego datasetu, rozpoznawanie języka
