@@ -2,7 +2,11 @@
 
 ## Uruchamianie
 
-
+**Zainstaluj zależności**
+   ```bash
+   pip install -r requirements.txt
+   python map.py
+   ```
 
 ## Wstęp
 Projekt ten jest aplikacją pozwalającą na postawie wideo z dashcamu samochodowego automatycznie określić, gdzie na świecie ono powstało. Dokonuje on oszacowania na podstawie ruchu prawo/lewostronnego, widocznych na wideo znaków drogowych i rejestracji samochodowych, tekstu z szyldów sklepowych i języka, w którym jest on napisany. Zwraca uwagę na nazwy własne i odległości, które mogą z nimi występować na znakach drogowych i bilbordach. Po wyciągnięciu z wideo tych informacji tworzy on zapytania do Nominatim API (OpenStreetMaps) i szacuje położenie na bazie zwróconych list koordynatów.
@@ -12,6 +16,64 @@ Projekt ten jest aplikacją pozwalającą na postawie wideo z dashcamu samochodo
 
 ### 1. GUI
 
+#### Interfejst użytkownika
+
+Interfejs graficzny w Pythonie umożliwiający analizę plików wideo, przewidywanie miejsca, w którym nagrano wideo, prezentację lokalizacji na mapie oraz wizualizację odtworzonego wideo.
+
+#### Funkcje
+
+- Wybór pliku wideo (.mp4, .avi, .mov, .mkv)
+- Analiza wideo z paskiem postępu
+- Odtwarzanie wideo w aplikacji
+- Wizualizacja lokalizacji (na podstawie analizy) na mapie w postaci czerwonego markera
+- Rysowanie okręgu o zadanym promieniu wokół wykrytej lokalizacji
+- Możliwość ustawienia analizy co N-tą klatkę
+
+#### Technologie
+
+- Python 3.11+
+- Tkinter – GUI
+- [TkinterMapView](https://github.com/TomSchimansky/TkinterMapView) – mapa oparta na OpenStreetMap
+- imageio – odczyt wideo
+- threading – nieblokujące przetwarzanie
+- PIL - odtwarzanie wideo
+   
+#### Zrzuty ekranu
+
+Po uruchomieniu programu zobaczymy prosty interfejs pozwalający użytkownikowi wpisać liczbę klatek i wgrać swój plik wideo
+
+![początkowy widok GUI](screenshots/gui_start.png)
+
+Po wgraniu pliku, ukazuje się pasek postępu odzwierciedlający ilość ukończonych obliczeń i predykcji
+
+![ładowanie danych i analizowanie obrazu](screenshots/gui_load.png)
+
+Po ukończonej analizie, można zobaczyć mapę wraz z zaznaczonym punktem i okręgiem pozwalający oszacować położenie jadącego samochodu. Obok mapy, odtwarzane jest wgrane wideo przez użytkownika.
+
+![prezentacja wideo i danych na mapie](screenshots/gui_end.png)
+
+#### Opis działania GUI
+
+ 1. Użytkowik najpierw podaje liczbę klatek a następnie wybiera plik wideo.
+
+ 2. Program analizuje zawartość i pokazuje pasek postępu.
+
+ 3. Po zakończeniu analizy:
+
+    - wyświetla współrzędne lokalizacji,
+
+    - pokazuje je na mapie,
+
+    - rysuje okrąg wokół punktu o przybliżonym obszarze,
+
+    - uruchamia odtwarzanie wideo.
+
+ 4. Dostępny jest przycisk Reset, który przywraca aplikację do stanu początkowego.
+
+#### Ograniczenia interfejsu
+
+ 1. Program obsługuje tylko pliki lokalne
+ 2. Odtwarzane wideo jest tylko prezentacją, nie można go zatrzymać
 
 ### 2. Główna pętla i komunikacja z OpenStreetMaps
 1. Główna pętla - 
@@ -49,6 +111,10 @@ Wykorzystane narzędzia:
 
 ## Co nie działa
 
+### GUI
+
+- Wciśnięcie przycisku "reset", podczas odtwarzania wideo, powoduje wyrzuceniem wyjątku, jednak nie wpływa to na kulturę pracy programu czy odczucia użytkownika.
+- Po ponownym wgraniu pliku wideo (po wciśnięciu przycisku reset), pasek postępu chowa się na sam dół programu - aby go zobaczyć, należy rozciągnąc okno programu.
 
 ## Źródła
 1. Dataset - linki do filmów YouTube znajdują się w sekcji "Testowy dataset".
@@ -56,7 +122,8 @@ Wykorzystane narzędzia:
 3. Lista krajów na świecie [1](https://www.britannica.com/topic/list-of-countries-1993160), [2](https://en.wikipedia.org/wiki/Left-_and_right-hand_traffic)
 4. [Nominatim Usage Policy](https://operations.osmfoundation.org/policies/nominatim/)
 5. [Dokumentacja GeoPy](https://geopy.readthedocs.io/en/stable/)
-6.
+6. [TkinterMap View](https://github.com/TomSchimansky/TkinterMapView)
+
 
 
 ## Podział zadań
