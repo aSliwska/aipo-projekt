@@ -111,7 +111,7 @@ Wykorzystane narzędzia:
 
 ## Co nie działa
 
-# GUI
+### GUI
 
 - Wciśnięcie przycisku "reset", podczas odtwarzania wideo, powoduje wyrzuceniem wyjątku, jednak nie wpływa to na kulturę pracy programu czy odczucia użytkownika.
 - Po ponownym wgraniu pliku wideo (po wciśnięciu przycisku reset), pasek postępu chowa się na sam dół programu - aby go zobaczyć, należy rozciągnąc okno programu.
@@ -122,7 +122,7 @@ Wykorzystane narzędzia:
 3. Lista krajów na świecie [1](https://www.britannica.com/topic/list-of-countries-1993160), [2](https://en.wikipedia.org/wiki/Left-_and_right-hand_traffic)
 4. [Nominatim Usage Policy](https://operations.osmfoundation.org/policies/nominatim/)
 5. [Dokumentacja GeoPy](https://geopy.readthedocs.io/en/stable/)
-6.
+6. [TkinterMap View](https://github.com/TomSchimansky/TkinterMapView)
 
 
 ## Podział zadań
