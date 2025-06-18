@@ -125,6 +125,7 @@ Wykorzystane narzędzia:
 6. [TkinterMap View](https://github.com/TomSchimansky/TkinterMapView)
 
 
+
 ## Podział zadań
 - Aleksandra Śliwska – lider zespołu, tworzenie testowego datasetu, iteracja po klatkach filmu, komunikacja z OpenStreetMaps i obliczanie finalnego położenia + promienia niepewności z otrzymanych geolokacji
 - Glib Bersutskyi - 
