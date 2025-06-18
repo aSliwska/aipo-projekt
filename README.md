@@ -30,13 +30,14 @@ Wykorzystane narzędzia:
 
 
 ### 4. Znajdywanie i klasyfikacja znaków drogowych
-
+Podstawową klasą wieloobiektowego detektora opartego na YOLOv8, służącego do detekcji pojazdów, znaków drogowych i billboardów jest MultiObjectDetector. Wykrywa ona 5 klas z COCO: car, motorcycle, bus, track oraz stop sign, a także geometrycznie, billboardy. Pierwsze 4 z nich wykorzystywane są do klasyfikacji rejestracji pojazdów drogowych, opisanej w następnym punkcie, a wykryte znaki drogowe i billboardy są zapisywane na fotografiach i przekazywane do mechanizmu klasyfikacji tzw. znaków charakterystycznych.
 
 ### 5. Klasyfikacja rejestracji pojazdów drogowych
+PlateRecognizer jest klasą przeznaczoną do wykrywania i klasyfikacji tablic rejestracyjnych na pojazdach z wykorzystaniem OpenALPR. Jest ona używana w głównej pętli programu do analizy fragmentów obrazu zawierających potencjalne tablice rejestracyjne, które zostały wcześniej wykryte przez algorytmy detekcji obiektów i tekstu.
 
 
 ### 6. Znajdywanie tekstu
-
+Klasa TextClassifier wykrywa predefiniowane napisy z charakterystycznych obiektów - billboardów i znaków drogowych. Jest to prosty klasyfikator, który po wykryciu obiektu i przepuszczeniu przez OCR sprawdza, czy taki tekst znajduje się w bazie dla określonego państwa. Klasyfikacja oparta jest na `LogisticRegression` z wykorzystaniem wektoryzacji `TfidfVectorizer`.
 
 ### 7. OCR
 
@@ -48,7 +49,8 @@ Wykorzystane narzędzia:
 
 
 ## Co nie działa
-
+- Znajdywanie i klasyfikacja znaków drogowych oraz klasyfikacja rejestracji pojazdów drogowych mają dość ubogi dataset, przez co zakres wykrywanych tekstów i przyporządkowywanych krajów jest dość ubogi.
+- OpenALPR pozwala jedynie na wykrywanie i klasyfikację tablic rejestracyjnych należących do krajów europejskich lub USA. Pozostałe obszary globu muszą być wykrywane przez OCR i klasyfikowane na podstawie długości i składu tekstu.
 
 ## Źródła
 1. Dataset - linki do filmów YouTube znajdują się w sekcji "Testowy dataset".
@@ -65,7 +67,7 @@ Wykorzystane narzędzia:
 - Marcin Kiżewski - 
 - Arkadiusz Korzeniak - 
 - Kamil Krzysztofek - tworzenie testowego datasetu, rozpoznawanie języka
-- Patryk Madej - 
+- Patryk Madej - stworzenie szablonu modułu do detekcji i klasyfikacji znaków drogowych, tablic rejestracyjnych oraz informacji z billboardów
 - Adam Niewczas - GUI
 - Arkadiusz Rudy - 
 - Wiktor Szewczyk - 
