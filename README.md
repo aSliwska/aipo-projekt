@@ -121,11 +121,13 @@ Wykorzystane narzędzia:
 
 ### 7. OCR
 
+System odczytu tekstu z obrazu. Pracuje w dwóch trybach:
+
 #### Tryb klatki:
-Klatka jest heurystycznie poddawana dwustopniowemu powiększaniu i wyostrzaniu, w celu uwypuklenia tekstu i sprowadzenia go możliwie jak najbliżej do obszaru optymalnej pracy sieci OCR. Preprocessing zakłada następnie equalizację histogramu i konwersję do skali szarości. W dalszej kolejności, klatka jest poddawana parsowaniu przez sieć OCR.
+Klatka jest poddawana dwustopniowemu powiększaniu i wyostrzaniu, w celu uwypuklenia tekstu i sprowadzenia go możliwie jak najbliżej do obszaru optymalnej pracy sieci OCR. Preprocessing zakłada następnie equalizację histogramu i konwersję do skali szarości. W dalszej kolejności, klatka jest poddawana parsowaniu przez sieć OCR.
 
 #### Tryb precyzyjny:
-Ten tryb zakłada, że na wejście zostaje podany sam tekst wraz z pewnym jego rejonem (zestaw linii tekstu, krawędzie tabliczki). Pomiędzy stopiami przetwarzania zachodzi korekcja perspektywy i rotacji obrazu. Główna metoda opiera się o znalezienie punktu horyzontu na podstawie znalezionych linii obrysu (transformacja Hough), obliczenie macierzy homeografii i następnie korekcji. W przypadku nieznalezienia żadnego punktu zbiegu lub wykrycia niewystarczającej liczby linii, zostaje uruchomiona bardziej złożona i jednocześnie bardziej zawodna metoda obliczenia macierzy homeografii w oparciu o rozwiązanie układu równań liniowych niedookreślonego (układ 8 równań z 9 niewiadomymi) z użyciem rozkładu SVD dla 4 wierzchołków tła. Wierzchołki są dobierane automatycznie poprzez wykrywanie kwadratowych konturów.
+Ten tryb zakłada, że na wejście zostaje podany tekst wraz z pewnym jego otoczeniem (zestaw linii tekstu, krawędzie tabliczki). Pomiędzy stopiami przetwarzania zachodzi korekcja perspektywy i rotacji obrazu. Główna metoda opiera się o znalezienie punktu horyzontu na podstawie znalezionych linii obrysu (transformacja Hough), obliczenie macierzy homeografii i następnie korekcji. W przypadku nieznalezienia żadnego punktu zbiegu lub wykrycia niewystarczającej liczby linii, zostaje uruchomiona bardziej złożona i jednocześnie bardziej zawodna metoda obliczenia macierzy homeografii w oparciu o rozwiązanie układu równań liniowych niedookreślonego (układ 8 równań z 9 niewiadomymi) z użyciem rozkładu SVD dla 4 wierzchołków tła. Wierzchołki są dobierane automatycznie poprzez wykrywanie prostokątnych konturów i wybór tego optymalnego.
 
 Użyte narzędzia:
 - [OpenCV](https://opencv.org/)
@@ -219,8 +221,8 @@ Wykorzystane narzędzia:
 
 ### OCR
 
-- Tryb klatki często myli ze sobą podobne alfabety (latin-cyrillic, chinese-japanese-korean, filipino-arabic, etc.).
-- Oba tryby, a zwłaszcza tryb klatki, generują znaczny szum znakowy.
+- Tryb klatki często myli ze sobą podobne alfabety, rozpoznając znaki dla błędnego alfabetu i nie wykrywając dla poprawnego (dotknięte pary latin-cyrillic, chinese-japanese-korean, filipino-arabic, etc.).
+- Oba tryby, a zwłaszcza tryb klatki, generują znaczny szum znakowy który wymaga filtracji.
 
 ### Wyciąganie słów kluczowych i odległości z tekstu
   — Detekcja odległości oraz wyciąganie słów kluczowych może być mało odporne na błędy OCR,
