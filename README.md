@@ -40,6 +40,22 @@ Wykorzystane narzędzia:
 
 ### 7. OCR
 
+#### Tryb klatki:
+Klatka jest heurystycznie poddawana dwustopniowemu powiększaniu i wyostrzaniu, w celu uwypuklenia tekstu i sprowadzenia go do obszaru optymalnej pracy sieci OCR. Preprocessing zakłada następnie equalizację histogramu, konwersję do skali szarości i rozciągnięcie histogramu. Następnie klatka jest poddawana odczytowi.
+
+#### Tryb precyzyjny:
+Ten tryb zakłada, że na wejście zostaje podany sam tekst wraz z pewnym jego rejonem (zestaw linii tekstu, obwód znaku). Pomiędzy stopiami przetwarzania zachodzi korekcja perspektywy i rotacji obrazu. Główna metoda opiera się o znalezienie punktu horyzontu na podstawie znalezionych linii obrysu (transformacja Hough), obliczenie macierzy homeografii i następnie korekcji. W przypadku nieznalezienia żadnego punktu, zostaje uruchomiona bardziej złożona i jednocześnie bardziej zawodna metoda obliczenia macierzy homeografii w oparciu o rozwiązanie układu równań liniowych nadokreślonego z użyciem rozkładu SVD (układ 8 równań z 9 niewiadomymi).
+
+Użyte narzędzia:
+- OpenCV
+- Pytesseract
+- Numpy
+- EasyOCR (porzucony)
+
+Znane problemy:
+- Tryb klatki często myli ze sobą alfabety wewnątrz tej samej "grupy" (latin-cyrillic, chinese-japanese-korean, filipino-arabic, etc.).
+- Oba tryby, a zwłaszcza tryb klatki, generują znaczny szum znakowy.
+
 
 ### 8. Rozpoznawanie języka i tłumaczenie
 
