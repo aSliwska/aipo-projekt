@@ -107,7 +107,39 @@ Wykorzystane narzędzia:
 
 
 ### 9. Wyciąganie słów kluczowych i odległości z tekstu
+Moduł odpowiedzialny za ekstrakcję nazw własnych (np. nazw miast, firm, organizacji) oraz skojarzonych z nimi odległości (np. "McDonalds 1.2 km ahead") z przetworzonych tekstów pochodzących z OCR i tłumaczeń. Wykorzystywany do późniejszej lokalizacji punktów na mapie. Jego głównym celem jest identyfikacja użytecznych nazw miejsc i ich orientacyjnego oddalenia od aktualnej pozycji kamery.
+1. Wejście:
+    translated_texts: lista przetłumaczonych tekstów (lista stringów w języku angielskim).
+    ocr_dict: słownik zawierający teksty z OCR, podzielone według alfabetów.
+2. Wyjście:
+    Słownik {nazwa_miejsca: odległość_w_km} — jeśli brak informacji o odległości, wartość to 0.0.
 
+Składniki działania:
+
+a. Ekstrakcja odległości (extract_distance)
+  Wyszukuje wzorce liczbowe oznaczające odległości z różnych jednostek (km, miles, m, etc.) przy pomocy wyrażeń regularnych.
+  Wszystkie jednostki konwertowane są na kilometry.
+  
+b. Ekstrakcja słów kluczowych (YAKE + spaCy)
+    Korzysta z detekcji języka na podstawie zakresów Unicode, aby poprawnie zainicjalizować YAKE.
+    Z YAKE wyciągane są potencjalne słowa kluczowe (nazwa miasta, firmy itp.).
+    Odfiltrowane są słowa powszechnie występujące na drogowskazach (w języku angielskim)
+    Równolegle wykorzystywane jest NLP (biblioteka spaCy), by wykryć encje nazwane typu GPE, LOC, ORG, FAC itd.
+
+c. Czyszczenie nazw (normalize_name)
+    Usuwane są znaki specjalne, litery są "poprawiane" (np. 0 na O), usuwane są wielokrotne spacje.
+
+d. Grupowanie i deduplikacja nazw (deduplicate_names)
+    Używany jest fuzzy matching (RapidFuzz), by zgrupować podobnie wyglądające nazwy (np. "McDonalds", "McD0nalds", "макдоналдс").
+    Dla każdej grupy wybrana zostaje najdłuższa nazwa oraz uśredniona jej odległość.
+
+Wykorzystane narzędzia:
+    spaCy – do analizy językowej i wykrywania nazw własnych (NER).
+    YAKE – ekstrakcja słów kluczowych na podstawie kontekstu językowego.
+    RapidFuzz – dopasowywanie nazw podobnych fonetycznie lub wizualnie.
+    regex – wyszukiwanie wzorców liczbowych i jednostek miar.
+    unicodedata – normalizacja znaków w różnych alfabetach.
+    defaultdict, Counter – ułatwiona obsługa zliczania i inicjalizacji słowników.
 
 ## Co nie działa
 
@@ -115,6 +147,13 @@ Wykorzystane narzędzia:
 
 - Wciśnięcie przycisku "reset", podczas odtwarzania wideo, powoduje wyrzuceniem wyjątku, jednak nie wpływa to na kulturę pracy programu czy odczucia użytkownika.
 - Po ponownym wgraniu pliku wideo (po wciśnięciu przycisku reset), pasek postępu chowa się na sam dół programu - aby go zobaczyć, należy rozciągnąc okno programu.
+
+### Wyciąganie słów kluczowych i odległości z tekstu
+  — Detekcja odległości oraz wyciąganie słów kluczowych może być mało odporne na błędy OCR,
+  — YAKE czasem zwraca słowa powszechne; nie ma pełnej kontroli nad tym, co jest nazwą własną, a co nie, odfiltrowanie nie jest idealne,
+  — Normalizacja nazw jest dostosowana pod alfabet łaciński
+  — Brak transliteracji nazw własnych z obcego alfabetu
+  — Inputy z OCR i tekstów tłumaczonych są ważone jednakowo
 
 ## Źródła
 1. Dataset - linki do filmów YouTube znajdują się w sekcji "Testowy dataset".
@@ -130,7 +169,7 @@ Wykorzystane narzędzia:
 - Aleksandra Śliwska – lider zespołu, tworzenie testowego datasetu, iteracja po klatkach filmu, komunikacja z OpenStreetMaps i obliczanie finalnego położenia + promienia niepewności z otrzymanych geolokacji
 - Glib Bersutskyi - 
 - Marcin Kiżewski - 
-- Arkadiusz Korzeniak - 
+- Arkadiusz Korzeniak - Wyciąganie słów kluczowych i odległości z tekstu
 - Kamil Krzysztofek - tworzenie testowego datasetu, rozpoznawanie języka
 - Patryk Madej - 
 - Adam Niewczas - GUI
