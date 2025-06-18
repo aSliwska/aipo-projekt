@@ -123,7 +123,42 @@ Wykorzystane narzędzia:
 
 
 ### 8. Rozpoznawanie języka i tłumaczenie
+Moduł rozpoznawania języka odpowiedzialny jest za wykrycie w przetworzonych tekstach z OCR języka oraz na zwróceniu listy krajów w których dany język jest językiem urzędowym, bądź powszechnie stosowanym. Jego celem jest na podstawie wykrytego języka zawężenie listy dostępnych do wyboru krajów co może pozwolić na dokładniejszą lokalizację miejsca kamery.
+1. Wejście:
+    data: słownik zawierający teksty z OCR, podzielone według alfabetów.
+    all_countries: lista wszystkich dostępnych krajów.
+3. Wyjście:
+    Słownik {język w zapisie ISO 639-1: lista krajów w których dany język jest używany}
 
+Składniki działania:
+
+a. Detekcja języka (detect_language)
+    Korzystając z funkcji detect_langs wykrywa w frazie języki.
+  
+b. Pobranie listy krajów dla języka (get_countries_for_language)
+    Korzystając z przygotowanego słownika zawierającego wszystkie możliwe do wykrycia przez funkcję detect_langs jezyki oraz listę krajów dla każdego języka, zwracana jest lista krajów dla podanego w argumencie języka.
+
+c. Stworzenie słownika z wykrytymi językami (analyze_phrases)
+    Spośród wszystkich wykrytych języków, wybierane są jedynie te z pewnością powyżej 90% oraz umieszczane w słowniku wraz z pasującymi do nich krajami.
+    Dodatkowo usuwane są wszystkie duplikaty wykrytych języków.
+
+
+Moduł tłumaczenia odpowiedzialny jest za przetłumaczenie przetworzonych tekstów z OCR na język angielski w celu możliwości wykrycia w tekście słów kluczowych w kolejnym module.
+1. Wejście:
+    data: słownik zawierający teksty z OCR, podzielone według alfabetów.
+3. Wyjście:
+    Lista przetłumaczonych wyrażeń.
+
+Składniki działania:
+
+a. Tłumaczenie fraz (translate_phrases)
+    Korzystając z API Google Translatora, otrzymane z OCR wyrażenia tłumaczone są na język angielski.
+    Aby nie przekroczyć limitów użycia API, dodano opóżnienie po każdym z wykonanych requestów.
+    Dodatkowo w przypadku przekroczenia limitów, stworzono mechanizm pominięcia tłumaczenia.
+
+Wykorzystane narzędzia:
+    deep_translator – w celu wykorzystania Google Translatora do tłumaczenia tekstu.
+    langdetect – w celu wykrywania wykorzystanych języków w tekście.
 
 ### 9. Wyciąganie słów kluczowych i odległości z tekstu
 Moduł odpowiedzialny za ekstrakcję nazw własnych (np. nazw miast, firm, organizacji) oraz skojarzonych z nimi odległości (np. "McDonalds 1.2 km ahead") z przetworzonych tekstów pochodzących z OCR i tłumaczeń. Wykorzystywany do późniejszej lokalizacji punktów na mapie. Jego głównym celem jest identyfikacja użytecznych nazw miejsc i ich orientacyjnego oddalenia od aktualnej pozycji kamery.
@@ -196,7 +231,7 @@ Wykorzystane narzędzia:
 - Glib Bersutskyi - 
 - Marcin Kiżewski - 
 - Arkadiusz Korzeniak - Wyciąganie słów kluczowych i odległości z tekstu
-- Kamil Krzysztofek - tworzenie testowego datasetu, rozpoznawanie języka
+- Kamil Krzysztofek - tworzenie testowego datasetu, rozpoznawanie języka, tłumaczenie fraz
 - Patryk Madej - stworzenie szablonu modułu do detekcji i klasyfikacji znaków drogowych, tablic rejestracyjnych oraz informacji z billboardów
 - Adam Niewczas - GUI
 - Arkadiusz Rudy - 
