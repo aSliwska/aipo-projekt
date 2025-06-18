@@ -32,12 +32,22 @@ Wykorzystane narzędzia:
 ### 4. Znajdywanie i klasyfikacja znaków drogowych
 Podstawową klasą wieloobiektowego detektora opartego na YOLOv8, służącego do detekcji pojazdów, znaków drogowych i billboardów jest MultiObjectDetector. Wykrywa ona 5 klas z COCO: car, motorcycle, bus, track oraz stop sign, a także geometrycznie, billboardy. Pierwsze 4 z nich wykorzystywane są do klasyfikacji rejestracji pojazdów drogowych, opisanej w następnym punkcie, a wykryte znaki drogowe i billboardy są zapisywane na fotografiach i przekazywane do mechanizmu klasyfikacji tzw. znaków charakterystycznych.
 
+Wykorzystane narzędzia:
+- [YOLOv8](https://docs.ultralytics.com/models/yolov8/)
+- [OpenCV](https://opencv.org/)
+
 ### 5. Klasyfikacja rejestracji pojazdów drogowych
 PlateRecognizer jest klasą przeznaczoną do wykrywania i klasyfikacji tablic rejestracyjnych na pojazdach z wykorzystaniem OpenALPR. Jest ona używana w głównej pętli programu do analizy fragmentów obrazu zawierających potencjalne tablice rejestracyjne, które zostały wcześniej wykryte przez algorytmy detekcji obiektów i tekstu.
 
+Wykorzystane narzędzia:
+- [YOLOv8](https://docs.ultralytics.com/models/yolov8/)
+- [OpenALPR](https://github.com/openalpr/openalpr/)
 
 ### 6. Znajdywanie tekstu
 Klasa TextClassifier wykrywa predefiniowane napisy z charakterystycznych obiektów - billboardów i znaków drogowych. Jest to prosty klasyfikator, który po wykryciu obiektu i przepuszczeniu przez OCR sprawdza, czy taki tekst znajduje się w bazie dla określonego państwa. Klasyfikacja oparta jest na `LogisticRegression` z wykorzystaniem wektoryzacji `TfidfVectorizer`.
+
+Wykorzystane narzędzia:
+- [tesseract-ocr](https://github.com/tesseract-ocr/tesseract/)
 
 ### 7. OCR
 
@@ -70,7 +80,8 @@ Klasa TextClassifier wykrywa predefiniowane napisy z charakterystycznych obiekt�
 - Patryk Madej - stworzenie szablonu modułu do detekcji i klasyfikacji znaków drogowych, tablic rejestracyjnych oraz informacji z billboardów
 - Adam Niewczas - GUI
 - Arkadiusz Rudy - 
-- Wiktor Szewczyk - 
+- Wiktor Szewczyk - stworzenie modułu do detekecji oraz klasyfikacji znaków drogowych, 
+                    tablic rejestracyjnych oraz billboardow razem z Patrykiem Madejem.
 - wszyscy - dokumentacja
 
 
