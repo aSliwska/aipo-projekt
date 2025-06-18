@@ -7,7 +7,6 @@ opencv_python==4.11.0.86
 pathspec==0.12.1
 Pillow==11.2.1
 PyYAML==6.0.2
-PyYAML==6.0.2
 scikit_learn==1.7.0
 torch==2.7.1+cu118
 torchvision==0.22.1+cu118
@@ -16,3 +15,5 @@ ultralytics==8.3.156
 rapidfuzz==3.13.0
 spacy==3.8.7
 yake==0.4.8
+pytesseract==0.3.13
+Requests==2.32.4
