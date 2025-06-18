@@ -109,7 +109,7 @@ Moduł rozpoznawania języka odpowiedzialny jest za wykrycie w przetworzonych te
     data: słownik zawierający teksty z OCR, podzielone według alfabetów.
     all_countries: lista wszystkich dostępnych krajów.
 3. Wyjście:
-    Słownik {język w zapisie ISO 639-1: lista krajów w których dany język jest uzywany}
+    Słownik {język w zapisie ISO 639-1: lista krajów w których dany język jest używany}
 
 Składniki działania:
 
@@ -117,11 +117,11 @@ a. Detekcja języka (detect_language)
     Korzystając z funkcji detect_langs wykrywa w frazie języki.
   
 b. Pobranie listy krajów dla języka (get_countries_for_language)
-    Korzystając z przygotowanego słownika zawierającego wszystkie możliwe do wykrycia przez funkcję detect_langs jezyki oraz listę krajów dla kazdego jezyka, zwracana jest lista krajów dla podanego w argumencie jezyka.
+    Korzystając z przygotowanego słownika zawierającego wszystkie możliwe do wykrycia przez funkcję detect_langs jezyki oraz listę krajów dla każdego języka, zwracana jest lista krajów dla podanego w argumencie języka.
 
 c. Stworzenie słownika z wykrytymi językami (analyze_phrases)
     Spośród wszystkich wykrytych języków, wybierane są jedynie te z pewnością powyżej 90% oraz umieszczane w słowniku wraz z pasującymi do nich krajami.
-    Dodatkowo usuwane są wszystkie duplikaty wykrytych jezyków.
+    Dodatkowo usuwane są wszystkie duplikaty wykrytych języków.
 
 
 Moduł tłumaczenia odpowiedzialny jest za przetłumaczenie przetworzonych tekstów z OCR na język angielski w celu możliwości wykrycia w tekście słów kluczowych w kolejnym module.
