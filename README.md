@@ -4,6 +4,7 @@
 
 **Zainstaluj zależności**
    ```bash
+   cd src
    pip install -r requirements.txt
    python map.py
    ```
@@ -89,16 +90,34 @@ Wykorzystane narzędzia:
 - cv2 - do wczytywania pliku wideo
 
 ### 3. Wykrywanie ruchu prawo- i lewostronnego
+System odróżnienia ruchu prawo- od lewo-stronnego działa na podstawie algorytmu Ultra-Fast-Lane-Detection i modelu YOLOv8. YOLOv8 wykrywa objekty drogowe, z których w tym przypadku ważne są samochody. Ultra-Fast-Lane-Detection wykrywa pasy drogowe, co pozawala rozmieścić te samochody na wykrytych pasach. Ta informacja jest później klasyfikowana przez klasyczny oraz bardzo prosty algorytm Random Forest z biblioteki Scikit-learn.
 
+Wymagania:
+- Plik "culane_18.pth" należy pobrać za linkiem [https://drive.usercontent.google.com/open?id=1WCYyur5ZaWczH15ecmeDowrW30xcLrCn&authuser=0], oraz przenieść do folderu src/logic.
 
+Wykorzystane narzędzia:
+- [YOLOv8](https://docs.ultralytics.com/models/yolov8/)
+- [Ultra-Fast-Lane-Detection](https://github.com/cfzd/Ultra-Fast-Lane-Detection)
+  
 ### 4. Znajdywanie i klasyfikacja znaków drogowych
+Podstawową klasą wieloobiektowego detektora opartego na YOLOv8, służącego do detekcji pojazdów, znaków drogowych i billboardów jest MultiObjectDetector. Wykrywa ona 5 klas z COCO: car, motorcycle, bus, truck oraz stop sign, a także geometrycznie, billboardy. Pierwsze 4 z nich wykorzystywane są do klasyfikacji rejestracji pojazdów drogowych, opisanej w następnym punkcie, a wykryte znaki drogowe i billboardy są zapisywane na fotografiach i przekazywane do mechanizmu klasyfikacji tzw. znaków charakterystycznych.
 
+Wykorzystane narzędzia:
+- [YOLOv8](https://docs.ultralytics.com/models/yolov8/)
+- [OpenCV](https://opencv.org/)
 
 ### 5. Klasyfikacja rejestracji pojazdów drogowych
+PlateRecognizer jest klasą przeznaczoną do wykrywania i klasyfikacji tablic rejestracyjnych na pojazdach z wykorzystaniem OpenALPR. Jest ona używana w głównej pętli programu do analizy fragmentów obrazu zawierających potencjalne tablice rejestracyjne, które zostały wcześniej wykryte przez algorytmy detekcji obiektów i tekstu.
 
+Wykorzystane narzędzia:
+- [YOLOv8](https://docs.ultralytics.com/models/yolov8/)
+- [OpenALPR](https://github.com/openalpr/openalpr/)
 
 ### 6. Znajdywanie tekstu
+Klasa TextClassifier wykrywa predefiniowane napisy z charakterystycznych obiektów - billboardów i znaków drogowych. Jest to prosty klasyfikator, który po wykryciu obiektu i przepuszczeniu przez OCR sprawdza, czy taki tekst znajduje się w bazie dla określonego państwa. Klasyfikacja oparta jest na `LogisticRegression` z wykorzystaniem wektoryzacji `TfidfVectorizer`.
 
+Wykorzystane narzędzia:
+- [tesseract-ocr](https://github.com/tesseract-ocr/tesseract/)
 
 ### 7. OCR
 
@@ -178,6 +197,11 @@ Wykorzystane narzędzia:
 
 ## Co nie działa
 
+
+### Znajdywanie i klasyfikacja znaków drogowych, klasyfikacja rejestracji pojazdów
+- Znajdywanie i klasyfikacja znaków drogowych oraz klasyfikacja rejestracji pojazdów drogowych mają dość ubogi dataset, przez co zakres wykrywanych tekstów i przyporządkowywanych krajów jest dość ubogi.
+- OpenALPR pozwala jedynie na wykrywanie i klasyfikację tablic rejestracyjnych należących do krajów europejskich lub USA. Pozostałe obszary globu muszą być wykrywane przez OCR i klasyfikowane na podstawie długości i składu tekstu.
+
 ### GUI
 
 - Wciśnięcie przycisku "reset", podczas odtwarzania wideo, powoduje wyrzuceniem wyjątku, jednak nie wpływa to na kulturę pracy programu czy odczucia użytkownika.
@@ -190,14 +214,16 @@ Wykorzystane narzędzia:
   — Brak transliteracji nazw własnych z obcego alfabetu
   — Inputy z OCR i tekstów tłumaczonych są ważone jednakowo
 
+
 ## Źródła
 1. Dataset - linki do filmów YouTube znajdują się w sekcji "Testowy dataset".
 2. [Klasa cache'ująca dane z Nominatim API](https://stackoverflow.com/questions/28397847/most-straightforward-way-to-cache-geocoding-data)
 3. Lista krajów na świecie [1](https://www.britannica.com/topic/list-of-countries-1993160), [2](https://en.wikipedia.org/wiki/Left-_and_right-hand_traffic)
 4. [Nominatim Usage Policy](https://operations.osmfoundation.org/policies/nominatim/)
 5. [Dokumentacja GeoPy](https://geopy.readthedocs.io/en/stable/)
-6. [TkinterMap View](https://github.com/TomSchimansky/TkinterMapView)
-
+6. [Dokumentacja modelu YOLOv8 z klasami COCO](https://docs.ultralytics.com/models/yolov8/)
+7. [Dokumentacja OpenCV](https://docs.opencv.org/4.11.0/)
+8. [TkinterMap View](https://github.com/TomSchimansky/TkinterMapView)
 
 
 ## Podział zadań
@@ -206,10 +232,11 @@ Wykorzystane narzędzia:
 - Marcin Kiżewski - 
 - Arkadiusz Korzeniak - Wyciąganie słów kluczowych i odległości z tekstu
 - Kamil Krzysztofek - tworzenie testowego datasetu, rozpoznawanie języka, tłumaczenie fraz
-- Patryk Madej - 
+- Patryk Madej - stworzenie szablonu modułu do detekcji i klasyfikacji znaków drogowych, tablic rejestracyjnych oraz informacji z billboardów
 - Adam Niewczas - GUI
 - Arkadiusz Rudy - 
-- Wiktor Szewczyk - 
+- Wiktor Szewczyk - stworzenie modułu do detekcji oraz klasyfikacji znaków drogowych, 
+                    tablic rejestracyjnych oraz billboardów razem z Patrykiem Madejem.
 - wszyscy - dokumentacja
 
 
