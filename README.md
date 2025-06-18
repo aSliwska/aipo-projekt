@@ -122,21 +122,15 @@ Wykorzystane narzędzia:
 ### 7. OCR
 
 #### Tryb klatki:
-Klatka jest heurystycznie poddawana dwustopniowemu powiększaniu i wyostrzaniu, w celu uwypuklenia tekstu i sprowadzenia go do obszaru optymalnej pracy sieci OCR. Preprocessing zakłada następnie equalizację histogramu, konwersję do skali szarości i rozciągnięcie histogramu. Następnie klatka jest poddawana parsowaniu przez sieć OCR.
+Klatka jest heurystycznie poddawana dwustopniowemu powiększaniu i wyostrzaniu, w celu uwypuklenia tekstu i sprowadzenia go do obszaru optymalnej pracy sieci OCR. Preprocessing zakłada następnie equalizację histogramu i konwersję do skali szarości. Następnie klatka jest poddawana parsowaniu przez sieć OCR.
 
 #### Tryb precyzyjny:
-Ten tryb zakłada, że na wejście zostaje podany sam tekst wraz z pewnym jego rejonem (zestaw linii tekstu, obwód znaku). Pomiędzy stopiami przetwarzania zachodzi korekcja perspektywy i rotacji obrazu. Główna metoda opiera się o znalezienie punktu horyzontu na podstawie znalezionych linii obrysu (transformacja Hough), obliczenie macierzy homeografii i następnie korekcji. W przypadku nieznalezienia żadnego punktu, zostaje uruchomiona bardziej złożona i jednocześnie bardziej zawodna metoda obliczenia macierzy homeografii w oparciu o rozwiązanie układu równań liniowych nadokreślonego z użyciem rozkładu SVD (układ 8 równań z 9 niewiadomymi) dla 4 wierzchołków tła. Wierzchołki są dobierane automatycznie poprzez wykrywanie kwadratowych konturów.
+Ten tryb zakłada, że na wejście zostaje podany sam tekst wraz z pewnym jego rejonem (zestaw linii tekstu, krawędzie tabliczki). Pomiędzy stopiami przetwarzania zachodzi korekcja perspektywy i rotacji obrazu. Główna metoda opiera się o znalezienie punktu horyzontu na podstawie znalezionych linii obrysu (transformacja Hough), obliczenie macierzy homeografii i następnie korekcji. W przypadku nieznalezienia żadnego punktu zbiegu lub wykrycia niewystarczającej liczby linii, zostaje uruchomiona bardziej złożona i jednocześnie bardziej zawodna metoda obliczenia macierzy homeografii w oparciu o rozwiązanie układu równań liniowych niedookreślonego (układ 8 równań z 9 niewiadomymi) z użyciem rozkładu SVD dla 4 wierzchołków tła. Wierzchołki są dobierane automatycznie poprzez wykrywanie kwadratowych konturów.
 
 Użyte narzędzia:
-- OpenCV
-- Pytesseract
+- [OpenCV](https://opencv.org/)
+- [tesseract-ocr](https://github.com/tesseract-ocr/tesseract/)
 - Numpy + Matplotlib
-- EasyOCR (porzucony)
-
-Znane problemy:
-- Tryb klatki często myli ze sobą podobne alfabety (latin-cyrillic, chinese-japanese-korean, filipino-arabic, etc.).
-- Oba tryby, a zwłaszcza tryb klatki, generują znaczny szum znakowy.
-
 
 ### 8. Rozpoznawanie języka i tłumaczenie
 Moduł rozpoznawania języka odpowiedzialny jest za wykrycie w przetworzonych tekstach z OCR języka oraz na zwróceniu listy krajów w których dany język jest językiem urzędowym, bądź powszechnie stosowanym. Jego celem jest na podstawie wykrytego języka zawężenie listy dostępnych do wyboru krajów co może pozwolić na dokładniejszą lokalizację miejsca kamery.
@@ -223,6 +217,11 @@ Wykorzystane narzędzia:
 - Wciśnięcie przycisku "reset", podczas odtwarzania wideo, powoduje wyrzuceniem wyjątku, jednak nie wpływa to na kulturę pracy programu czy odczucia użytkownika.
 - Po ponownym wgraniu pliku wideo (po wciśnięciu przycisku reset), pasek postępu chowa się na sam dół programu - aby go zobaczyć, należy rozciągnąc okno programu.
 
+### OCR
+
+- Tryb klatki często myli ze sobą podobne alfabety (latin-cyrillic, chinese-japanese-korean, filipino-arabic, etc.).
+- Oba tryby, a zwłaszcza tryb klatki, generują znaczny szum znakowy.
+
 ### Wyciąganie słów kluczowych i odległości z tekstu
   — Detekcja odległości oraz wyciąganie słów kluczowych może być mało odporne na błędy OCR,
   — YAKE czasem zwraca słowa powszechne; nie ma pełnej kontroli nad tym, co jest nazwą własną, a co nie, odfiltrowanie nie jest idealne,
@@ -242,7 +241,7 @@ Wykorzystane narzędzia:
 8. [TkinterMap View](https://github.com/TomSchimansky/TkinterMapView)
 9. [Korekcja perspektywy - punkt horyzontu](https://notbrainsurgery.livejournal.com/40465.html)
 10. [Korekcja perspektywy - bounding box + układ równań](https://github.com/kuangzijian/Image-Stitching-and-Perspective-Correction)
-
+11. [Optymalny rozmiar tekstu dla OCR](https://groups.google.com/g/tesseract-ocr/c/Wdh_JJwnw94/m/24JHDYQbBQAJ?pli=1)
 
 ## Podział zadań
 - Aleksandra Śliwska – lider zespołu, tworzenie testowego datasetu, iteracja po klatkach filmu, komunikacja z OpenStreetMaps i obliczanie finalnego położenia + promienia niepewności z otrzymanych geolokacji
