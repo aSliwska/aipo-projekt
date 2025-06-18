@@ -16,11 +16,11 @@ Projekt ten jest aplikacją pozwalającą na postawie wideo z dashcamu samochodo
 
 ### 1. GUI
 
-## Interfejst użytkownika
+#### Interfejst użytkownika
 
 Interfejs graficzny w Pythonie umożliwiający analizę plików wideo, przewidywanie miejsca, w którym nagrano wideo, prezentację lokalizacji na mapie oraz wizualizację odtworzonego wideo.
 
-## Funkcje
+#### Funkcje
 
 - Wybór pliku wideo (.mp4, .avi, .mov, .mkv)
 - Analiza wideo z paskiem postępu
@@ -29,7 +29,7 @@ Interfejs graficzny w Pythonie umożliwiający analizę plików wideo, przewidyw
 - Rysowanie okręgu o zadanym promieniu wokół wykrytej lokalizacji
 - Możliwość ustawienia analizy co N-tą klatkę
 
-## Technologie
+#### Technologie
 
 - Python 3.11+
 - Tkinter – GUI
@@ -38,7 +38,7 @@ Interfejs graficzny w Pythonie umożliwiający analizę plików wideo, przewidyw
 - threading – nieblokujące przetwarzanie
 - PIL - odtwarzanie wideo
    
-## Zrzuty ekranu
+#### Zrzuty ekranu
 
 Po uruchomieniu programu zobaczymy prosty interfejs pozwalający użytkownikowi wpisać liczbę klatek i wgrać swój plik wideo
 
@@ -52,7 +52,7 @@ Po ukończonej analizie, można zobaczyć mapę wraz z zaznaczonym punktem i okr
 
 ![prezentacja wideo i danych na mapie](screenshots/gui_end.png)
 
-## Opis działania GUI
+#### Opis działania GUI
 
  1. Użytkowik najpierw podaje liczbę klatek a następnie wybiera plik wideo.
 
@@ -70,7 +70,7 @@ Po ukończonej analizie, można zobaczyć mapę wraz z zaznaczonym punktem i okr
 
  4. Dostępny jest przycisk Reset, który przywraca aplikację do stanu początkowego.
 
-## Ograniczenia interfejsu
+#### Ograniczenia interfejsu
 
  1. Program obsługuje tylko pliki lokalne
  2. Odtwarzane wideo jest tylko prezentacją, nie można go zatrzymać
