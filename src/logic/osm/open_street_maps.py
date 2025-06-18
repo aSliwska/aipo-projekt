@@ -121,10 +121,10 @@ def __get_queries(country_idx, countries, regions, places_with_distances):
 
 def __get_country_probabilities(countries_by_road_side, countries_by_road_signs, countries_by_car_license_plates, countries_by_language):
     # add points to countries based on input
-    road_side_weight = 1.0
+    road_side_weight = 0.5
     road_signs_weight = 0.6
-    license_plates_weight = 0.1
-    language_weight = 0.3
+    license_plates_weight = 0.4
+    language_weight = 0.6
 
     countries_possibilities = {country : 0. for country in all_countries}
 
@@ -140,7 +140,7 @@ def __get_country_probabilities(countries_by_road_side, countries_by_road_signs,
     for country in countries_by_language:
         countries_possibilities[country] += language_weight
     
-    # filter out countries with score of 0
+    # filter out countries with a score of 0
     countries_possibilities = dict(filter(lambda item: item[1] != 0., countries_possibilities.items()))
 
     # convert to list of (key, value) touples and sort by value descending
