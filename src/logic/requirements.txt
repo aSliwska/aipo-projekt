@@ -1,3 +1,6 @@
+rapidfuzz==3.13.0
+spacy==3.8.7
+yake==0.4.8
 opencv_contrib_python==4.11.0.86
 opencv_python==4.9.0.80
 pytesseract==0.3.13
