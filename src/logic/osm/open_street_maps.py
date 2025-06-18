@@ -1,10 +1,10 @@
-from countries import all_countries
+from osm.countries import all_countries
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
 from geopy import distance
 import pandas as pd
 from functools import partial
-from caching import Cache
+from osm.caching import Cache
 import numpy as np
 
 def predict_place(countries_by_road_side, countries_by_road_signs, countries_by_car_license_plates, 
@@ -93,12 +93,12 @@ def __get_geocoded_result(geocode, cache, query):
     return location
 
 
-def __get_queries(country_idx, countries, regions, places):
+def __get_queries(country_idx, countries, regions, places_with_distances):
     country = [] if country_idx == -1 else [countries[country_idx][0]]
 
     # if countries and regions empty
     if country_idx == -1 and len(regions) == 0:
-        return pd.DataFrame({'query': []}) # place name alone is not enough
+        return pd.DataFrame({'query': [], 'distance': []}) # place name alone is not enough
     
     df_countries = pd.DataFrame({'country': country})
     df_regions = pd.DataFrame({'region': regions})
@@ -116,8 +116,7 @@ def __get_queries(country_idx, countries, regions, places):
         columns.append('place')
 
     df['query'] = df[columns].agg(', '.join, axis=1)
-    
-    return df['query'], df[['distance']]
+    return df['query'], df['distance']
 
 
 def __get_country_probabilities(countries_by_road_side, countries_by_road_signs, countries_by_car_license_plates, countries_by_language):
