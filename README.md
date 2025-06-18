@@ -68,7 +68,8 @@ Wykorzystane narzędzia:
 3. Lista krajów na świecie [1](https://www.britannica.com/topic/list-of-countries-1993160), [2](https://en.wikipedia.org/wiki/Left-_and_right-hand_traffic)
 4. [Nominatim Usage Policy](https://operations.osmfoundation.org/policies/nominatim/)
 5. [Dokumentacja GeoPy](https://geopy.readthedocs.io/en/stable/)
-6.
+6. [Dokumentacja modelu YOLOv8 z klasami COCO](https://docs.ultralytics.com/models/yolov8/)
+7. [Dokumentacja OpenCV](https://docs.opencv.org/4.11.0/)
 
 
 ## Podział zadań
