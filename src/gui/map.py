@@ -84,7 +84,7 @@ def show_map(lat, lon):
     map_widget.pack(expand=True, fill="both")
     map_widget.set_position(lat, lon)
     map_widget.set_zoom(13)
-    map_widget.set_marker(lat, lon, text="Location from analysis")
+    map_widget.set_marker(lat, lon, text="Warsaw")
 
     if circle:
         circle.delete()

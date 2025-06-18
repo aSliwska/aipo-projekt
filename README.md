@@ -25,3 +25,72 @@ Clips: https://drive.google.com/drive/folders/1nmdyPdUMOLT9aDzbtC55K6U4akBT9X3L?
 |17 |https://www.youtube.com/watch?v=STFPIMa3mXo|Poland   |Kielce    |06:28       |06:54        |50.882209          |20.645231         |exact             |
 |18 |https://www.youtube.com/watch?v=MAiltiE8tgI|China    |Shanghai  |01:29:43    |01:30:03     |31.248994669315067 |121.4871027357963 |close                |
 |19 |https://www.youtube.com/watch?v=u7wxZKSbTZs|Japan  |Kyoto     |21:55       |22:15        |35.01116214130449  |135.77824168969553|exact             |
+
+# Interfejst użytkownika
+
+Interfejs graficzny w Pythonie umożliwiający analizę plików wideo, przewidywanie miejsca, w którym nagrano wideo, prezentację lokalizacji na mapie oraz wizualizację odtworzonego wideo.
+
+## Funkcje
+
+- Wybór pliku wideo (.mp4, .avi, .mov, .mkv)
+- Analiza wideo z paskiem postępu
+- Odtwarzanie wideo w aplikacji
+- Wizualizacja lokalizacji (na podstawie analizy) na mapie w postaci czerwonego markera
+- Rysowanie okręgu o zadanym promieniu wokół wykrytej lokalizacji
+- Możliwość ustawienia analizy co N-tą klatkę
+
+## Technologie
+
+- Python 3.11+
+- Tkinter – GUI
+- [TkinterMapView](https://github.com/TomSchimansky/TkinterMapView) – mapa oparta na OpenStreetMap
+- imageio – odczyt wideo
+- threading – nieblokujące przetwarzanie
+- PIL - odtwarzanie wideo
+
+## Jak uruchomić
+
+1. **Zainstaluj zależności**
+   ```bash
+   pip install -r requirements.txt
+   python map.py
+   ```
+   
+## Zrzuty ekranu
+
+Po uruchomieniu programu zobaczymy prosty interfejs pozwalający użytkownikowi wpisać liczbę klatek i wgrać swój plik wideo
+
+![początkowy widok GUI](screenshots/gui_start.png)
+
+Po wgraniu pliku, ukazuje się pasek postępu odzwierciedlający ilość ukończonych obliczeń i predykcji
+
+![ładowanie danych i analizowanie obrazu](screenshots/gui_load.png)
+
+Po ukończonej analizie, można zobaczyć mapę wraz z zaznaczonym punktem i okręgiem pozwalający oszacować położenie jadącego samochodu. Obok mapy, odtwarzane jest wgrane wideo przez użytkownika.
+
+![prezentacja wideo i danych na mapie](screenshots/gui_end.png)
+
+## Opis działania GUI
+
+ 1. Użytkowik najpierw podaje liczbę klatek a następnie wybiera plik wideo.
+
+ 2. Program analizuje zawartość i pokazuje pasek postępu.
+
+ 3. Po zakończeniu analizy:
+
+    - wyświetla współrzędne lokalizacji,
+
+    - pokazuje je na mapie,
+
+    - rysuje okrąg wokół punktu o przybliżonym obszarze,
+
+    - uruchamia odtwarzanie wideo.
+
+ 4. Dostępny jest przycisk Reset, który przywraca aplikację do stanu początkowego.
+
+## Ograniczenia interfejsu
+
+ 1. Program obsługuje tylko pliki lokalne
+ 2. Odtwarzane wideo jest tylko prezentacją, nie można go zatrzymać
+
+
