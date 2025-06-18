@@ -442,6 +442,7 @@ def process_frame(
     plates_txt_path=None,
     seen_plates=None,
     save_to_file=False,
+    outline_objects=True,
 ) -> Dict[str, Any]:
     """
     Processes a single frame to detect vehicles, signs, billboards, recognize plates, annotate, and optionally save the frame.
@@ -501,7 +502,6 @@ def process_frame(
         class_name = detection["class_name"]
         conf = detection["confidence"]
         roi = frame[y1:y2, x1:x2]
-        cv2.rectangle(frame, (x1, y1), (x2, y2), config["color"], 2)
         label_text = f"{config['name']}: {class_name}"
         additional_info = []
         if category == "vehicles":
@@ -541,15 +541,17 @@ def process_frame(
                     if lat and lon:
                         additional_info.append(f"Lokalizacja: {lat}, {lon}")
                         detection["geolocation"] = {"lat": lat, "lon": lon}
-        cv2.putText(
-            frame,
-            label_text,
-            (x1, y1 - 10),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            0.5,
-            config["color"],
-            2,
-        )
+        if outline_objects:
+            cv2.rectangle(frame, (x1, y1), (x2, y2), config["color"], 2)
+            cv2.putText(
+                frame,
+                label_text,
+                (x1, y1 - 10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.5,
+                config["color"],
+                2,
+            )
         info_msg = f"[{frame_count}] {config['name']}: {class_name} (conf: {conf:.2f})"
         for info in additional_info:
             info_msg += f" | {info}"
