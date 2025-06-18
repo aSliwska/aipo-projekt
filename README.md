@@ -192,7 +192,7 @@ Wykorzystane narzędzia:
 - Patryk Madej - stworzenie szablonu modułu do detekcji i klasyfikacji znaków drogowych, tablic rejestracyjnych oraz informacji z billboardów
 - Adam Niewczas - GUI
 - Arkadiusz Rudy - 
-- Wiktor Szewczyk - stworzenie modułu do detekecji oraz klasyfikacji znaków drogowych, 
+- Wiktor Szewczyk - stworzenie modułu do detekcji oraz klasyfikacji znaków drogowych, 
                     tablic rejestracyjnych oraz billboardów razem z Patrykiem Madejem.
 - wszyscy - dokumentacja
 
