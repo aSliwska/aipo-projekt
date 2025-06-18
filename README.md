@@ -4,6 +4,7 @@
 
 **Zainstaluj zależności**
    ```bash
+   cd src
    pip install -r requirements.txt
    python map.py
    ```
