@@ -1,6 +1,6 @@
 [submodule "openalpr"]
-	path = openalpr
+	path = src/logic/textdetection/openalpr
 	url = https://github.com/openalpr/openalpr
 [submodule "tesseract"]
-	path = tesseract
+	path = src/logic/textdetection/tesseract
 	url = https://github.com/tesseract-ocr/tesseract
