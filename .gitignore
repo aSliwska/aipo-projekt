@@ -11,3 +11,4 @@ wheels/
 
 src/logic/content/
 src/logic/checkpoint/
+src/logic/ocr/test_images/

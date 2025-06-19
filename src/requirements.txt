@@ -23,3 +23,5 @@ geopy==2.4.1
 pandas==2.3.0
 langdetect==1.0.9
 deep-translator>=1.11.4
+easyocr==1.7.2
+matplotlib==3.10.3

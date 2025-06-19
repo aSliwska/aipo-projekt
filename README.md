@@ -122,6 +122,18 @@ Wykorzystane narzędzia:
 
 ### 7. OCR
 
+System odczytu tekstu z obrazu. Pracuje w dwóch trybach:
+
+#### Tryb klatki:
+Klatka jest poddawana dwustopniowemu powiększaniu i wyostrzaniu, w celu uwypuklenia tekstu i sprowadzenia go możliwie jak najbliżej do obszaru optymalnej pracy sieci OCR. Preprocessing zakłada następnie equalizację histogramu i konwersję do skali szarości. W dalszej kolejności, klatka jest poddawana parsowaniu przez sieć OCR.
+
+#### Tryb precyzyjny:
+Ten tryb zakłada, że na wejście zostaje podany tekst wraz z pewnym jego otoczeniem (zestaw linii tekstu, krawędzie tabliczki). Pomiędzy stopiami przetwarzania zachodzi korekcja perspektywy i rotacji obrazu. Główna metoda opiera się o znalezienie punktu horyzontu na podstawie znalezionych linii obrysu (transformacja Hough), obliczenie macierzy homeografii i następnie korekcji. W przypadku nieznalezienia żadnego punktu zbiegu lub wykrycia niewystarczającej liczby linii, zostaje uruchomiona bardziej złożona i jednocześnie bardziej zawodna metoda obliczenia macierzy homeografii w oparciu o rozwiązanie układu równań liniowych niedookreślonego (układ 8 równań z 9 niewiadomymi) z użyciem rozkładu SVD dla 4 wierzchołków tła. Wierzchołki są dobierane automatycznie poprzez wykrywanie prostokątnych konturów i wybór tego optymalnego.
+
+Użyte narzędzia:
+- [OpenCV](https://opencv.org/)
+- [tesseract-ocr](https://github.com/tesseract-ocr/tesseract/)
+- Numpy + Matplotlib
 
 ### 8. Rozpoznawanie języka i tłumaczenie
 Moduł rozpoznawania języka odpowiedzialny jest za wykrycie w przetworzonych tekstach z OCR języka oraz na zwróceniu listy krajów w których dany język jest językiem urzędowym, bądź powszechnie stosowanym. Jego celem jest na podstawie wykrytego języka zawężenie listy dostępnych do wyboru krajów co może pozwolić na dokładniejszą lokalizację miejsca kamery.
@@ -208,6 +220,11 @@ Wykorzystane narzędzia:
 - Wciśnięcie przycisku "reset", podczas odtwarzania wideo, powoduje wyrzuceniem wyjątku, jednak nie wpływa to na kulturę pracy programu czy odczucia użytkownika.
 - Po ponownym wgraniu pliku wideo (po wciśnięciu przycisku reset), pasek postępu chowa się na sam dół programu - aby go zobaczyć, należy rozciągnąc okno programu.
 
+### OCR
+
+- Tryb klatki często myli ze sobą podobne alfabety, rozpoznając znaki dla błędnego alfabetu i nie wykrywając dla poprawnego (dotknięte pary latin-cyrillic, chinese-japanese-korean, filipino-arabic, etc.).
+- Oba tryby, a zwłaszcza tryb klatki, generują znaczny szum znakowy który wymaga filtracji.
+
 ### Wyciąganie słów kluczowych i odległości z tekstu
   — Detekcja odległości oraz wyciąganie słów kluczowych może być mało odporne na błędy OCR,
   — YAKE czasem zwraca słowa powszechne; nie ma pełnej kontroli nad tym, co jest nazwą własną, a co nie, odfiltrowanie nie jest idealne,
@@ -225,7 +242,9 @@ Wykorzystane narzędzia:
 6. [Dokumentacja modelu YOLOv8 z klasami COCO](https://docs.ultralytics.com/models/yolov8/)
 7. [Dokumentacja OpenCV](https://docs.opencv.org/4.11.0/)
 8. [TkinterMap View](https://github.com/TomSchimansky/TkinterMapView)
-
+9. [Korekcja perspektywy - punkt horyzontu](https://notbrainsurgery.livejournal.com/40465.html)
+10. [Korekcja perspektywy - bounding box + układ równań](https://github.com/kuangzijian/Image-Stitching-and-Perspective-Correction)
+11. [Optymalny rozmiar tekstu dla OCR](https://groups.google.com/g/tesseract-ocr/c/Wdh_JJwnw94/m/24JHDYQbBQAJ?pli=1)
 
 ## Podział zadań
 - Aleksandra Śliwska – lider zespołu, tworzenie testowego datasetu, iteracja po klatkach filmu, komunikacja z OpenStreetMaps i obliczanie finalnego położenia + promienia niepewności z otrzymanych geolokacji
@@ -235,7 +254,7 @@ Wykorzystane narzędzia:
 - Kamil Krzysztofek - tworzenie testowego datasetu, rozpoznawanie języka, tłumaczenie fraz
 - Patryk Madej - stworzenie szablonu modułu do detekcji i klasyfikacji znaków drogowych, tablic rejestracyjnych oraz informacji z billboardów
 - Adam Niewczas - GUI
-- Arkadiusz Rudy - 
+- Arkadiusz Rudy - OCR
 - Wiktor Szewczyk - stworzenie modułu do detekcji oraz klasyfikacji znaków drogowych, 
                     tablic rejestracyjnych oraz billboardów razem z Patrykiem Madejem.
 - wszyscy - dokumentacja
