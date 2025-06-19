@@ -151,9 +151,9 @@ class TrafficSideClassifier:
 
 
 if __name__ == "__main__":
-    sys.argv = ['load_ufld', './configs/culane.py'] 
+    sys.argv = ['load_ufld', './logic/configs/culane.py'] 
 
-    classifier = TrafficSideClassifier(img=cv2.imread('content/frame.jpg'), path_appendix="./")
+    classifier = TrafficSideClassifier(img=cv2.imread('logic/content/frame.jpg'), path_appendix="./logic/")
     traffic_type, possible_countries = classifier.get_possible_countries()
 
     print("Traffic type:", traffic_type)
