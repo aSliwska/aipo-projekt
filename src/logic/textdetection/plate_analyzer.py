@@ -238,7 +238,7 @@ class PlateAnalyzer:
         logging.debug("Analyzing plate: '%s' (cleaned: '%s')",
                       plate_text, plate_clean)
 
-        for country, data in self.local_plate_patterns.items():
+        for country, data in self.plate_patterns.items():
             for pattern in data["patterns"]:
                 if re.match(pattern, plate_clean):
                     logging.info("Plate '%s' matches %s pattern",
