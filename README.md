@@ -3,7 +3,7 @@
 ## Uruchamianie
 
 Wymagania:
-- Plik "culane_18.pth" należy pobrać z [linku](https://drive.google.com/file/d/1zXBRTw50WOzvUp6XKsi8Zrk3MUC3uFuq/view?usp=sharing), oraz przenieść do folderu src/logic/checkpoint/. Jeżeli jest w postaci archiwum .zip, należy go wypakować.
+- Plik "culane_18.pth" należy pobrać z [linku](https://drive.google.com/file/d/1zXBRTw50WOzvUp6XKsi8Zrk3MUC3uFuq/view?usp=sharing), oraz przenieść do folderu src/logic/leftright/checkpoint/. Jeżeli jest w postaci archiwum .zip, należy go wypakować.
 
 **Zainstaluj zależności**
    ```bash
