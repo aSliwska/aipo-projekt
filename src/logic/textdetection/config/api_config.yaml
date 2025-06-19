@@ -1,0 +1,58 @@
+apis:
+  # REST Countries API - Free API for country data, regions, and administrative info
+  rest_countries:
+    base_url: "https://restcountries.com/v3.1"
+    enabled: true
+    cache_duration_hours: 168  # 1 week
+    endpoints:
+      all_countries: "/all"
+      by_name: "/name/{name}"
+      by_code: "/alpha/{code}"
+    
+  # GeoNames API - Free with registration (username required)
+  # Provides highway systems, administrative divisions, and place names
+  geonames:
+    base_url: "http://api.geonames.org"
+    username: "wewek"
+    enabled: true
+    cache_duration_hours: 168
+    endpoints:
+      search: "/searchJSON"
+      country_info: "/countryInfoJSON"
+      admin_divisions: "/childrenJSON"
+    
+  # Wikidata API - Free structured data for highway systems and license plate formats
+  wikidata:
+    base_url: "https://www.wikidata.org/w/api.php"
+    enabled: true
+    cache_duration_hours: 168
+    endpoints:
+      query: ""
+    sparql_endpoint: "https://query.wikidata.org/sparql"
+    
+  # GitHub API for accessing open datasets (no auth required for public repos)
+  github:
+    base_url: "https://api.github.com"
+    enabled: true
+    cache_duration_hours: 24
+    endpoints:
+      raw_content: "https://raw.githubusercontent.com"
+    
+  # World Bank Open Data API - Free country and regional data
+  world_bank:
+    base_url: "https://api.worldbank.org/v2"
+    enabled: true
+    cache_duration_hours: 168
+    endpoints:
+      countries: "/countries"
+      regions: "/regions"
+
+fallback:
+  use_local_patterns: true
+  local_cache_file: "pattern_cache.json"
+  update_interval_hours: 24
+
+retry:
+  max_attempts: 3
+  backoff_factor: 2
+  timeout_seconds: 30
