@@ -12,3 +12,4 @@ wheels/
 src/logic/leftright/content/
 src/logic/leftright/checkpoint/
 src/logic/ocr/test_images/
+src/osm_cache.db

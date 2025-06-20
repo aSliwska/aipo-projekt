@@ -1,6 +1,6 @@
 import os, argparse
-from utils.dist_utils import is_main_process, dist_print, DistSummaryWriter
-from utils.config import Config
+from logic.leftright.utils.dist_utils import is_main_process, dist_print, DistSummaryWriter
+from logic.leftright.utils.config import Config
 import torch
 import time
 

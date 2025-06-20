@@ -1,10 +1,10 @@
-from osm.countries import all_countries
+from logic.osm.countries import all_countries
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
 from geopy import distance
 import pandas as pd
 from functools import partial
-from osm.caching import Cache
+from logic.osm.caching import Cache
 import numpy as np
 
 def predict_place(countries_by_road_side, countries_by_road_signs, countries_by_car_license_plates, 
@@ -114,6 +114,8 @@ def __get_queries(country_idx, countries, regions, places_with_distances):
         columns.append('region')
     if not df_places.empty:
         columns.append('place')
+    else:
+        df = df.assign(distance=0)
 
     df['query'] = df[columns].agg(', '.join, axis=1)
     return df['query'], df['distance']
@@ -122,9 +124,10 @@ def __get_queries(country_idx, countries, regions, places_with_distances):
 def __get_country_probabilities(countries_by_road_side, countries_by_road_signs, countries_by_car_license_plates, countries_by_language):
     # add points to countries based on input
     road_side_weight = 0.5
-    road_signs_weight = 0.6
+    road_signs_weight = 0.5
     license_plates_weight = 0.4
-    language_weight = 0.6
+    language_weight = 1.0
+    english_weight = 0.2
 
     countries_possibilities = {country : 0. for country in all_countries}
 
@@ -137,22 +140,68 @@ def __get_country_probabilities(countries_by_road_side, countries_by_road_signs,
     for country in countries_by_car_license_plates:
         countries_possibilities[country] += license_plates_weight
     
-    for country in countries_by_language:
-        countries_possibilities[country] += language_weight
+    for language, countries in countries_by_language.items():
+        weight = english_weight if language == 'en' else language_weight
+        for country in countries:
+            countries_possibilities[country] += weight
     
     # filter out countries with a score of 0
     countries_possibilities = dict(filter(lambda item: item[1] != 0., countries_possibilities.items()))
 
     # convert to list of (key, value) touples and sort by value descending
     countries_possibilities = sorted(countries_possibilities.items(), key=lambda kv: kv[1], reverse=True)
-
+    print(countries_possibilities)
     return countries_possibilities
 
 if __name__ == "__main__":
     countries_by_road_side = ["Poland", "Portugal", "Hungary", "Iceland", "Georgia"]
     countries_by_road_signs = ["Poland", "Portugal", "Hungary", "Germany"] 
-    countries_by_language = ["Poland", "Portugal", "Germany"] 
     countries_by_car_license_plates = ["Hungary", "Poland", "Ukraine"]
+    countries_by_language = {
+        'bg': ['Bulgaria'],
+        'et': ['Estonia'],
+        'pl': ['Poland'],
+        'ru': ['Belarus', 'Kazakhstan', 'Kyrgyzstan', 'Moldova', 'Russia', 'Ukraine'],
+        'tr': ['Cyprus', 'Turkey'],
+        'en': ['Antigua and Barbuda',
+         'Australia',
+         'The Bahamas',
+         'Barbados',
+         'Belize',
+         'Bermuda',
+         'Botswana',
+         'Canada',
+         'Cayman Islands',
+         'Dominica',
+         'Grenada',
+         'Guernsey',
+         'Guyana',
+         'Ireland',
+         'Isle of Man',
+         'Jamaica',
+         'Jersey',
+         'Kenya',
+         'Kiribati',
+         'Marshall Islands',
+         'Mauritius',
+         'Micronesia',
+         'Namibia',
+         'New Zealand',
+         'Nigeria',
+         'Saint Kitts and Nevis',
+         'Saint Lucia',
+         'Saint Vincent and the Grenadines',
+         'Samoa',
+         'Sierra Leone',
+         'Solomon Islands',
+         'South Africa',
+         'Trinidad and Tobago',
+         'Uganda',
+         'United Kingdom',
+         'United States',
+         'Zambia',
+         'Zimbabwe']
+    } 
 
     regions_by_car_license_plates = ["Kielce", "Kraków"]
     places_with_distances = {"Żabka": 0, "Galeria Krakowska": 0.5}

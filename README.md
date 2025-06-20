@@ -10,6 +10,7 @@ Wymagania:
    cd src
    pip install -r requirements.txt
    pip install tensorboard
+   python -m spacy download en_core_web_sm
    python map.py
    ```
 

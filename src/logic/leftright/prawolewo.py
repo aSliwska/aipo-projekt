@@ -8,9 +8,9 @@ import numpy as np
 import joblib
 
 from ultralytics import YOLO
-from model.model import parsingNet
-from utils.common import merge_config
-from data.constant import culane_row_anchor
+from logic.leftright.model.model import parsingNet
+from logic.leftright.utils.common import merge_config
+from logic.leftright.data.constant import culane_row_anchor
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
@@ -34,7 +34,7 @@ from sklearn.neighbors import KNeighborsClassifier
 
 
 class TrafficSideClassifier:
-    def __init__(self, img, path_appendix=""):
+    def __init__(self, img=None, path_appendix=""):
         self.img = img
         self.path_appendix = path_appendix
 
@@ -144,6 +144,9 @@ class TrafficSideClassifier:
         prediction = self.clf.predict([features])[0]
         return "Left-side traffic" if prediction == 1 else "Right-side traffic"
 
+    def set_image(self, img):
+        self.img = img
+    
     def get_possible_countries(self):
         traffic_type = self.classify_traffic_side()
         return traffic_type, self.fetch_countries(traffic_type)
@@ -151,7 +154,7 @@ class TrafficSideClassifier:
 
 
 if __name__ == "__main__":
-    sys.argv = ['load_ufld', './logic/configs/culane.py'] 
+    sys.argv = ['load_ufld', './logic/leftright/configs/culane.py'] 
 
     classifier = TrafficSideClassifier(img=cv2.imread('logic/content/frame.jpg'), path_appendix="./logic/")
     traffic_type, possible_countries = classifier.get_possible_countries()
