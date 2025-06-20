@@ -23,22 +23,31 @@ def analyze_video(path_to_video, frame_skip):
     ret, frame = vid.read()
     frame_idx = 0
 
-    ######################################################
-    
-    ######################################################
-
     while (ret):
         if frame_idx % frame_skip == 0: # analyses every Nth frame, where N == frame_skip
 
+            # traffic side detection
             traffic_side_classifier.set_image(frame)
             left_right_output = traffic_side_classifier.classify_traffic_side()
             left_right_hits[left_right_output] += 1
 
+            # text detection goes here: frame --> images_with_text
 
+            # traffic sign detection+classification goes here: frame --> possible countries
+            # add non-duplicates to countries_by_road_signs
+            # this will probably need to be treshold with a minimum appearance count after the loop
+
+            # license plate classification goes here: images_with_text --> possible countries list
+            # add non-duplicates to countries_by_car_license_plates
+
+            # ocr goes here: images_with_text --> ocr_output
+
+            # language detection + translation
             # language_detection_output = lang_detect.analyze_phrases(ocr_output, all_countries)
             # countries_by_language = merge_dictionaries(language_detection_output, countries_by_language)
             # translation_output = translation.translate_phrases(ocr_output)
 
+            # keyword detection
             # keyword_output = keywords.extract_named_entities_with_distance(translation_output, ocr_output)
             # places_with_distances = merge_dictionaries(keyword_output, places_with_distances)
 
