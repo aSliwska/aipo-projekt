@@ -9,6 +9,7 @@ wheels/
 # Virtual environments
 .venv
 
-src/logic/content/
-src/logic/checkpoint/
+src/logic/leftright/content/
+src/logic/leftright/checkpoint/
 src/logic/ocr/test_images/
+src/osm_cache.db

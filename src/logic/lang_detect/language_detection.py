@@ -8,8 +8,8 @@ for a list of phrases, and maps languages to countries.
 from langdetect import DetectorFactory, detect_langs, LangDetectException
 import unicodedata
 
-from lang_detect.language_countries import language_countries
-from osm.countries import all_countries
+from logic.lang_detect.language_countries import language_countries
+from logic.osm.countries import all_countries
 
 # Make langdetect deterministic
 DetectorFactory.seed = 0

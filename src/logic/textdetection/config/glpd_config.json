@@ -1,0 +1,84 @@
+{
+  "glpd_config": {
+    "version": "1.0",
+    "dataset_info": {
+      "name": "Global License Plate Dataset (GLPD)",
+      "description": "5 million images from 74 countries with full annotations",
+      "publication_date": "March 2024",
+      "total_images": 5000000,
+      "countries_count": 74,
+      "annotations": ["segmentation", "text", "country", "region"]
+    },
+    "model_settings": {
+      "input_size": [64, 256],
+      "batch_size": 32,
+      "confidence_threshold": 0.7,
+      "nms_threshold": 0.5
+    },
+    "preprocessing": {
+      "normalize_mean": [0.485, 0.456, 0.406],
+      "normalize_std": [0.229, 0.224, 0.225],
+      "resize_method": "bilinear",
+      "padding_mode": "constant"
+    },
+    "recognition_settings": {
+      "max_candidates": 5,
+      "min_confidence": 0.5,
+      "pattern_matching_enabled": true,
+      "region_extraction_enabled": true
+    },
+    "supported_countries": [
+      "United States", "Canada", "Mexico", "United Kingdom", "Germany", 
+      "France", "Italy", "Spain", "Netherlands", "Poland", "Czech Republic",
+      "Slovakia", "Hungary", "Austria", "Switzerland", "Belgium", "Denmark",
+      "Sweden", "Norway", "Finland", "Russia", "Ukraine", "Romania", 
+      "Bulgaria", "Greece", "Turkey", "Japan", "South Korea", "China",
+      "India", "Thailand", "Malaysia", "Singapore", "Indonesia", "Philippines",
+      "Vietnam", "Australia", "New Zealand", "Brazil", "Argentina", "Chile",
+      "Colombia", "Peru", "Venezuela", "Mexico", "South Africa", "Egypt",
+      "Morocco", "Nigeria", "Kenya", "Ghana", "Israel", "Saudi Arabia",
+      "UAE", "Qatar", "Kuwait", "Iran", "Iraq", "Afghanistan", "Pakistan",
+      "Bangladesh", "Sri Lanka", "Nepal", "Myanmar", "Cambodia", "Laos",
+      "Mongolia", "Kazakhstan", "Uzbekistan", "Kyrgyzstan", "Tajikistan",
+      "Turkmenistan", "Georgia", "Armenia", "Azerbaijan", "Belarus",
+      "Lithuania", "Latvia", "Estonia", "Moldova", "Serbia", "Croatia",
+      "Slovenia", "Bosnia and Herzegovina", "Montenegro", "North Macedonia",
+      "Albania", "Kosovo"
+    ],
+    "regional_codes": {
+      "us_states": {
+        "AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas",
+        "CA": "California", "CO": "Colorado", "CT": "Connecticut", "DE": "Delaware",
+        "FL": "Florida", "GA": "Georgia", "HI": "Hawaii", "ID": "Idaho",
+        "IL": "Illinois", "IN": "Indiana", "IA": "Iowa", "KS": "Kansas",
+        "KY": "Kentucky", "LA": "Louisiana", "ME": "Maine", "MD": "Maryland",
+        "MA": "Massachusetts", "MI": "Michigan", "MN": "Minnesota", "MS": "Mississippi",
+        "MO": "Missouri", "MT": "Montana", "NE": "Nebraska", "NV": "Nevada",
+        "NH": "New Hampshire", "NJ": "New Jersey", "NM": "New Mexico", "NY": "New York",
+        "NC": "North Carolina", "ND": "North Dakota", "OH": "Ohio", "OK": "Oklahoma",
+        "OR": "Oregon", "PA": "Pennsylvania", "RI": "Rhode Island", "SC": "South Carolina",
+        "SD": "South Dakota", "TN": "Tennessee", "TX": "Texas", "UT": "Utah",
+        "VT": "Vermont", "VA": "Virginia", "WA": "Washington", "WV": "West Virginia",
+        "WI": "Wisconsin", "WY": "Wyoming"
+      },
+      "canadian_provinces": {
+        "AB": "Alberta", "BC": "British Columbia", "MB": "Manitoba", "NB": "New Brunswick",
+        "NL": "Newfoundland and Labrador", "NT": "Northwest Territories", "NS": "Nova Scotia",
+        "NU": "Nunavut", "ON": "Ontario", "PE": "Prince Edward Island", "QC": "Quebec",
+        "SK": "Saskatchewan", "YT": "Yukon"
+      },
+      "german_states": {
+        "B": "Berlin", "M": "München", "HH": "Hamburg", "K": "Köln", "F": "Frankfurt",
+        "S": "Stuttgart", "D": "Düsseldorf", "H": "Hannover", "DD": "Dresden",
+        "L": "Leipzig", "N": "Nürnberg", "DO": "Dortmund", "E": "Essen",
+        "HB": "Bremen", "KI": "Kiel", "MA": "Magdeburg", "ER": "Erfurt"
+      },
+      "polish_regions": {
+        "KR": "Kraków", "WA": "Warszawa", "GD": "Gdańsk", "WR": "Wrocław",
+        "PO": "Poznań", "KA": "Katowice", "LU": "Lublin", "BI": "Białystok",
+        "SZ": "Szczecin", "RZ": "Rzeszów", "KI": "Kielce", "OP": "Opole",
+        "ZG": "Zielona Góra", "OL": "Olsztyn", "TO": "Toruń", "BL": "Bielsko-Biała"
+      }
+    }
+  }
+}

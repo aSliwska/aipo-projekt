@@ -1,0 +1,2673 @@
+{
+  "plate_patterns": {},
+  "road_signs": {},
+  "last_updated": {
+    "countries": "2025-06-20T14:12:16.639588"
+  },
+  "countries": {
+    "Togo": {
+      "code2": "TG",
+      "code3": "TGO",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Mayotte": {
+      "code2": "YT",
+      "code3": "MYT",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Georgia": {
+      "code2": "GE",
+      "code3": "GEO",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Georgian"
+      ],
+      "driving_side": "right"
+    },
+    "Vanuatu": {
+      "code2": "VU",
+      "code3": "VUT",
+      "region": "Oceania",
+      "subregion": "Melanesia",
+      "languages": [
+        "Bislama",
+        "English",
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Kyrgyzstan": {
+      "code2": "KG",
+      "code3": "KGZ",
+      "region": "Asia",
+      "subregion": "Central Asia",
+      "languages": [
+        "Kyrgyz",
+        "Russian"
+      ],
+      "driving_side": "right"
+    },
+    "Niger": {
+      "code2": "NE",
+      "code3": "NER",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "China": {
+      "code2": "CN",
+      "code3": "CHN",
+      "region": "Asia",
+      "subregion": "Eastern Asia",
+      "languages": [
+        "Chinese"
+      ],
+      "driving_side": "right"
+    },
+    "Tuvalu": {
+      "code2": "TV",
+      "code3": "TUV",
+      "region": "Oceania",
+      "subregion": "Polynesia",
+      "languages": [
+        "English",
+        "Tuvaluan"
+      ],
+      "driving_side": "left"
+    },
+    "Comoros": {
+      "code2": "KM",
+      "code3": "COM",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "Arabic",
+        "French",
+        "Comorian"
+      ],
+      "driving_side": "right"
+    },
+    "Bosnia and Herzegovina": {
+      "code2": "BA",
+      "code3": "BIH",
+      "region": "Europe",
+      "subregion": "Southeast Europe",
+      "languages": [
+        "Bosnian",
+        "Croatian",
+        "Serbian"
+      ],
+      "driving_side": "right"
+    },
+    "Bahrain": {
+      "code2": "BH",
+      "code3": "BHR",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Arabic"
+      ],
+      "driving_side": "right"
+    },
+    "Somalia": {
+      "code2": "SO",
+      "code3": "SOM",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "Arabic",
+        "Somali"
+      ],
+      "driving_side": "right"
+    },
+    "Saint Barthélemy": {
+      "code2": "BL",
+      "code3": "BLM",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Latvia": {
+      "code2": "LV",
+      "code3": "LVA",
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "languages": [
+        "Latvian"
+      ],
+      "driving_side": "right"
+    },
+    "Cayman Islands": {
+      "code2": "KY",
+      "code3": "CYM",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Netherlands": {
+      "code2": "NL",
+      "code3": "NLD",
+      "region": "Europe",
+      "subregion": "Western Europe",
+      "languages": [
+        "Dutch"
+      ],
+      "driving_side": "right"
+    },
+    "Lesotho": {
+      "code2": "LS",
+      "code3": "LSO",
+      "region": "Africa",
+      "subregion": "Southern Africa",
+      "languages": [
+        "English",
+        "Sotho"
+      ],
+      "driving_side": "left"
+    },
+    "Venezuela": {
+      "code2": "VE",
+      "code3": "VEN",
+      "region": "Americas",
+      "subregion": "South America",
+      "languages": [
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Kenya": {
+      "code2": "KE",
+      "code3": "KEN",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "English",
+        "Swahili"
+      ],
+      "driving_side": "left"
+    },
+    "Turkey": {
+      "code2": "TR",
+      "code3": "TUR",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Turkish"
+      ],
+      "driving_side": "right"
+    },
+    "Fiji": {
+      "code2": "FJ",
+      "code3": "FJI",
+      "region": "Oceania",
+      "subregion": "Melanesia",
+      "languages": [
+        "English",
+        "Fijian",
+        "Fiji Hindi"
+      ],
+      "driving_side": "left"
+    },
+    "Trinidad and Tobago": {
+      "code2": "TT",
+      "code3": "TTO",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Honduras": {
+      "code2": "HN",
+      "code3": "HND",
+      "region": "Americas",
+      "subregion": "Central America",
+      "languages": [
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Jersey": {
+      "code2": "JE",
+      "code3": "JEY",
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "languages": [
+        "English",
+        "French",
+        "Jèrriais"
+      ],
+      "driving_side": "left"
+    },
+    "Djibouti": {
+      "code2": "DJ",
+      "code3": "DJI",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "Arabic",
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Réunion": {
+      "code2": "RE",
+      "code3": "REU",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Eswatini": {
+      "code2": "SZ",
+      "code3": "SWZ",
+      "region": "Africa",
+      "subregion": "Southern Africa",
+      "languages": [
+        "English",
+        "Swazi"
+      ],
+      "driving_side": "left"
+    },
+    "Tajikistan": {
+      "code2": "TJ",
+      "code3": "TJK",
+      "region": "Asia",
+      "subregion": "Central Asia",
+      "languages": [
+        "Russian",
+        "Tajik"
+      ],
+      "driving_side": "right"
+    },
+    "Saudi Arabia": {
+      "code2": "SA",
+      "code3": "SAU",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Arabic"
+      ],
+      "driving_side": "right"
+    },
+    "Bermuda": {
+      "code2": "BM",
+      "code3": "BMU",
+      "region": "Americas",
+      "subregion": "North America",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "New Zealand": {
+      "code2": "NZ",
+      "code3": "NZL",
+      "region": "Oceania",
+      "subregion": "Australia and New Zealand",
+      "languages": [
+        "English",
+        "Māori",
+        "New Zealand Sign Language"
+      ],
+      "driving_side": "left"
+    },
+    "Belarus": {
+      "code2": "BY",
+      "code3": "BLR",
+      "region": "Europe",
+      "subregion": "Eastern Europe",
+      "languages": [
+        "Belarusian",
+        "Russian"
+      ],
+      "driving_side": "right"
+    },
+    "Christmas Island": {
+      "code2": "CX",
+      "code3": "CXR",
+      "region": "Oceania",
+      "subregion": "Australia and New Zealand",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Gambia": {
+      "code2": "GM",
+      "code3": "GMB",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "right"
+    },
+    "French Polynesia": {
+      "code2": "PF",
+      "code3": "PYF",
+      "region": "Oceania",
+      "subregion": "Polynesia",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "DR Congo": {
+      "code2": "CD",
+      "code3": "COD",
+      "region": "Africa",
+      "subregion": "Middle Africa",
+      "languages": [
+        "French",
+        "Kikongo",
+        "Lingala",
+        "Tshiluba",
+        "Swahili"
+      ],
+      "driving_side": "right"
+    },
+    "Costa Rica": {
+      "code2": "CR",
+      "code3": "CRI",
+      "region": "Americas",
+      "subregion": "Central America",
+      "languages": [
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Malawi": {
+      "code2": "MW",
+      "code3": "MWI",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "English",
+        "Chewa"
+      ],
+      "driving_side": "left"
+    },
+    "Republic of the Congo": {
+      "code2": "CG",
+      "code3": "COG",
+      "region": "Africa",
+      "subregion": "Middle Africa",
+      "languages": [
+        "French",
+        "Kikongo",
+        "Lingala"
+      ],
+      "driving_side": "right"
+    },
+    "Oman": {
+      "code2": "OM",
+      "code3": "OMN",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Arabic"
+      ],
+      "driving_side": "right"
+    },
+    "Iraq": {
+      "code2": "IQ",
+      "code3": "IRQ",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Arabic",
+        "Aramaic",
+        "Sorani"
+      ],
+      "driving_side": "right"
+    },
+    "Niue": {
+      "code2": "NU",
+      "code3": "NIU",
+      "region": "Oceania",
+      "subregion": "Polynesia",
+      "languages": [
+        "English",
+        "Niuean"
+      ],
+      "driving_side": "left"
+    },
+    "Senegal": {
+      "code2": "SN",
+      "code3": "SEN",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Lebanon": {
+      "code2": "LB",
+      "code3": "LBN",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Arabic",
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Angola": {
+      "code2": "AO",
+      "code3": "AGO",
+      "region": "Africa",
+      "subregion": "Middle Africa",
+      "languages": [
+        "Portuguese"
+      ],
+      "driving_side": "right"
+    },
+    "Iran": {
+      "code2": "IR",
+      "code3": "IRN",
+      "region": "Asia",
+      "subregion": "Southern Asia",
+      "languages": [
+        "Persian (Farsi)"
+      ],
+      "driving_side": "right"
+    },
+    "Ecuador": {
+      "code2": "EC",
+      "code3": "ECU",
+      "region": "Americas",
+      "subregion": "South America",
+      "languages": [
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Laos": {
+      "code2": "LA",
+      "code3": "LAO",
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "languages": [
+        "Lao"
+      ],
+      "driving_side": "right"
+    },
+    "Sri Lanka": {
+      "code2": "LK",
+      "code3": "LKA",
+      "region": "Asia",
+      "subregion": "Southern Asia",
+      "languages": [
+        "Sinhala",
+        "Tamil"
+      ],
+      "driving_side": "left"
+    },
+    "Aruba": {
+      "code2": "AW",
+      "code3": "ABW",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "Dutch",
+        "Papiamento"
+      ],
+      "driving_side": "right"
+    },
+    "São Tomé and Príncipe": {
+      "code2": "ST",
+      "code3": "STP",
+      "region": "Africa",
+      "subregion": "Middle Africa",
+      "languages": [
+        "Portuguese"
+      ],
+      "driving_side": "right"
+    },
+    "Grenada": {
+      "code2": "GD",
+      "code3": "GRD",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Montserrat": {
+      "code2": "MS",
+      "code3": "MSR",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Western Sahara": {
+      "code2": "EH",
+      "code3": "ESH",
+      "region": "Africa",
+      "subregion": "Northern Africa",
+      "languages": [
+        "Berber",
+        "Hassaniya",
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Guinea": {
+      "code2": "GN",
+      "code3": "GIN",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "British Virgin Islands": {
+      "code2": "VG",
+      "code3": "VGB",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Panama": {
+      "code2": "PA",
+      "code3": "PAN",
+      "region": "Americas",
+      "subregion": "Central America",
+      "languages": [
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Yemen": {
+      "code2": "YE",
+      "code3": "YEM",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Arabic"
+      ],
+      "driving_side": "right"
+    },
+    "Estonia": {
+      "code2": "EE",
+      "code3": "EST",
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "languages": [
+        "Estonian"
+      ],
+      "driving_side": "right"
+    },
+    "Guyana": {
+      "code2": "GY",
+      "code3": "GUY",
+      "region": "Americas",
+      "subregion": "South America",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Luxembourg": {
+      "code2": "LU",
+      "code3": "LUX",
+      "region": "Europe",
+      "subregion": "Western Europe",
+      "languages": [
+        "German",
+        "French",
+        "Luxembourgish"
+      ],
+      "driving_side": "right"
+    },
+    "Namibia": {
+      "code2": "NA",
+      "code3": "NAM",
+      "region": "Africa",
+      "subregion": "Southern Africa",
+      "languages": [
+        "Afrikaans",
+        "German",
+        "English",
+        "Herero",
+        "Khoekhoe",
+        "Kwangali",
+        "Lozi",
+        "Ndonga",
+        "Tswana"
+      ],
+      "driving_side": "left"
+    },
+    "Kosovo": {
+      "code2": "XK",
+      "code3": "UNK",
+      "region": "Europe",
+      "subregion": "Southeast Europe",
+      "languages": [
+        "Albanian",
+        "Serbian"
+      ],
+      "driving_side": "right"
+    },
+    "New Caledonia": {
+      "code2": "NC",
+      "code3": "NCL",
+      "region": "Oceania",
+      "subregion": "Melanesia",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Saint Pierre and Miquelon": {
+      "code2": "PM",
+      "code3": "SPM",
+      "region": "Americas",
+      "subregion": "North America",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Libya": {
+      "code2": "LY",
+      "code3": "LBY",
+      "region": "Africa",
+      "subregion": "Northern Africa",
+      "languages": [
+        "Arabic"
+      ],
+      "driving_side": "right"
+    },
+    "Myanmar": {
+      "code2": "MM",
+      "code3": "MMR",
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "languages": [
+        "Burmese"
+      ],
+      "driving_side": "right"
+    },
+    "Israel": {
+      "code2": "IL",
+      "code3": "ISR",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Arabic",
+        "Hebrew"
+      ],
+      "driving_side": "right"
+    },
+    "Mali": {
+      "code2": "ML",
+      "code3": "MLI",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Argentina": {
+      "code2": "AR",
+      "code3": "ARG",
+      "region": "Americas",
+      "subregion": "South America",
+      "languages": [
+        "Guaraní",
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "French Guiana": {
+      "code2": "GF",
+      "code3": "GUF",
+      "region": "Americas",
+      "subregion": "South America",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Uganda": {
+      "code2": "UG",
+      "code3": "UGA",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "English",
+        "Swahili"
+      ],
+      "driving_side": "left"
+    },
+    "Malaysia": {
+      "code2": "MY",
+      "code3": "MYS",
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "languages": [
+        "English",
+        "Malay"
+      ],
+      "driving_side": "left"
+    },
+    "Zambia": {
+      "code2": "ZM",
+      "code3": "ZMB",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Micronesia": {
+      "code2": "FM",
+      "code3": "FSM",
+      "region": "Oceania",
+      "subregion": "Micronesia",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "right"
+    },
+    "Slovakia": {
+      "code2": "SK",
+      "code3": "SVK",
+      "region": "Europe",
+      "subregion": "Central Europe",
+      "languages": [
+        "Slovak"
+      ],
+      "driving_side": "right"
+    },
+    "Burundi": {
+      "code2": "BI",
+      "code3": "BDI",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "French",
+        "Kirundi"
+      ],
+      "driving_side": "right"
+    },
+    "Serbia": {
+      "code2": "RS",
+      "code3": "SRB",
+      "region": "Europe",
+      "subregion": "Southeast Europe",
+      "languages": [
+        "Serbian"
+      ],
+      "driving_side": "right"
+    },
+    "Turkmenistan": {
+      "code2": "TM",
+      "code3": "TKM",
+      "region": "Asia",
+      "subregion": "Central Asia",
+      "languages": [
+        "Russian",
+        "Turkmen"
+      ],
+      "driving_side": "right"
+    },
+    "South Africa": {
+      "code2": "ZA",
+      "code3": "ZAF",
+      "region": "Africa",
+      "subregion": "Southern Africa",
+      "languages": [
+        "Afrikaans",
+        "English",
+        "Southern Ndebele",
+        "Northern Sotho",
+        "Southern Sotho",
+        "Swazi",
+        "Tswana",
+        "Tsonga",
+        "Venda",
+        "Xhosa",
+        "Zulu"
+      ],
+      "driving_side": "left"
+    },
+    "Kazakhstan": {
+      "code2": "KZ",
+      "code3": "KAZ",
+      "region": "Asia",
+      "subregion": "Central Asia",
+      "languages": [
+        "Kazakh",
+        "Russian"
+      ],
+      "driving_side": "right"
+    },
+    "Canada": {
+      "code2": "CA",
+      "code3": "CAN",
+      "region": "Americas",
+      "subregion": "North America",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Poland": {
+      "code2": "PL",
+      "code3": "POL",
+      "region": "Europe",
+      "subregion": "Central Europe",
+      "languages": [
+        "Polish"
+      ],
+      "driving_side": "right"
+    },
+    "Puerto Rico": {
+      "code2": "PR",
+      "code3": "PRI",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English",
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Cocos (Keeling) Islands": {
+      "code2": "CC",
+      "code3": "CCK",
+      "region": "Oceania",
+      "subregion": "Australia and New Zealand",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "San Marino": {
+      "code2": "SM",
+      "code3": "SMR",
+      "region": "Europe",
+      "subregion": "Southern Europe",
+      "languages": [
+        "Italian"
+      ],
+      "driving_side": "right"
+    },
+    "American Samoa": {
+      "code2": "AS",
+      "code3": "ASM",
+      "region": "Oceania",
+      "subregion": "Polynesia",
+      "languages": [
+        "English",
+        "Samoan"
+      ],
+      "driving_side": "right"
+    },
+    "Qatar": {
+      "code2": "QA",
+      "code3": "QAT",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Arabic"
+      ],
+      "driving_side": "right"
+    },
+    "Gibraltar": {
+      "code2": "GI",
+      "code3": "GIB",
+      "region": "Europe",
+      "subregion": "Southern Europe",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "right"
+    },
+    "Croatia": {
+      "code2": "HR",
+      "code3": "HRV",
+      "region": "Europe",
+      "subregion": "Southeast Europe",
+      "languages": [
+        "Croatian"
+      ],
+      "driving_side": "right"
+    },
+    "Svalbard and Jan Mayen": {
+      "code2": "SJ",
+      "code3": "SJM",
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "languages": [
+        "Norwegian"
+      ],
+      "driving_side": "right"
+    },
+    "Isle of Man": {
+      "code2": "IM",
+      "code3": "IMN",
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "languages": [
+        "English",
+        "Manx"
+      ],
+      "driving_side": "left"
+    },
+    "Palestine": {
+      "code2": "PS",
+      "code3": "PSE",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Arabic"
+      ],
+      "driving_side": "right"
+    },
+    "Mauritius": {
+      "code2": "MU",
+      "code3": "MUS",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "English",
+        "French",
+        "Mauritian Creole"
+      ],
+      "driving_side": "left"
+    },
+    "Saint Martin": {
+      "code2": "MF",
+      "code3": "MAF",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Sierra Leone": {
+      "code2": "SL",
+      "code3": "SLE",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "right"
+    },
+    "Saint Kitts and Nevis": {
+      "code2": "KN",
+      "code3": "KNA",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Iceland": {
+      "code2": "IS",
+      "code3": "ISL",
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "languages": [
+        "Icelandic"
+      ],
+      "driving_side": "right"
+    },
+    "Heard Island and McDonald Islands": {
+      "code2": "HM",
+      "code3": "HMD",
+      "region": "Antarctic",
+      "subregion": "",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "right"
+    },
+    "Kuwait": {
+      "code2": "KW",
+      "code3": "KWT",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Arabic"
+      ],
+      "driving_side": "right"
+    },
+    "Taiwan": {
+      "code2": "TW",
+      "code3": "TWN",
+      "region": "Asia",
+      "subregion": "Eastern Asia",
+      "languages": [
+        "Chinese"
+      ],
+      "driving_side": "right"
+    },
+    "Cameroon": {
+      "code2": "CM",
+      "code3": "CMR",
+      "region": "Africa",
+      "subregion": "Middle Africa",
+      "languages": [
+        "English",
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "El Salvador": {
+      "code2": "SV",
+      "code3": "SLV",
+      "region": "Americas",
+      "subregion": "Central America",
+      "languages": [
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Macau": {
+      "code2": "MO",
+      "code3": "MAC",
+      "region": "Asia",
+      "subregion": "Eastern Asia",
+      "languages": [
+        "Portuguese",
+        "Chinese"
+      ],
+      "driving_side": "left"
+    },
+    "Cuba": {
+      "code2": "CU",
+      "code3": "CUB",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Brazil": {
+      "code2": "BR",
+      "code3": "BRA",
+      "region": "Americas",
+      "subregion": "South America",
+      "languages": [
+        "Portuguese"
+      ],
+      "driving_side": "right"
+    },
+    "Solomon Islands": {
+      "code2": "SB",
+      "code3": "SLB",
+      "region": "Oceania",
+      "subregion": "Melanesia",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Greece": {
+      "code2": "GR",
+      "code3": "GRC",
+      "region": "Europe",
+      "subregion": "Southern Europe",
+      "languages": [
+        "Greek"
+      ],
+      "driving_side": "right"
+    },
+    "Norway": {
+      "code2": "NO",
+      "code3": "NOR",
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "languages": [
+        "Norwegian Nynorsk",
+        "Norwegian Bokmål",
+        "Sami"
+      ],
+      "driving_side": "right"
+    },
+    "Jamaica": {
+      "code2": "JM",
+      "code3": "JAM",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English",
+        "Jamaican Patois"
+      ],
+      "driving_side": "left"
+    },
+    "Tanzania": {
+      "code2": "TZ",
+      "code3": "TZA",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "English",
+        "Swahili"
+      ],
+      "driving_side": "left"
+    },
+    "Bolivia": {
+      "code2": "BO",
+      "code3": "BOL",
+      "region": "Americas",
+      "subregion": "South America",
+      "languages": [
+        "Aymara",
+        "Guaraní",
+        "Quechua",
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Cyprus": {
+      "code2": "CY",
+      "code3": "CYP",
+      "region": "Europe",
+      "subregion": "Southern Europe",
+      "languages": [
+        "Greek",
+        "Turkish"
+      ],
+      "driving_side": "left"
+    },
+    "Mongolia": {
+      "code2": "MN",
+      "code3": "MNG",
+      "region": "Asia",
+      "subregion": "Eastern Asia",
+      "languages": [
+        "Mongolian"
+      ],
+      "driving_side": "right"
+    },
+    "Monaco": {
+      "code2": "MC",
+      "code3": "MCO",
+      "region": "Europe",
+      "subregion": "Western Europe",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Tunisia": {
+      "code2": "TN",
+      "code3": "TUN",
+      "region": "Africa",
+      "subregion": "Northern Africa",
+      "languages": [
+        "Arabic"
+      ],
+      "driving_side": "right"
+    },
+    "French Southern and Antarctic Lands": {
+      "code2": "TF",
+      "code3": "ATF",
+      "region": "Antarctic",
+      "subregion": "",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Syria": {
+      "code2": "SY",
+      "code3": "SYR",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Arabic"
+      ],
+      "driving_side": "right"
+    },
+    "Chile": {
+      "code2": "CL",
+      "code3": "CHL",
+      "region": "Americas",
+      "subregion": "South America",
+      "languages": [
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Azerbaijan": {
+      "code2": "AZ",
+      "code3": "AZE",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Azerbaijani"
+      ],
+      "driving_side": "right"
+    },
+    "France": {
+      "code2": "FR",
+      "code3": "FRA",
+      "region": "Europe",
+      "subregion": "Western Europe",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "South Korea": {
+      "code2": "KR",
+      "code3": "KOR",
+      "region": "Asia",
+      "subregion": "Eastern Asia",
+      "languages": [
+        "Korean"
+      ],
+      "driving_side": "right"
+    },
+    "Ghana": {
+      "code2": "GH",
+      "code3": "GHA",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "right"
+    },
+    "Denmark": {
+      "code2": "DK",
+      "code3": "DNK",
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "languages": [
+        "Danish"
+      ],
+      "driving_side": "right"
+    },
+    "Sint Maarten": {
+      "code2": "SX",
+      "code3": "SXM",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English",
+        "French",
+        "Dutch"
+      ],
+      "driving_side": "right"
+    },
+    "Andorra": {
+      "code2": "AD",
+      "code3": "AND",
+      "region": "Europe",
+      "subregion": "Southern Europe",
+      "languages": [
+        "Catalan"
+      ],
+      "driving_side": "right"
+    },
+    "Curaçao": {
+      "code2": "CW",
+      "code3": "CUW",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English",
+        "Dutch",
+        "Papiamento"
+      ],
+      "driving_side": "right"
+    },
+    "Switzerland": {
+      "code2": "CH",
+      "code3": "CHE",
+      "region": "Europe",
+      "subregion": "Western Europe",
+      "languages": [
+        "French",
+        "Swiss German",
+        "Italian",
+        "Romansh"
+      ],
+      "driving_side": "right"
+    },
+    "North Macedonia": {
+      "code2": "MK",
+      "code3": "MKD",
+      "region": "Europe",
+      "subregion": "Southeast Europe",
+      "languages": [
+        "Macedonian"
+      ],
+      "driving_side": "right"
+    },
+    "South Sudan": {
+      "code2": "SS",
+      "code3": "SSD",
+      "region": "Africa",
+      "subregion": "Middle Africa",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "right"
+    },
+    "Haiti": {
+      "code2": "HT",
+      "code3": "HTI",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "French",
+        "Haitian Creole"
+      ],
+      "driving_side": "right"
+    },
+    "Peru": {
+      "code2": "PE",
+      "code3": "PER",
+      "region": "Americas",
+      "subregion": "South America",
+      "languages": [
+        "Aymara",
+        "Quechua",
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Guinea-Bissau": {
+      "code2": "GW",
+      "code3": "GNB",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "Portuguese",
+        "Upper Guinea Creole"
+      ],
+      "driving_side": "right"
+    },
+    "Czechia": {
+      "code2": "CZ",
+      "code3": "CZE",
+      "region": "Europe",
+      "subregion": "Central Europe",
+      "languages": [
+        "Czech",
+        "Slovak"
+      ],
+      "driving_side": "right"
+    },
+    "Portugal": {
+      "code2": "PT",
+      "code3": "PRT",
+      "region": "Europe",
+      "subregion": "Southern Europe",
+      "languages": [
+        "Portuguese"
+      ],
+      "driving_side": "right"
+    },
+    "Gabon": {
+      "code2": "GA",
+      "code3": "GAB",
+      "region": "Africa",
+      "subregion": "Middle Africa",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Mexico": {
+      "code2": "MX",
+      "code3": "MEX",
+      "region": "Americas",
+      "subregion": "North America",
+      "languages": [
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Italy": {
+      "code2": "IT",
+      "code3": "ITA",
+      "region": "Europe",
+      "subregion": "Southern Europe",
+      "languages": [
+        "Italian",
+        "Catalan"
+      ],
+      "driving_side": "right"
+    },
+    "Finland": {
+      "code2": "FI",
+      "code3": "FIN",
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "languages": [
+        "Finnish",
+        "Swedish"
+      ],
+      "driving_side": "right"
+    },
+    "Zimbabwe": {
+      "code2": "ZW",
+      "code3": "ZWE",
+      "region": "Africa",
+      "subregion": "Southern Africa",
+      "languages": [
+        "Chibarwe",
+        "English",
+        "Kalanga",
+        "Khoisan",
+        "Ndau",
+        "Northern Ndebele",
+        "Chewa",
+        "Shona",
+        "Sotho",
+        "Tonga",
+        "Tswana",
+        "Tsonga",
+        "Venda",
+        "Xhosa",
+        "Zimbabwean Sign Language"
+      ],
+      "driving_side": "left"
+    },
+    "Spain": {
+      "code2": "ES",
+      "code3": "ESP",
+      "region": "Europe",
+      "subregion": "Southern Europe",
+      "languages": [
+        "Spanish",
+        "Catalan",
+        "Basque",
+        "Galician"
+      ],
+      "driving_side": "right"
+    },
+    "Japan": {
+      "code2": "JP",
+      "code3": "JPN",
+      "region": "Asia",
+      "subregion": "Eastern Asia",
+      "languages": [
+        "Japanese"
+      ],
+      "driving_side": "left"
+    },
+    "Seychelles": {
+      "code2": "SC",
+      "code3": "SYC",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "Seychellois Creole",
+        "English",
+        "French"
+      ],
+      "driving_side": "left"
+    },
+    "Albania": {
+      "code2": "AL",
+      "code3": "ALB",
+      "region": "Europe",
+      "subregion": "Southeast Europe",
+      "languages": [
+        "Albanian"
+      ],
+      "driving_side": "right"
+    },
+    "Moldova": {
+      "code2": "MD",
+      "code3": "MDA",
+      "region": "Europe",
+      "subregion": "Eastern Europe",
+      "languages": [
+        "Romanian"
+      ],
+      "driving_side": "right"
+    },
+    "Guatemala": {
+      "code2": "GT",
+      "code3": "GTM",
+      "region": "Americas",
+      "subregion": "Central America",
+      "languages": [
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Germany": {
+      "code2": "DE",
+      "code3": "DEU",
+      "region": "Europe",
+      "subregion": "Western Europe",
+      "languages": [
+        "German"
+      ],
+      "driving_side": "right"
+    },
+    "Guadeloupe": {
+      "code2": "GP",
+      "code3": "GLP",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Bulgaria": {
+      "code2": "BG",
+      "code3": "BGR",
+      "region": "Europe",
+      "subregion": "Southeast Europe",
+      "languages": [
+        "Bulgarian"
+      ],
+      "driving_side": "right"
+    },
+    "Paraguay": {
+      "code2": "PY",
+      "code3": "PRY",
+      "region": "Americas",
+      "subregion": "South America",
+      "languages": [
+        "Guaraní",
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Eritrea": {
+      "code2": "ER",
+      "code3": "ERI",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "Arabic",
+        "English",
+        "Tigrinya"
+      ],
+      "driving_side": "right"
+    },
+    "Sudan": {
+      "code2": "SD",
+      "code3": "SDN",
+      "region": "Africa",
+      "subregion": "Northern Africa",
+      "languages": [
+        "Arabic",
+        "English"
+      ],
+      "driving_side": "right"
+    },
+    "Equatorial Guinea": {
+      "code2": "GQ",
+      "code3": "GNQ",
+      "region": "Africa",
+      "subregion": "Middle Africa",
+      "languages": [
+        "French",
+        "Portuguese",
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Colombia": {
+      "code2": "CO",
+      "code3": "COL",
+      "region": "Americas",
+      "subregion": "South America",
+      "languages": [
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Nigeria": {
+      "code2": "NG",
+      "code3": "NGA",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "right"
+    },
+    "Montenegro": {
+      "code2": "ME",
+      "code3": "MNE",
+      "region": "Europe",
+      "subregion": "Southeast Europe",
+      "languages": [
+        "Montenegrin"
+      ],
+      "driving_side": "right"
+    },
+    "Nepal": {
+      "code2": "NP",
+      "code3": "NPL",
+      "region": "Asia",
+      "subregion": "Southern Asia",
+      "languages": [
+        "Nepali"
+      ],
+      "driving_side": "left"
+    },
+    "Brunei": {
+      "code2": "BN",
+      "code3": "BRN",
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "languages": [
+        "Malay"
+      ],
+      "driving_side": "left"
+    },
+    "Austria": {
+      "code2": "AT",
+      "code3": "AUT",
+      "region": "Europe",
+      "subregion": "Central Europe",
+      "languages": [
+        "German"
+      ],
+      "driving_side": "right"
+    },
+    "Turks and Caicos Islands": {
+      "code2": "TC",
+      "code3": "TCA",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Bahamas": {
+      "code2": "BS",
+      "code3": "BHS",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "United Kingdom": {
+      "code2": "GB",
+      "code3": "GBR",
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "British Indian Ocean Territory": {
+      "code2": "IO",
+      "code3": "IOT",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "right"
+    },
+    "Liberia": {
+      "code2": "LR",
+      "code3": "LBR",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "right"
+    },
+    "Anguilla": {
+      "code2": "AI",
+      "code3": "AIA",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Central African Republic": {
+      "code2": "CF",
+      "code3": "CAF",
+      "region": "Africa",
+      "subregion": "Middle Africa",
+      "languages": [
+        "French",
+        "Sango"
+      ],
+      "driving_side": "right"
+    },
+    "Algeria": {
+      "code2": "DZ",
+      "code3": "DZA",
+      "region": "Africa",
+      "subregion": "Northern Africa",
+      "languages": [
+        "Arabic"
+      ],
+      "driving_side": "right"
+    },
+    "Saint Lucia": {
+      "code2": "LC",
+      "code3": "LCA",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Romania": {
+      "code2": "RO",
+      "code3": "ROU",
+      "region": "Europe",
+      "subregion": "Southeast Europe",
+      "languages": [
+        "Romanian"
+      ],
+      "driving_side": "right"
+    },
+    "United Arab Emirates": {
+      "code2": "AE",
+      "code3": "ARE",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Arabic"
+      ],
+      "driving_side": "right"
+    },
+    "Morocco": {
+      "code2": "MA",
+      "code3": "MAR",
+      "region": "Africa",
+      "subregion": "Northern Africa",
+      "languages": [
+        "Arabic",
+        "Berber"
+      ],
+      "driving_side": "right"
+    },
+    "Northern Mariana Islands": {
+      "code2": "MP",
+      "code3": "MNP",
+      "region": "Oceania",
+      "subregion": "Micronesia",
+      "languages": [
+        "Carolinian",
+        "Chamorro",
+        "English"
+      ],
+      "driving_side": "right"
+    },
+    "United States Minor Outlying Islands": {
+      "code2": "UM",
+      "code3": "UMI",
+      "region": "Americas",
+      "subregion": "North America",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "right"
+    },
+    "Botswana": {
+      "code2": "BW",
+      "code3": "BWA",
+      "region": "Africa",
+      "subregion": "Southern Africa",
+      "languages": [
+        "English",
+        "Tswana"
+      ],
+      "driving_side": "left"
+    },
+    "Lithuania": {
+      "code2": "LT",
+      "code3": "LTU",
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "languages": [
+        "Lithuanian"
+      ],
+      "driving_side": "right"
+    },
+    "Caribbean Netherlands": {
+      "code2": "BQ",
+      "code3": "BES",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English",
+        "Dutch",
+        "Papiamento"
+      ],
+      "driving_side": "right"
+    },
+    "Cape Verde": {
+      "code2": "CV",
+      "code3": "CPV",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "Portuguese"
+      ],
+      "driving_side": "right"
+    },
+    "United States": {
+      "code2": "US",
+      "code3": "USA",
+      "region": "Americas",
+      "subregion": "North America",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "right"
+    },
+    "Australia": {
+      "code2": "AU",
+      "code3": "AUS",
+      "region": "Oceania",
+      "subregion": "Australia and New Zealand",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Guam": {
+      "code2": "GU",
+      "code3": "GUM",
+      "region": "Oceania",
+      "subregion": "Micronesia",
+      "languages": [
+        "Chamorro",
+        "English",
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Tonga": {
+      "code2": "TO",
+      "code3": "TON",
+      "region": "Oceania",
+      "subregion": "Polynesia",
+      "languages": [
+        "English",
+        "Tongan"
+      ],
+      "driving_side": "left"
+    },
+    "Afghanistan": {
+      "code2": "AF",
+      "code3": "AFG",
+      "region": "Asia",
+      "subregion": "Southern Asia",
+      "languages": [
+        "Dari",
+        "Pashto",
+        "Turkmen"
+      ],
+      "driving_side": "right"
+    },
+    "Falkland Islands": {
+      "code2": "FK",
+      "code3": "FLK",
+      "region": "Americas",
+      "subregion": "South America",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Nauru": {
+      "code2": "NR",
+      "code3": "NRU",
+      "region": "Oceania",
+      "subregion": "Micronesia",
+      "languages": [
+        "English",
+        "Nauru"
+      ],
+      "driving_side": "left"
+    },
+    "Cook Islands": {
+      "code2": "CK",
+      "code3": "COK",
+      "region": "Oceania",
+      "subregion": "Polynesia",
+      "languages": [
+        "English",
+        "Cook Islands Māori"
+      ],
+      "driving_side": "left"
+    },
+    "Hungary": {
+      "code2": "HU",
+      "code3": "HUN",
+      "region": "Europe",
+      "subregion": "Central Europe",
+      "languages": [
+        "Hungarian"
+      ],
+      "driving_side": "right"
+    },
+    "Mauritania": {
+      "code2": "MR",
+      "code3": "MRT",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "Arabic"
+      ],
+      "driving_side": "right"
+    },
+    "Slovenia": {
+      "code2": "SI",
+      "code3": "SVN",
+      "region": "Europe",
+      "subregion": "Central Europe",
+      "languages": [
+        "Slovene"
+      ],
+      "driving_side": "right"
+    },
+    "Chad": {
+      "code2": "TD",
+      "code3": "TCD",
+      "region": "Africa",
+      "subregion": "Middle Africa",
+      "languages": [
+        "Arabic",
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Vatican City": {
+      "code2": "VA",
+      "code3": "VAT",
+      "region": "Europe",
+      "subregion": "Southern Europe",
+      "languages": [
+        "Italian",
+        "Latin"
+      ],
+      "driving_side": "right"
+    },
+    "Benin": {
+      "code2": "BJ",
+      "code3": "BEN",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Singapore": {
+      "code2": "SG",
+      "code3": "SGP",
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "languages": [
+        "English",
+        "Chinese",
+        "Malay",
+        "Tamil"
+      ],
+      "driving_side": "left"
+    },
+    "Malta": {
+      "code2": "MT",
+      "code3": "MLT",
+      "region": "Europe",
+      "subregion": "Southern Europe",
+      "languages": [
+        "English",
+        "Maltese"
+      ],
+      "driving_side": "left"
+    },
+    "Saint Vincent and the Grenadines": {
+      "code2": "VC",
+      "code3": "VCT",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Marshall Islands": {
+      "code2": "MH",
+      "code3": "MHL",
+      "region": "Oceania",
+      "subregion": "Micronesia",
+      "languages": [
+        "English",
+        "Marshallese"
+      ],
+      "driving_side": "right"
+    },
+    "Thailand": {
+      "code2": "TH",
+      "code3": "THA",
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "languages": [
+        "Thai"
+      ],
+      "driving_side": "left"
+    },
+    "Liechtenstein": {
+      "code2": "LI",
+      "code3": "LIE",
+      "region": "Europe",
+      "subregion": "Western Europe",
+      "languages": [
+        "German"
+      ],
+      "driving_side": "right"
+    },
+    "Ireland": {
+      "code2": "IE",
+      "code3": "IRL",
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "languages": [
+        "English",
+        "Irish"
+      ],
+      "driving_side": "left"
+    },
+    "Maldives": {
+      "code2": "MV",
+      "code3": "MDV",
+      "region": "Asia",
+      "subregion": "Southern Asia",
+      "languages": [
+        "Maldivian"
+      ],
+      "driving_side": "left"
+    },
+    "Vietnam": {
+      "code2": "VN",
+      "code3": "VNM",
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "languages": [
+        "Vietnamese"
+      ],
+      "driving_side": "right"
+    },
+    "Armenia": {
+      "code2": "AM",
+      "code3": "ARM",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Armenian"
+      ],
+      "driving_side": "right"
+    },
+    "Pakistan": {
+      "code2": "PK",
+      "code3": "PAK",
+      "region": "Asia",
+      "subregion": "Southern Asia",
+      "languages": [
+        "English",
+        "Urdu"
+      ],
+      "driving_side": "left"
+    },
+    "Ivory Coast": {
+      "code2": "CI",
+      "code3": "CIV",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Russia": {
+      "code2": "RU",
+      "code3": "RUS",
+      "region": "Europe",
+      "subregion": "Eastern Europe",
+      "languages": [
+        "Russian"
+      ],
+      "driving_side": "right"
+    },
+    "Martinique": {
+      "code2": "MQ",
+      "code3": "MTQ",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Bouvet Island": {
+      "code2": "BV",
+      "code3": "BVT",
+      "region": "Antarctic",
+      "subregion": "",
+      "languages": [
+        "Norwegian"
+      ],
+      "driving_side": "right"
+    },
+    "Timor-Leste": {
+      "code2": "TL",
+      "code3": "TLS",
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "languages": [
+        "Portuguese",
+        "Tetum"
+      ],
+      "driving_side": "left"
+    },
+    "Nicaragua": {
+      "code2": "NI",
+      "code3": "NIC",
+      "region": "Americas",
+      "subregion": "Central America",
+      "languages": [
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Papua New Guinea": {
+      "code2": "PG",
+      "code3": "PNG",
+      "region": "Oceania",
+      "subregion": "Melanesia",
+      "languages": [
+        "English",
+        "Hiri Motu",
+        "Tok Pisin"
+      ],
+      "driving_side": "left"
+    },
+    "Egypt": {
+      "code2": "EG",
+      "code3": "EGY",
+      "region": "Africa",
+      "subregion": "Northern Africa",
+      "languages": [
+        "Arabic"
+      ],
+      "driving_side": "right"
+    },
+    "Jordan": {
+      "code2": "JO",
+      "code3": "JOR",
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "languages": [
+        "Arabic"
+      ],
+      "driving_side": "right"
+    },
+    "Uruguay": {
+      "code2": "UY",
+      "code3": "URY",
+      "region": "Americas",
+      "subregion": "South America",
+      "languages": [
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Burkina Faso": {
+      "code2": "BF",
+      "code3": "BFA",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Cambodia": {
+      "code2": "KH",
+      "code3": "KHM",
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "languages": [
+        "Khmer"
+      ],
+      "driving_side": "right"
+    },
+    "Ethiopia": {
+      "code2": "ET",
+      "code3": "ETH",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "Amharic"
+      ],
+      "driving_side": "right"
+    },
+    "Kiribati": {
+      "code2": "KI",
+      "code3": "KIR",
+      "region": "Oceania",
+      "subregion": "Micronesia",
+      "languages": [
+        "English",
+        "Gilbertese"
+      ],
+      "driving_side": "left"
+    },
+    "Bhutan": {
+      "code2": "BT",
+      "code3": "BTN",
+      "region": "Asia",
+      "subregion": "Southern Asia",
+      "languages": [
+        "Dzongkha"
+      ],
+      "driving_side": "left"
+    },
+    "Dominican Republic": {
+      "code2": "DO",
+      "code3": "DOM",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Suriname": {
+      "code2": "SR",
+      "code3": "SUR",
+      "region": "Americas",
+      "subregion": "South America",
+      "languages": [
+        "Dutch"
+      ],
+      "driving_side": "left"
+    },
+    "Bangladesh": {
+      "code2": "BD",
+      "code3": "BGD",
+      "region": "Asia",
+      "subregion": "Southern Asia",
+      "languages": [
+        "Bengali"
+      ],
+      "driving_side": "left"
+    },
+    "Barbados": {
+      "code2": "BB",
+      "code3": "BRB",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "North Korea": {
+      "code2": "KP",
+      "code3": "PRK",
+      "region": "Asia",
+      "subregion": "Eastern Asia",
+      "languages": [
+        "Korean"
+      ],
+      "driving_side": "right"
+    },
+    "Greenland": {
+      "code2": "GL",
+      "code3": "GRL",
+      "region": "Americas",
+      "subregion": "North America",
+      "languages": [
+        "Greenlandic"
+      ],
+      "driving_side": "right"
+    },
+    "Belgium": {
+      "code2": "BE",
+      "code3": "BEL",
+      "region": "Europe",
+      "subregion": "Western Europe",
+      "languages": [
+        "German",
+        "French",
+        "Dutch"
+      ],
+      "driving_side": "right"
+    },
+    "Palau": {
+      "code2": "PW",
+      "code3": "PLW",
+      "region": "Oceania",
+      "subregion": "Micronesia",
+      "languages": [
+        "English",
+        "Palauan"
+      ],
+      "driving_side": "right"
+    },
+    "Norfolk Island": {
+      "code2": "NF",
+      "code3": "NFK",
+      "region": "Oceania",
+      "subregion": "Australia and New Zealand",
+      "languages": [
+        "English",
+        "Norfuk"
+      ],
+      "driving_side": "left"
+    },
+    "South Georgia": {
+      "code2": "GS",
+      "code3": "SGS",
+      "region": "Antarctic",
+      "subregion": "",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "right"
+    },
+    "Philippines": {
+      "code2": "PH",
+      "code3": "PHL",
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "languages": [
+        "English",
+        "Filipino"
+      ],
+      "driving_side": "right"
+    },
+    "India": {
+      "code2": "IN",
+      "code3": "IND",
+      "region": "Asia",
+      "subregion": "Southern Asia",
+      "languages": [
+        "English",
+        "Hindi",
+        "Tamil"
+      ],
+      "driving_side": "left"
+    },
+    "Indonesia": {
+      "code2": "ID",
+      "code3": "IDN",
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "languages": [
+        "Indonesian"
+      ],
+      "driving_side": "left"
+    },
+    "United States Virgin Islands": {
+      "code2": "VI",
+      "code3": "VIR",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "right"
+    },
+    "Dominica": {
+      "code2": "DM",
+      "code3": "DMA",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Rwanda": {
+      "code2": "RW",
+      "code3": "RWA",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "English",
+        "French",
+        "Kinyarwanda"
+      ],
+      "driving_side": "right"
+    },
+    "Madagascar": {
+      "code2": "MG",
+      "code3": "MDG",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "French",
+        "Malagasy"
+      ],
+      "driving_side": "right"
+    },
+    "Hong Kong": {
+      "code2": "HK",
+      "code3": "HKG",
+      "region": "Asia",
+      "subregion": "Eastern Asia",
+      "languages": [
+        "English",
+        "Chinese"
+      ],
+      "driving_side": "left"
+    },
+    "Samoa": {
+      "code2": "WS",
+      "code3": "WSM",
+      "region": "Oceania",
+      "subregion": "Polynesia",
+      "languages": [
+        "English",
+        "Samoan"
+      ],
+      "driving_side": "left"
+    },
+    "Faroe Islands": {
+      "code2": "FO",
+      "code3": "FRO",
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "languages": [
+        "Danish",
+        "Faroese"
+      ],
+      "driving_side": "right"
+    },
+    "Pitcairn Islands": {
+      "code2": "PN",
+      "code3": "PCN",
+      "region": "Oceania",
+      "subregion": "Polynesia",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Antigua and Barbuda": {
+      "code2": "AG",
+      "code3": "ATG",
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Åland Islands": {
+      "code2": "AX",
+      "code3": "ALA",
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "languages": [
+        "Swedish"
+      ],
+      "driving_side": "right"
+    },
+    "Sweden": {
+      "code2": "SE",
+      "code3": "SWE",
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "languages": [
+        "Swedish"
+      ],
+      "driving_side": "right"
+    },
+    "Mozambique": {
+      "code2": "MZ",
+      "code3": "MOZ",
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "languages": [
+        "Portuguese"
+      ],
+      "driving_side": "left"
+    },
+    "Uzbekistan": {
+      "code2": "UZ",
+      "code3": "UZB",
+      "region": "Asia",
+      "subregion": "Central Asia",
+      "languages": [
+        "Russian",
+        "Uzbek"
+      ],
+      "driving_side": "right"
+    },
+    "Antarctica": {
+      "code2": "AQ",
+      "code3": "ATA",
+      "region": "Antarctic",
+      "subregion": "",
+      "languages": [],
+      "driving_side": "right"
+    },
+    "Wallis and Futuna": {
+      "code2": "WF",
+      "code3": "WLF",
+      "region": "Oceania",
+      "subregion": "Polynesia",
+      "languages": [
+        "French"
+      ],
+      "driving_side": "right"
+    },
+    "Ukraine": {
+      "code2": "UA",
+      "code3": "UKR",
+      "region": "Europe",
+      "subregion": "Eastern Europe",
+      "languages": [
+        "Ukrainian"
+      ],
+      "driving_side": "right"
+    },
+    "Belize": {
+      "code2": "BZ",
+      "code3": "BLZ",
+      "region": "Americas",
+      "subregion": "Central America",
+      "languages": [
+        "Belizean Creole",
+        "English",
+        "Spanish"
+      ],
+      "driving_side": "right"
+    },
+    "Saint Helena, Ascension and Tristan da Cunha": {
+      "code2": "SH",
+      "code3": "SHN",
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "languages": [
+        "English"
+      ],
+      "driving_side": "left"
+    },
+    "Guernsey": {
+      "code2": "GG",
+      "code3": "GGY",
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "languages": [
+        "English",
+        "French",
+        "Guernésiais"
+      ],
+      "driving_side": "left"
+    },
+    "Tokelau": {
+      "code2": "TK",
+      "code3": "TKL",
+      "region": "Oceania",
+      "subregion": "Polynesia",
+      "languages": [
+        "English",
+        "Samoan",
+        "Tokelauan"
+      ],
+      "driving_side": "left"
+    }
+  }
+}

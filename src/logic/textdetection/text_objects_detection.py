@@ -7,13 +7,12 @@ from tqdm.auto import tqdm
 from tqdm.contrib.logging import logging_redirect_tqdm
 
 # Import our modular components
-from textdetection.text_classifier import TextClassifier
-from textdetection.text_extractor import TextExtractor
-from textdetection.object_detector import MultiObjectDetector
-from textdetection.plate_recognizer import PlateRecognizer
-from textdetection.plate_analyzer import PlateAnalyzer
-from textdetection.road_sign_analyzer import RoadSignAnalyzer
-
+from logic.textdetection.text_classifier import TextClassifier
+from logic.textdetection.text_extractor import TextExtractor
+from logic.textdetection.object_detector import MultiObjectDetector
+from logic.textdetection.plate_recognizer import PlateRecognizer
+from logic.textdetection.plate_analyzer import PlateAnalyzer
+from logic.textdetection.road_sign_analyzer import RoadSignAnalyzer
 
 # Configure logging for verbose output
 logging.basicConfig(
@@ -374,7 +373,7 @@ def analyze_frame_for_location(frame):
     plate_recognizer = PlateRecognizer()
     text_extractor = TextExtractor()
     road_sign_analyzer = RoadSignAnalyzer()
-    plate_analyzer = PlateAnalyzer()
+    plate_analyzer = PlateAnalyzer(use_api=False, use_glpd=True)  # Enable GLPD integration
 
     # Process the frame
     result = process_frame(

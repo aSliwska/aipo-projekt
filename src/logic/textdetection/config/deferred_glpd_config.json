@@ -1,0 +1,137 @@
+{
+  "deferred_glpd_config": {
+    "version": "2.0",
+    "description": "Deferred GLPD (Global License Plate Dataset) configuration - downloads only required data at end of analysis",
+    
+    "download_settings": {
+      "enabled": true,
+      "cache_directory": "~/.cache/glpd",
+      "max_cache_size_gb": 5,
+      "cache_retention_days": 7,
+      "download_timeout_minutes": 10,
+      "parallel_downloads": 2
+    },
+    
+    "glpd_sources": {
+      "primary": {
+        "base_url": "https://huggingface.co/datasets/keremberke/license-plate-object-detection/resolve/main/",
+        "available": true
+      },
+      "mirror": {
+        "base_url": "https://github.com/keremberke/license-plate-datasets/releases/download/v1.0/",
+        "available": false
+      }
+    },
+    
+    "region_manifest": {
+      "north_america": {
+        "countries": [
+          "United States", "Canada", "Mexico"
+        ],
+        "files": {
+          "patterns": "na_patterns.tar.gz",
+          "images": "na_images.tar.gz",
+          "annotations": "na_annotations.tar.gz"
+        },
+        "total_size_mb": 450,
+        "priority": "high"
+      },
+      "europe": {
+        "countries": [
+          "Germany", "France", "United Kingdom", "Italy", "Spain", 
+          "Poland", "Netherlands", "Belgium", "Switzerland", "Austria",
+          "Czech Republic", "Slovakia", "Hungary", "Romania", "Bulgaria"
+        ],
+        "files": {
+          "patterns": "eu_patterns.tar.gz",
+          "images": "eu_images.tar.gz", 
+          "annotations": "eu_annotations.tar.gz"
+        },
+        "total_size_mb": 680,
+        "priority": "high"
+      },
+      "asia": {
+        "countries": [
+          "Japan", "South Korea", "China", "India", "Thailand",
+          "Malaysia", "Singapore", "Indonesia", "Philippines",
+          "Vietnam", "Taiwan", "Hong Kong"
+        ],
+        "files": {
+          "patterns": "asia_patterns.tar.gz",
+          "images": "asia_images.tar.gz",
+          "annotations": "asia_annotations.tar.gz"
+        },
+        "total_size_mb": 520,
+        "priority": "medium"
+      },
+      "oceania": {
+        "countries": [
+          "Australia", "New Zealand"
+        ],
+        "files": {
+          "patterns": "oceania_patterns.tar.gz",
+          "images": "oceania_images.tar.gz",
+          "annotations": "oceania_annotations.tar.gz"
+        },
+        "total_size_mb": 180,
+        "priority": "medium"
+      },
+      "south_america": {
+        "countries": [
+          "Brazil", "Argentina", "Chile", "Colombia", "Peru",
+          "Venezuela", "Ecuador", "Uruguay", "Paraguay"
+        ],
+        "files": {
+          "patterns": "sa_patterns.tar.gz",
+          "images": "sa_images.tar.gz",
+          "annotations": "sa_annotations.tar.gz"
+        },
+        "total_size_mb": 280,
+        "priority": "medium"
+      },
+      "africa": {
+        "countries": [
+          "South Africa", "Egypt", "Morocco", "Nigeria", "Kenya",
+          "Ghana", "Tunisia", "Algeria", "Ethiopia"
+        ],
+        "files": {
+          "patterns": "africa_patterns.tar.gz",
+          "images": "africa_images.tar.gz",
+          "annotations": "africa_annotations.tar.gz"
+        },
+        "total_size_mb": 220,
+        "priority": "low"
+      }
+    },
+    
+    "processing_options": {
+      "lightweight_mode": {
+        "enabled": true,
+        "description": "Fast frame processing without API calls",
+        "defer_heavy_processing": true,
+        "batch_size": 100
+      },
+      "finalization_mode": {
+        "enabled": true,
+        "description": "Heavy processing at end with GLPD data",
+        "download_required_only": true,
+        "enhance_confidence": true,
+        "extract_regions": true
+      }
+    },
+    
+    "detection_thresholds": {
+      "min_plates_for_download": 5,
+      "min_confidence_for_region": 0.7,
+      "max_regions_to_download": 3,
+      "country_detection_threshold": 2
+    },
+    
+    "optimization": {
+      "skip_download_if_cached": true,
+      "compress_intermediate_data": true,
+      "parallel_processing": true,
+      "memory_limit_mb": 1024
+    }
+  }
+}

@@ -15,7 +15,7 @@ class PlateRecognizer:
     def __init__(self, country="eu", alpr_path=None):
         logging.info("Initializing PlateRecognizer (CLI mode)")
         if alpr_path is None:
-            alpr_path = "src/logic/textdetection/openalpr/src/build/alpr"
+            alpr_path = "alpr"
         self.alpr_path = alpr_path
         self.country = country
 
