@@ -42,7 +42,7 @@ all_countries = [
     "Democratic Republic of the Congo",
     "Republic of the Congo",
     "Costa Rica",
-    "Côte d'Ivoire",
+    "Cote d'Ivoire",
     "Croatia",
     "Cuba",
     "Cyprus",

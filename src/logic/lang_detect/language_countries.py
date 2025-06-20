@@ -30,7 +30,7 @@ language_countries = {
     "fr": [
         # French-speaking
         "France", "Belgium", "Switzerland", "Canada", "Luxembourg", "Monaco",
-        "Democratic Republic of the Congo", "Republic of the Congo", "Côte d'Ivoire", "Senegal",
+        "Democratic Republic of the Congo", "Republic of the Congo", "Cote d'Ivoire", "Senegal",
         "Madagascar", "Cameroon", "Burkina Faso", "Niger", "Mali", "Rwanda", "Benin",
         "Chad", "Guinea", "Togo", "Central African Republic", "Gabon", "Djibouti",
         "Comoros", "Seychelles", "Equatorial Guinea", "Haiti", "Vanuatu", "Jersey", "Mauritius"

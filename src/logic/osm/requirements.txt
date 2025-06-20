@@ -1,4 +1,0 @@
-geopy==2.4.1
-numpy==2.3.0
-opencv_python==4.11.0.86
-pandas==2.3.0

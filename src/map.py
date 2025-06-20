@@ -65,13 +65,16 @@ def start_analysis(file_path):
     progress_var.set(0)
 
     def run():
-        cords = analyze_video(file_path, frame_skip)
+        coords, radius = analyze_video(file_path, frame_skip)
 
         def after_analysis():
-            show_map(cords[0][0], cords[0][1], cords[1])
-            play_video(file_path)
-            label_file.config(text=f"Analysis completed. Coordinates: {cords[0][0]}, {cords[0][1]}")
-            progress_bar.pack_forget()
+            if coords is not None:
+                show_map(coords[0], coords[1], radius)
+                play_video(file_path)
+                label_file.config(text=f"Analysis completed. Coordinates: {coords[0]}, {coords[1]}")
+                progress_bar.pack_forget()
+            else:
+                print("analysis failed")
 
         window.after(0, after_analysis)
 
@@ -83,7 +86,7 @@ def show_map(lat, lon, radius):
     map_widget.pack(expand=True, fill="both")
     map_widget.set_position(lat, lon)
     map_widget.set_zoom(13)
-    map_widget.set_marker(lat, lon, text="Warsaw")
+    map_widget.set_marker(lat, lon, text="")
 
     if circle:
         circle.delete()
