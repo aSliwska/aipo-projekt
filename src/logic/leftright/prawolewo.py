@@ -33,7 +33,7 @@ from sklearn.neighbors import KNeighborsClassifier
 
 
 
-class TrafficSideClassifier:
+class TrafficSideClassifier:    
     def __init__(self, img=None, path_appendix=""):
         self.img = img
         self.path_appendix = path_appendix
@@ -42,9 +42,6 @@ class TrafficSideClassifier:
         self.countries = self.load_countries()
         self.yolo = YOLO(self.path_appendix+"yolov8n.pt")
         self.ufld = self.load_ufld()
-
-        self.image_path = self.path_appendix+"content/frame.jpg"
-        self.video_path = self.path_appendix+"obrazki/"
 
     def load_ufld(self):
         cfg_path = self.path_appendix+'configs/culane.py'
@@ -83,8 +80,7 @@ class TrafficSideClassifier:
         elif traffic_side == "Left-side traffic":
             return self.countries.get("LHT", [])
         else:
-            return []
-
+            return []    
     def detect_lane_and_vehicles(self):
         img = self.img
         ori_img = img.copy()
@@ -109,7 +105,7 @@ class TrafficSideClassifier:
             if lane:
                 lanes.append(lane)
 
-        results = self.yolo(self.image_path)
+        results = self.yolo(img)
         boxes = results[0].boxes.xyxy.cpu().numpy()
         classes = results[0].boxes.cls.cpu().numpy()
         car_boxes = [box for box, cls in zip(boxes, classes) if int(cls) == 2]

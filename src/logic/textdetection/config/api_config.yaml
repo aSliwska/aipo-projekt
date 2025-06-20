@@ -24,7 +24,7 @@ apis:
   # Wikidata API - Free structured data for highway systems and license plate formats
   wikidata:
     base_url: "https://www.wikidata.org/w/api.php"
-    enabled: true
+    enabled: false
     cache_duration_hours: 168
     endpoints:
       query: ""
@@ -33,7 +33,7 @@ apis:
   # GitHub API for accessing open datasets (no auth required for public repos)
   github:
     base_url: "https://api.github.com"
-    enabled: true
+    enabled: false
     cache_duration_hours: 24
     endpoints:
       raw_content: "https://raw.githubusercontent.com"

@@ -15,17 +15,38 @@ except ImportError:
     logging.warning("API client not available, using local patterns only")
     API_AVAILABLE = False
 
+# Try to import GLPD recognizer for enhanced recognition
+try:
+    from .glpd_recognizer import GLPDPlateAnalyzer, GLPDPlateRecognizer
+    GLPD_AVAILABLE = True
+    logging.info("GLPD (Global License Plate Dataset) integration available")
+except ImportError:
+    logging.info("GLPD integration not available, using standard patterns")
+    GLPD_AVAILABLE = False
+
 
 class PlateAnalyzer:
-    def __init__(self, use_api: bool = True):
+    def __init__(self, use_api: bool = True, use_glpd: bool = True):
         """
-        Initialize PlateAnalyzer with optional API integration.
+        Initialize PlateAnalyzer with optional API and GLPD integration.
 
         Args:
             use_api: Whether to use API for pattern updates (default: True)
+            use_glpd: Whether to use GLPD (Global License Plate Dataset) for enhanced recognition (default: True)
         """
         self.use_api = use_api and API_AVAILABLE
+        self.use_glpd = use_glpd and GLPD_AVAILABLE
         self.api_client = None
+        self.glpd_analyzer = None
+
+        # Initialize GLPD analyzer if available
+        if self.use_glpd:
+            try:
+                self.glpd_analyzer = GLPDPlateAnalyzer()
+                logging.info("PlateAnalyzer initialized with GLPD support (74 countries, 5M images dataset)")
+            except Exception as e:
+                logging.warning("Failed to initialize GLPD analyzer: %s", e)
+                self.use_glpd = False
 
         if self.use_api:
             try:
@@ -34,7 +55,8 @@ class PlateAnalyzer:
             except Exception as e:
                 logging.warning("Failed to initialize API client: %s", e)
                 self.use_api = False
-          # Load patterns (API first, then fallback to hardcoded)
+                
+        # Load patterns (API first, then fallback to hardcoded)
         self._load_patterns()
 
     def _load_patterns(self):
@@ -229,11 +251,26 @@ class PlateAnalyzer:
     def analyze_plate(self, plate_text: str) -> Tuple[Optional[str], Optional[str]]:
         """
         Analyze license plate text and return (country, region).
+        Uses GLPD (Global License Plate Dataset) if available for enhanced accuracy.
         Returns (None, None) if no match found.
         """
         if not plate_text or len(plate_text.strip()) < 3:
             return None, None
 
+        # Try GLPD analysis first if available
+        if self.use_glpd and self.glpd_analyzer:
+            try:
+                glpd_results = self.glpd_analyzer.analyze_plates([plate_text])
+                if glpd_results["countries"] and glpd_results["confidence"] > 0.5:
+                    country = glpd_results["countries"][0]
+                    region = glpd_results["regions"][0] if glpd_results["regions"] else None
+                    logging.info("GLPD analysis: Plate '%s' -> %s, %s (confidence: %.2f)", 
+                                plate_text, country, region, glpd_results["confidence"])
+                    return country, region
+            except Exception as e:
+                logging.warning("GLPD analysis failed: %s", e)
+
+        # Fallback to traditional pattern matching
         plate_clean = re.sub(r'[^A-Z0-9\s\-]', '', plate_text.upper().strip())
         logging.debug("Analyzing plate: '%s' (cleaned: '%s')",
                       plate_text, plate_clean)
@@ -312,4 +349,71 @@ class PlateAnalyzer:
             "total_countries": len(self.plate_patterns),
             "countries": list(self.plate_patterns.keys()),
             "last_api_update": getattr(self.api_client, 'cache', {}).get('last_updated', {}) if self.api_client else {}
+        }
+
+    def get_glpd_info(self) -> Dict[str, Any]:
+        """Get information about GLPD (Global License Plate Dataset) integration."""
+        if not self.use_glpd or not self.glpd_analyzer:
+            return {"available": False, "reason": "GLPD integration not available"}
+        
+        return {
+            "available": True,
+            "dataset_info": {
+                "name": "Global License Plate Dataset (GLPD)",
+                "description": "Enhanced license plate recognition using 5 million images from 74 countries",
+                "publication_date": "March 2024",
+                "total_images": "5,000,000",
+                "countries_count": 74,
+                "features": ["segmentation", "text recognition", "country detection", "region extraction"]
+            },
+            "supported_countries": self.glpd_analyzer.recognizer.get_supported_countries() if self.glpd_analyzer else [],
+            "capabilities": [
+                "Enhanced pattern recognition",
+                "Multi-country license plate support", 
+                "Regional code extraction",
+                "Confidence scoring",
+                "Fallback pattern matching"
+            ]
+        }
+    
+    def analyze_plates_batch(self, plate_texts: List[str]) -> Dict[str, Any]:
+        """
+        Analyze multiple license plates using GLPD for improved accuracy.
+        
+        Args:
+            plate_texts: List of license plate texts to analyze
+            
+        Returns:
+            Comprehensive analysis results
+        """
+        if not plate_texts:
+            return {"countries": [], "regions": [], "confidence": 0.0}
+        
+        # Use GLPD for batch analysis if available
+        if self.use_glpd and self.glpd_analyzer:
+            try:
+                results = self.glpd_analyzer.analyze_plates(plate_texts)
+                results["method"] = "GLPD (Global License Plate Dataset)"
+                results["dataset_size"] = "5M images, 74 countries"
+                return results
+            except Exception as e:
+                logging.warning("GLPD batch analysis failed: %s", e)
+        
+        # Fallback to individual analysis
+        countries = []
+        regions = []
+        
+        for plate_text in plate_texts:
+            country, region = self.analyze_plate(plate_text)
+            if country and country not in countries:
+                countries.append(country)
+            if region and region not in regions:
+                regions.append(region)
+        
+        return {
+            "countries": countries,
+            "regions": regions,
+            "confidence": 0.7 if countries else 0.0,
+            "analysis_count": len(plate_texts),
+            "method": "Traditional pattern matching"
         }
