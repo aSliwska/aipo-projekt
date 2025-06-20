@@ -14,7 +14,6 @@ from logic.textdetection.plate_recognizer import PlateRecognizer
 from logic.textdetection.plate_analyzer import PlateAnalyzer
 from logic.textdetection.road_sign_analyzer import RoadSignAnalyzer
 
-
 # Configure logging for verbose output
 logging.basicConfig(
     level=logging.INFO,

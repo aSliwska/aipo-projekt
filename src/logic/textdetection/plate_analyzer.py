@@ -55,8 +55,6 @@ class PlateAnalyzer:
             except Exception as e:
                 logging.warning("Failed to initialize API client: %s", e)
                 self.use_api = False
-                
-        # Load patterns (API first, then fallback to hardcoded)
         self._load_patterns()
 
     def _load_patterns(self):
@@ -271,6 +269,7 @@ class PlateAnalyzer:
                 logging.warning("GLPD analysis failed: %s", e)
 
         # Fallback to traditional pattern matching
+
         plate_clean = re.sub(r'[^A-Z0-9\s\-]', '', plate_text.upper().strip())
         logging.debug("Analyzing plate: '%s' (cleaned: '%s')",
                       plate_text, plate_clean)
