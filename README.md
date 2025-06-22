@@ -7,6 +7,7 @@ Wymagania:
 
 **Zainstaluj zależności**
    ```bash
+   ./openalpr_tesseract_install.sh
    cd src
    pip install -r requirements.txt
    pip install tensorboard
