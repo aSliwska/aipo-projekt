@@ -1,23 +1,18 @@
 import cv2
-import json
 import logging
 import os
-import pytesseract
-import requests
-import subprocess
-import tempfile
 from typing import Dict, Any
-
 from pathlib import Path
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from ultralytics import YOLO
-from urllib.parse import quote
 from tqdm.auto import tqdm
 from tqdm.contrib.logging import logging_redirect_tqdm
 
-
-os.environ["TESSDATA_PREFIX"] = "/usr/local/share/"
+# Import our modular components
+from logic.textdetection.text_classifier import TextClassifier
+from logic.textdetection.text_extractor import TextExtractor
+from logic.textdetection.object_detector import MultiObjectDetector
+from logic.textdetection.plate_recognizer import PlateRecognizer
+from logic.textdetection.plate_analyzer import PlateAnalyzer
+from logic.textdetection.road_sign_analyzer import RoadSignAnalyzer
 
 # Configure logging for verbose output
 logging.basicConfig(
@@ -27,337 +22,15 @@ logging.basicConfig(
 )
 
 
-# ========== Klasyfikacja tekstu ==========
-class TextClassifier:
-    def __init__(self):
-        logging.debug("Initializing TextClassifier")
-        self.vectorizer = TfidfVectorizer()
-        self.classifier = LogisticRegression()
-        self.trained = False
-
-    def train(self, texts, labels):
-        logging.info("Training TextClassifier with texts: %s", texts)
-        X_train = self.vectorizer.fit_transform(texts)
-        self.classifier.fit(X_train, labels)
-        self.trained = True
-        logging.info("TextClassifier training complete")
-
-    def predict(self, text):
-        logging.debug("Predicting label for text: %s", text)
-        if not self.trained:
-            raise ValueError("Model nie został wytrenowany.")
-        vect = self.vectorizer.transform([text])
-        prediction = self.classifier.predict(vect)[0]
-        logging.debug("Prediction result: %s", prediction)
-        return prediction
-
-
-# ========== Multi-Object Detector (Z BILLBOARDAMI) ==========
-class MultiObjectDetector:
-    def __init__(self, model_path):
-        logging.info("Loading YOLO model from: %s", model_path)
-        self.model = YOLO(model_path)
-
-        # Definicja kategorii obiektów (DODANO BILLBOARDY)
-        self.object_categories = {
-            "vehicles": {
-                "classes": {2, 3, 5, 7},  # car, motorcycle, bus, truck
-                "color": (255, 0, 0),  # Czerwony
-                "name": "POJAZD",
-            },
-            "traffic_signs": {
-                "classes": {11},  # stop sign
-                "color": (0, 255, 0),  # Zielony
-                "name": "ZNAK",
-            },
-            "billboards": {
-                "classes": set(),  # Wykrywane geometrycznie, nie przez YOLO
-                "color": (255, 165, 0),  # Pomarańczowy
-                "name": "BILLBOARD",
-            },
-        }
-
-        # Wszystkie dozwolone klasy YOLO (bez billboardów - te wykrywamy inaczej)
-        self.allowed_classes = set()
-        for category, config in self.object_categories.items():
-            if category != "billboards":  # Billboardy nie są klasami YOLO
-                self.allowed_classes.update(config["classes"])
-
-        logging.info("Object categories initialized (vehicles, signs, billboards)")
-        logging.info("Allowed YOLO classes: %s", self.allowed_classes)
-
-    def is_billboard_shape(self, bbox, frame_shape):
-        """Sprawdza czy bounding box może być billboardem na podstawie kształtu"""
-        x1, y1, x2, y2 = bbox
-        width = x2 - x1
-        height = y2 - y1
-        area = width * height
-
-        frame_height, frame_width = frame_shape[:2]
-        frame_area = frame_height * frame_width
-
-        # Względny rozmiar
-        rel_area = area / frame_area
-
-        # Proporcje (billboardy mogą być poziome LUB pionowe)
-        aspect_ratio = width / height if height > 0 else 0
-
-        # Pozycja (billboardy zazwyczaj nie są na dole kadru)
-        y_center = (y1 + y2) / 2
-        relative_y = y_center / frame_height
-
-        # Kryteria kształtu billboardu:
-        # 1. Duży względny rozmiar
-        size_ok = 0.01 < rel_area < 0.4  # 1-40% kadru
-
-        # 2. Prostokątny kształt (może być poziomy LUB pionowy)
-        # Poziomy: szerokość > wysokość (1.5-8x)
-        # Pionowy: wysokość > szerokość (1.5-8x)
-        horizontal_ok = 1.5 < aspect_ratio < 8.0  # Szeroki billboard
-        vertical_ok = 0.125 < aspect_ratio < 0.67  # Wysoki billboard (1/8 - 2/3)
-        shape_ok = horizontal_ok or vertical_ok
-
-        # 3. Nie na samym dole kadru
-        position_ok = relative_y < 0.85  # Nie w dolnych 15% kadru
-
-        # 4. Minimalny rozmiar bezwzględny
-        min_size_ok = width > 50 and height > 50  # Zmniejszone minimum dla pionowych
-
-        # Zwraca True tylko jeśli ma odpowiedni kształt (tekst sprawdzamy później)
-        has_billboard_shape = size_ok and shape_ok and position_ok and min_size_ok
-
-        if has_billboard_shape:
-            billboard_type = "poziomy" if horizontal_ok else "pionowy"
-            logging.debug(
-                f"Billboard shape detected ({billboard_type}): area={rel_area:.3f}, aspect={aspect_ratio:.2f}, y_pos={relative_y:.2f}"
-            )
-
-        return has_billboard_shape
-
-    def detect_billboards_geometrically(
-        self, frame, existing_detections, text_extractor, text_classifier
-    ):
-        """Wykrywa billboardy na podstawie kształtu I OBECNOŚCI TEKSTU"""
-        billboard_detections = []
-
-        # Sprawdź wszystkie wykrycia YOLO (nawet te spoza allowed_classes)
-        results = self.model(frame)
-
-        for result in results:
-            for i, box in enumerate(result.boxes.xyxy):
-                class_id = int(result.boxes.cls[i])
-                class_name = self.model.names[class_id]
-                conf = float(result.boxes.conf[i])
-
-                # Pomiń jeśli to już wykryty pojazd lub znak
-                bbox = tuple(map(int, box))
-                is_already_detected = any(
-                    abs(bbox[0] - det["bbox"][0]) < 20
-                    and abs(bbox[1] - det["bbox"][1]) < 20
-                    for det in existing_detections
-                )
-
-                if is_already_detected:
-                    continue
-
-                # Sprawdź czy ma kształt billboardu
-                if self.is_billboard_shape(bbox, frame.shape) and conf > 0.2:
-
-                    # SPRAWDŹ CZY MA TEKST I SKLASYFIKUJ GO
-                    x1, y1, x2, y2 = bbox
-                    roi = frame[y1:y2, x1:x2]
-                    text = text_extractor.extract_text(roi)
-                    # Tylko obiekty Z TEKSTEM są billboardami
-                    if text and len(text.strip()) > 2:  # Minimum 3 znaki tekstu
-                        try:
-                            # KLASYFIKUJ TEKST
-                            text_label = text_classifier.predict(text)
-                            logging.debug(
-                                f"Billboard confirmed: shape OK + text found: '{text}' ({text_label})"
-                            )
-
-                            billboard_detection = {
-                                "bbox": bbox,
-                                "class_id": class_id,
-                                "class_name": class_name,
-                                "confidence": conf,
-                                "category": "billboards",
-                                "config": self.object_categories["billboards"],
-                                "area": ((bbox[2] - bbox[0]) * (bbox[3] - bbox[1]))
-                                / (frame.shape[0] * frame.shape[1]),
-                                "detected_text": text,
-                                "text_classification": text_label,  # DODAJ KLASYFIKACJĘ
-                            }
-                            billboard_detections.append(billboard_detection)
-                        except Exception as e:
-                            logging.debug(f"Text classification failed: {e}")
-                    else:
-                        logging.debug(
-                            f"Shape looks like billboard but no text found - skipping"
-                        )
-
-        return billboard_detections
-
-    def categorize_object(self, class_id):
-        """Kategoryzuje obiekt na podstawie class_id"""
-        if class_id not in self.allowed_classes:
-            return None, None
-
-        for category, config in self.object_categories.items():
-            if category != "billboards" and class_id in config["classes"]:
-                return category, config
-        return None, None
-
-    def detect(self, frame, text_extractor, text_classifier):
-        logging.debug("Detecting objects in frame")
-        results = self.model(frame)
-        detections = []
-        height, width = frame.shape[:2]
-        frame_area = width * height
-        # Wykryj standardowe obiekty (pojazdy, znaki)
-        for result in results:
-            for i, box in enumerate(result.boxes.xyxy):
-                class_id = int(result.boxes.cls[i])
-                class_name = self.model.names[class_id]
-                conf = float(result.boxes.conf[i])
-
-                if conf < 0.3:
-                    continue
-
-                # Kategoryzacja obiektu (zwraca None dla nieznanych)
-                category_result = self.categorize_object(class_id)
-                if category_result[0] is None:
-                    continue  # Pomiń nieznane obiekty
-
-                category, config = category_result
-
-                x1, y1, x2, y2 = map(int, box)
-                w, h = x2 - x1, y2 - y1
-                area = w * h
-                rel_area = area / frame_area
-
-                # Podstawowe filtry rozmiaru
-                if not (0.0001 < rel_area < 0.8):
-                    continue
-
-                detection = {
-                    "bbox": (x1, y1, x2, y2),
-                    "class_id": class_id,
-                    "class_name": class_name,
-                    "confidence": conf,
-                    "category": category,
-                    "config": config,
-                    "area": rel_area,
-                }
-
-                detections.append(detection)
-
-        # Wykryj billboardy geometrycznie (PRZEKAŻ text_classifier)
-        billboard_detections = self.detect_billboards_geometrically(
-            frame, detections, text_extractor, text_classifier
-        )
-        detections.extend(billboard_detections)
-
-        logging.debug(
-            "Detected objects: %d (including %d billboards)",
-            len(detections),
-            len(billboard_detections),
-        )
-        return detections
-
-
-# ========== Plate Recognizer =========
-class PlateRecognizer:
-    def __init__(self, country="eu", alpr_path=None):
-        logging.info("Initializing PlateRecognizer (CLI mode)")
-        if alpr_path is None:
-            alpr_path = "src/logic/textdetection/openalpr/src/build/alpr"
-        self.alpr_path = alpr_path
-        self.country = country
-
-    def recognize(self, image_roi):
-        """Rozpoznaje tablice bezpośrednio z ROI (numpy array)"""
-        logging.debug("Recognizing plates in ROI")
-        try:
-            # Użyj tempfile do stworzenia tymczasowego pliku
-            with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as tmp_file:
-                temp_path = tmp_file.name
-                cv2.imwrite(temp_path, image_roi)
-
-            # Uruchom ALPR
-            result = subprocess.run(
-                [self.alpr_path, "-c", self.country, "-j", temp_path],
-                capture_output=True,
-                text=True,
-                check=True,
-            )
-            output = json.loads(result.stdout)
-            plates = [plate["plate"] for plate in output.get("results", [])]
-
-            # Usuń plik tymczasowy
-            Path(temp_path).unlink()
-
-            logging.debug("Recognized plates: %s", plates)
-            return plates
-
-        except Exception as e:
-            logging.error("Error running alpr CLI: %s", e)
-            # Usuń plik tymczasowy w przypadku błędu
-            try:
-                Path(temp_path).unlink()
-            except:
-                pass
-            return []
-
-    def __del__(self):
-        pass
-
-
-# ========== Text Extractor ==========
-class TextExtractor:
-    def __init__(self):
-        self.langs = ["eng", "pol", "deu", "fra"]
-
-    def extract_text(self, roi):
-        """Wyciąga tekst z ROI używając OCR"""
-        texts = []
-        for lang in self.langs:
-            try:
-                text = pytesseract.image_to_string(roi, lang=lang).strip()
-                if text and len(text) > 1:
-                    texts.append(text)
-            except:
-                continue
-
-        return max(texts, key=len) if texts else ""
-
-
-# ========== Geolocation ==========
-def geolocate_text(text):
-    logging.info("Geolocating text: %s", text)
-    query = quote(text)
-    url = f"https://nominatim.openstreetmap.org/search?q={query}&format=json&limit=1"
-    headers = {"User-Agent": "GeoguessrApp/1.0"}
-    try:
-        response = requests.get(url, headers=headers, timeout=10)
-        if response.status_code == 200:
-            data = response.json()
-            if data:
-                lat, lon = data[0]["lat"], data[0]["lon"]
-                logging.info("Geolocation result: %s, %s", lat, lon)
-                return lat, lon
-    except Exception as e:
-        logging.error("Error during geolocation: %s", e)
-    return None, None
-
-
-# ========== Main Function ==========
+# ========== Main Processing Functions ==========
 def process_video_frames(
     video_file,
     detector,
     plate_recognizer,
     text_extractor,
     text_clf,
+    road_sign_analyzer,
+    plate_analyzer,
     output_dirs,
     plates_txt_path,
     start_frame=0,
@@ -374,7 +47,7 @@ def process_video_frames(
 
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     fps = cap.get(cv2.CAP_PROP_FPS)
-    logging.info(f"Video info: {total_frames} frames, {fps:.2f} FPS")
+    logging.info("Video info: %d frames, %.2f FPS", total_frames, fps)
 
     frame_count = 0
     processed_frames = 0
@@ -414,6 +87,8 @@ def process_video_frames(
                     plate_recognizer,
                     text_extractor,
                     text_clf,
+                    road_sign_analyzer,
+                    plate_analyzer,
                     output_dirs,
                     plates_txt_path,
                     seen_plates,
@@ -427,7 +102,8 @@ def process_video_frames(
         finally:
             cap.release()
     logging.info("Video processing finished")
-    logging.info(f"Total frames processed: {processed_frames}/{total_frames}")
+    logging.info("Total frames processed: %s/%s",
+                 processed_frames, total_frames)
     return seen_plates, processed_frames, total_frames
 
 
@@ -438,6 +114,8 @@ def process_frame(
     plate_recognizer,
     text_extractor,
     text_clf,
+    road_sign_analyzer,
+    plate_analyzer,
     output_dirs=None,
     plates_txt_path=None,
     seen_plates=None,
@@ -478,6 +156,15 @@ def process_frame(
 
         if plates:
             detection["plates"] = plates
+
+            # Analyze plates for country/region information
+            countries, regions = plate_analyzer.get_countries_for_plates(
+                plates)
+            if countries:
+                detection["plate_countries"] = countries
+            if regions:
+                detection["plate_regions"] = regions
+
             vehicles_with_plates.append(detection)
 
             # Zapisz nowe tablice do pliku jeśli wymagane
@@ -487,7 +174,7 @@ def process_frame(
                         seen_plates.add(plate)
                         with open(plates_txt_path, "a", encoding="utf-8") as f:
                             f.write(f"{plate}\n")
-                        logging.info(f"New plate detected: {plate}")
+                        logging.info("New plate detected: %s", plate)
 
     vehicle_detections = vehicles_with_plates
 
@@ -504,12 +191,24 @@ def process_frame(
         roi = frame[y1:y2, x1:x2]
         label_text = f"{config['name']}: {class_name}"
         additional_info = []
+
         if category == "vehicles":
             plates = detection.get("plates", [])
             if plates:
                 plate_text = ", ".join(plates)
                 additional_info.append(f"Rejestracja: {plate_text}")
                 label_text += f" ({plate_text})"
+
+                # Add country/region information if available
+                countries = detection.get("plate_countries", [])
+                regions = detection.get("plate_regions", [])
+                if countries:
+                    additional_info.append(
+                        f"Kraj tablicy: {', '.join(countries)}")
+                if regions:
+                    additional_info.append(
+                        f"Region tablicy: {', '.join(regions)}")
+
         elif category == "traffic_signs":
             text = text_extractor.extract_text(roi)
             if text:
@@ -517,30 +216,45 @@ def process_frame(
                     text_label = text_clf.predict(text)
                     additional_info.append(f"Tekst: {text} ({text_label})")
                     label_text += f" - {text}"
-                    if text_label == "city":
-                        lat, lon = geolocate_text(text)
-                        if lat and lon:
-                            additional_info.append(f"Lokalizacja: {lat}, {lon}")
+
+                    # Analyze sign for country-specific patterns
+                    sign_countries = road_sign_analyzer.analyze_sign_text(text)
+                    specific_country = road_sign_analyzer.is_country_specific_sign(
+                        text)
+
+                    if specific_country:
+                        additional_info.append(
+                            f"Kraj znaku: {specific_country}")
+                        detection["sign_country"] = specific_country
+                    elif sign_countries:
+                        additional_info.append(
+                            f"Możliwe kraje znaku: {', '.join(sign_countries)}")
+                        detection["sign_countries"] = sign_countries
+
                     detection["text"] = text
                     detection["text_label"] = text_label
-                    if lat and lon:
-                        detection["geolocation"] = {"lat": lat, "lon": lon}
-                except:
+                except (ValueError, RuntimeError, AttributeError) as e:
+                    logging.warning(
+                        "Failed to classify text '%s': %s", text, e)
                     additional_info.append(f"Tekst: {text}")
                     detection["text"] = text
             else:
                 additional_info.append("Znak bez tekstu")
+
         elif category == "billboards":
             text = detection.get("detected_text", "")
             text_label = detection.get("text_classification", "")
             if text:
                 additional_info.append(f"Billboard: {text} ({text_label})")
                 label_text += f" - {text}"
+
+                # For billboards, we could also analyze for country-specific content
                 if text_label in ["city", "brand"]:
-                    lat, lon = geolocate_text(text)
-                    if lat and lon:
-                        additional_info.append(f"Lokalizacja: {lat}, {lon}")
-                        detection["geolocation"] = {"lat": lat, "lon": lon}
+                    # We would use the existing OSM service here instead of direct API calls
+                    # For now, just log that this text could be geolocated
+                    logging.info(
+                        "Billboard text '%s' could be geolocated using OSM service", text)
+
         if outline_objects:
             cv2.rectangle(frame, (x1, y1), (x2, y2), config["color"], 2)
             cv2.putText(
@@ -598,7 +312,7 @@ def process_frame(
             )
         else:
             cv2.imwrite(str(output_path), frame)
-        logging.info(f"Frame {frame_count} saved to {output_path}")
+        logging.info("Frame %s saved to %s", frame_count, output_path)
     return {
         "seen_plates": seen_plates,
         "output_path": output_path,
@@ -608,16 +322,26 @@ def process_frame(
     }
 
 
-def main():
-    logging.info("Starting video processing (vehicles, signs, billboards)")
-    video_path = input("Podaj ścieżkę do pliku wideo: ").strip()
-    video_file = Path(video_path)
-    if not video_file.is_file():
-        logging.error("Nie znaleziono pliku wideo: %s", video_path)
-        logging.info("Nie znaleziono pliku wideo.")
-        return
-
-    # Inicjalizacja komponentów
+def analyze_frame_for_location(frame):
+    """
+    Analyzes a single frame to detect location indicators (license plates, road signs, billboards)
+    and returns a dictionary with countries/regions information.
+    
+    Args:
+        frame: OpenCV image frame (numpy array)
+        
+    Returns:
+        dict: Dictionary containing countries and regions information with structure:
+        {
+            'countries': [list of detected countries],
+            'regions': [list of detected regions],
+            'plate_countries': [countries from license plates],
+            'plate_regions': [regions from license plates],
+            'sign_countries': [countries from road signs],
+            'billboard_locations': [locations from billboards]
+        }
+    """
+    # Initialize components
     text_clf = TextClassifier()
     train_texts = [
         "Warszawa",
@@ -648,44 +372,100 @@ def main():
     detector = MultiObjectDetector("yolov8n.pt")
     plate_recognizer = PlateRecognizer()
     text_extractor = TextExtractor()
-    # Sprawdź dozwolone klasy modelu
-    logging.info("Wykrywane klasy w modelu:")
-    for class_id, class_name in detector.model.names.items():
-        if class_id in detector.allowed_classes:
-            logging.info(f"{class_id}: {class_name}")
-    logging.info("+ Billboardy (prostokąty z tekstem)")
-    output_base = Path("outputs")
-    output_dirs = {
-        "vehicles": output_base / "cars",
-        "traffic_signs": output_base / "signs",
-        "billboards": output_base / "billboards",
-        "mixed": output_base / "mixed",
-    }
-    # Utwórz wszystkie katalogi
-    for dir_path in output_dirs.values():
-        dir_path.mkdir(parents=True, exist_ok=True)
+    road_sign_analyzer = RoadSignAnalyzer()
+    plate_analyzer = PlateAnalyzer(use_api=False, use_glpd=True)  # Enable GLPD integration
 
-    plates_txt_path = output_base / "plates.txt"
-    seen_plates, processed_frames, total_frames = process_video_frames(
-        video_file,
-        detector,
-        plate_recognizer,
-        text_extractor,
-        text_clf,
-        output_dirs,
-        plates_txt_path,
+    # Process the frame
+    result = process_frame(
+        frame,
+        frame_count=1,
+        detector=detector,
+        plate_recognizer=plate_recognizer,
+        text_extractor=text_extractor,
+        text_clf=text_clf,
+        road_sign_analyzer=road_sign_analyzer,
+        plate_analyzer=plate_analyzer,
+        save_to_file=False,
+        outline_objects=False,
     )
-    logging.info("=== PROCESSING SUMMARY ===")
-    logging.info(f"Unique plates detected: {len(seen_plates)}")
-    if seen_plates:
-        logging.info(f"Plates file: {plates_txt_path}")
-        for plate in sorted(seen_plates):
-            logging.info(f"  - {plate}")
-    for category, dir_path in output_dirs.items():
-        if dir_path.exists():
-            image_count = len(list(dir_path.glob("*.jpg")))
-            logging.info(f"{category.capitalize()} images saved: {image_count}")
-    logging.info("=== END SUMMARY ===")
+
+    # Extract location information from detections
+    location_info = {
+        'countries': [],
+        'regions': [],
+        'plate_countries': [],
+        'plate_regions': [],
+        'sign_countries': [],
+        'billboard_locations': []
+    }
+
+    for detection in result['detections']:
+        # Extract plate countries and regions
+        if 'plate_countries' in detection:
+            location_info['plate_countries'].extend(detection['plate_countries'])
+        if 'plate_regions' in detection:
+            location_info['plate_regions'].extend(detection['plate_regions'])
+        
+        # Extract sign countries
+        if 'sign_country' in detection:
+            location_info['sign_countries'].append(detection['sign_country'])
+        if 'sign_countries' in detection:
+            location_info['sign_countries'].extend(detection['sign_countries'])
+        
+        # Extract billboard locations (cities, brands that could indicate location)
+        if detection['category'] == 'billboards':
+            text_label = detection.get('text_classification', '')
+            text = detection.get('detected_text', '')
+            if text_label in ['city', 'brand'] and text:
+                location_info['billboard_locations'].append(text)
+
+    # Remove duplicates and combine all countries/regions
+    location_info['plate_countries'] = list(set(location_info['plate_countries']))
+    location_info['plate_regions'] = list(set(location_info['plate_regions']))
+    location_info['sign_countries'] = list(set(location_info['sign_countries']))
+    location_info['billboard_locations'] = list(set(location_info['billboard_locations']))
+    
+    # Combine all countries and regions
+    all_countries = (location_info['plate_countries'] + 
+                    location_info['sign_countries'])
+    all_regions = location_info['plate_regions']
+    
+    location_info['countries'] = list(set(all_countries))
+    location_info['regions'] = list(set(all_regions))
+
+    return location_info
+
+
+def main():
+    """
+    Example usage of the analyze_frame_for_location function.
+    Loads a sample frame and analyzes it for location information.
+    """
+    # Example: Load a sample frame
+    sample_frame_path = Path("content/frame.jpg")
+    if sample_frame_path.exists():
+        frame = cv2.imread(str(sample_frame_path))
+        if frame is not None:
+            logging.info("Analyzing sample frame for location information...")
+            location_info = analyze_frame_for_location(frame)
+            
+            logging.info("=== LOCATION ANALYSIS RESULTS ===")
+            logging.info("All countries detected: %s", location_info['countries'])
+            logging.info("All regions detected: %s", location_info['regions'])
+            logging.info("Plate countries: %s", location_info['plate_countries'])
+            logging.info("Plate regions: %s", location_info['plate_regions'])
+            logging.info("Sign countries: %s", location_info['sign_countries'])
+            logging.info("Billboard locations: %s", location_info['billboard_locations'])
+            logging.info("=== END ANALYSIS ===")
+            
+            return location_info
+        else:
+            logging.error("Could not load sample frame: %s", sample_frame_path)
+    else:
+        logging.error("Sample frame not found: %s", sample_frame_path)
+        logging.info("To use this module, call analyze_frame_for_location(frame) with your OpenCV frame")
+    
+    return None
 
 
 if __name__ == "__main__":
