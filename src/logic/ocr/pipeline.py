@@ -167,8 +167,8 @@ def ocr_pipeline(data : dict, just_text_region : bool = False, runocr : bool = T
     
     if runocr:
         data = ocr.ocr_multigroup(data, debug=False)
-        plt.imshow(data["debug"])
-        plt.show()
+        # plt.imshow(data["debug"])
+        # plt.show()
         print(data["raw"])
         print(data["output"])
     return data

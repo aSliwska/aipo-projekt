@@ -51,57 +51,64 @@ def ocr_multigroup(data: dict, min_conf: float = 0.6, debug: bool = False, lang_
 
     for grp, langs in lang_groups.items():
         print("Processing", grp)
+        # langs = "+".join(lang_groups[grp])
+        # print("Langs:", langs)
+        for lang in langs: #fallback since tesseract3 and not 4 for whatever reason
+            lang_flag = "-l " + lang#+ "+".join(langs)
 
-        langs = "+".join(lang_groups[grp])
-        lang_flag = "-l " + "+".join(langs)
+            
 
 
-        #for lang in langs:
-        # Use image_to_string for the full text output
-        full_text = pytesseract.image_to_string(rgb, config=f'--oem 3 --psm 11 {lang_flag}')
-        output_full_string[grp].append(full_text.strip()) # Append and add newline for readability
+            #for lang in langs:
+            # Use image_to_string for the full text output
+            full_text = pytesseract.image_to_string(rgb, config=f'--oem 3 --psm 11 {lang_flag}')
+            output_full_string[grp].append(full_text.strip()) # Append and add newline for readability
+
+            print("Obtained the output!")
 
         # Use image_to_data for bounding box and confidence information
-        ocr_data = pytesseract.image_to_data(
-            rgb, config=f'--oem 3 --psm 11 {lang_flag}', output_type=pytesseract.Output.DICT #--psm 6 for regular
-        )
+        # ocr_data = pytesseract.image_to_data(
+        #     rgb, config=f'--oem 3 --psm 11 {lang_flag}', output_type=pytesseract.Output.DICT #--psm 6 for regular
+        # )
 
-        for i, raw_text in enumerate(ocr_data['text']):
-            text = raw_text.strip()
-            if not text:
-                continue
-            try:
-                conf = float(ocr_data['conf'][i]) / 100.
-            except (ValueError, TypeError):
-                print(f"Error in tesseract confidence for text: '{raw_text}'")
-                continue
-            if conf < min_conf:
-                continue
+        # print("Obtained raw")
 
-            output_raw[grp].append((text, conf)) # Still store for potential future use or debugging
+        # for i, raw_text in enumerate(ocr_data['text']):
+        #     text = raw_text.strip()
+        #     if not text:
+        #         continue
+        #     try:
+        #         conf = float(ocr_data['conf'][i]) / 100.
+        #     except (ValueError, TypeError):
+        #         print(f"Error in tesseract confidence for text: '{raw_text}'")
+        #         continue
+        #     if conf < min_conf:
+        #         continue
 
-            x, y, w, h = (
-                ocr_data['left'][i], ocr_data['top'][i],
-                ocr_data['width'][i], ocr_data['height'][i]
-            )
-            bbox = (x, y, x + w, y + h)
+        #     output_raw[grp].append((text, conf)) # Still store for potential future use or debugging
 
-            if bbox not in seen:
-                seen.add(bbox)
-                boxes[bbox] = {grp: [(text, conf)]}
-                if debug:
-                    cv2.rectangle(img_deb, (x, y), (x + w, y + h), (0, 255, 0), 2)
-                    cv2.putText(
-                        img_deb,
-                        f"{grp}: {text} ({conf:.1f})",
-                        (x, y - 10),
-                        cv2.FONT_HERSHEY_SIMPLEX,
-                        0.7,
-                        (0, 255, 0),
-                        2
-                    )
-            else:
-                boxes[bbox].setdefault(grp, []).append((text, conf))
+        #     x, y, w, h = (
+        #         ocr_data['left'][i], ocr_data['top'][i],
+        #         ocr_data['width'][i], ocr_data['height'][i]
+        #     )
+        #     bbox = (x, y, x + w, y + h)
+
+        #     if bbox not in seen:
+        #         seen.add(bbox)
+        #         boxes[bbox] = {grp: [(text, conf)]}
+        #         if debug:
+        #             cv2.rectangle(img_deb, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        #             cv2.putText(
+        #                 img_deb,
+        #                 f"{grp}: {text} ({conf:.1f})",
+        #                 (x, y - 10),
+        #                 cv2.FONT_HERSHEY_SIMPLEX,
+        #                 0.7,
+        #                 (0, 255, 0),
+        #                 2
+        #             )
+        #     else:
+        #         boxes[bbox].setdefault(grp, []).append((text, conf))
 
     # Clean up the full string output by removing trailing newlines
     # for grp in output_full_string:
