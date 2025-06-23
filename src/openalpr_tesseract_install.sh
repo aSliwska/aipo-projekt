@@ -39,6 +39,7 @@ sudo apt-get install -y \
 sudo apt-get install -y \
     libleptonica-dev \
     libtesseract-dev \
+    tesseract-ocr-all \
     autotools-dev \
     autoconf \
     automake \

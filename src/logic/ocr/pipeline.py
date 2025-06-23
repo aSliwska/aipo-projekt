@@ -141,7 +141,7 @@ def ocr_pipeline(data : dict, just_text_region : bool = False, runocr : bool = T
         try:
             #raise(RuntimeError())
             data = fade_edges(data)
-            data = pc.correct_horizontal_perspective(data, debug=True) #good enough, reliable & generally sufficient
+            data = pc.correct_horizontal_perspective(data, debug=False) #good enough, reliable & generally sufficient
             pass
         except RuntimeError as e:
             print(e)
@@ -166,7 +166,7 @@ def ocr_pipeline(data : dict, just_text_region : bool = False, runocr : bool = T
     # data = open(data)
     
     if runocr:
-        data = ocr.ocr_multigroup(data, debug=True)
+        data = ocr.ocr_multigroup(data, debug=False)
         plt.imshow(data["debug"])
         plt.show()
         print(data["raw"])
