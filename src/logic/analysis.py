@@ -7,6 +7,7 @@ import logic.lang_detect.language_detection as lang_detect
 import logic.lang_detect.translate_phrases as translation
 import logic.leftright.prawolewo as leftright
 import logic.textdetection.deferred_glpd as deferred_text_detection
+import logic.ocr.pipeline as ocr
 
 def analyze_video(path_to_video, frame_skip):
     vid = cv2.VideoCapture(path_to_video)
@@ -64,6 +65,31 @@ def analyze_video(path_to_video, frame_skip):
                 # keyword detection
                 keyword_output = keywords.extract_named_entities_with_distance(translation_output, ocr_output)
                 places_with_distances = merge_dictionaries(keyword_output, places_with_distances)
+
+
+            image = frame.copy()
+            detected_regions = [] #an array of images to process; hook the text extraction here
+
+            if len(detected_regions): #many regions
+                ocr_output = {}
+                for region in detected_regions:
+                    ocr_output_local = ocr.ocr_pipeline({"image" : image},just_text_region=True)['output']
+                    for lang_group in ocr_output_local.keys(): #merge directories (in a different way)
+                        ocr_output.setdefault(lang_group,[]).extend(ocr_output_local[lang_group])
+            elif frame_idx % (frame_skip * 2): #extremely costly (out of proportion), shouldn't be run too often
+                ocr_output = ocr.ocr_pipeline({"image" : image})['output']
+                
+
+            if ocr_output:  # the exact same stuff there
+                language_detection_output = lang_detect.analyze_phrases(ocr_output, all_countries)
+                countries_by_language = merge_dictionaries(language_detection_output, countries_by_language)
+                translation_output = translation.translate_phrases(ocr_output)
+
+                # keyword detection
+                keyword_output = keywords.extract_named_entities_with_distance(translation_output, ocr_output)
+                places_with_distances = merge_dictionaries(keyword_output, places_with_distances)
+
+
 
         ret, frame = vid.read()
         frame_idx += 1
