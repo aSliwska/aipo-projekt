@@ -2,14 +2,14 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-import perspective_correction as pc
-import binarization as bn
-import perspective_corr_box as pcbox
+from . import perspective_correction as pc
+from . import binarization as bn
+from . import perspective_corr_box as pcbox
 
 # import ocr
-import tesocr as ocr
+from . import tesocr as ocr
 
-from utils import *
+from .utils import *
 
 import functools
 import os
@@ -141,7 +141,7 @@ def ocr_pipeline(data : dict, just_text_region : bool = False, runocr : bool = T
         try:
             #raise(RuntimeError())
             data = fade_edges(data)
-            data = pc.correct_horizontal_perspective(data, debug=True) #good enough, reliable & generally sufficient
+            data = pc.correct_horizontal_perspective(data, debug=False) #good enough, reliable & generally sufficient
             pass
         except RuntimeError as e:
             print(e)
@@ -166,9 +166,9 @@ def ocr_pipeline(data : dict, just_text_region : bool = False, runocr : bool = T
     # data = open(data)
     
     if runocr:
-        data = ocr.ocr_multigroup(data, debug=True)
-        plt.imshow(data["debug"])
-        plt.show()
+        data = ocr.ocr_multigroup(data, debug=False)
+        # plt.imshow(data["debug"])
+        # plt.show()
         print(data["raw"])
         print(data["output"])
     return data

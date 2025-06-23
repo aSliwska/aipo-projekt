@@ -62,7 +62,7 @@ make -j$(nproc)
 sudo make install
 
 sudo ldconfig
-
+#why tesseract3 and not 4???? why???
 hash -r
 if /usr/local/bin/tesseract --version 2>&1 | grep -q "3.04.01"; then
     echo "✓ Tesseract 3.04.01 installed successfully"
@@ -70,6 +70,24 @@ else
     echo "✗ Tesseract installation failed"
     exit 1
 fi
+
+
+##
+## Fetch **all** official Tesseract language packs
+##
+echo "Cloning official tessdata repository..."
+cd /tmp
+git clone --depth 1 https://github.com/tesseract-ocr/tessdata.git
+
+echo "Installing traineddata files to /usr/local/share/tessdata..."
+sudo mkdir -p /usr/local/share/tessdata
+sudo cp /tmp/tessdata/*.traineddata /usr/local/share/tessdata
+
+# Clean up tessdata clone
+rm -rf /tmp/tessdata
+
+echo "✓ All Tesseract language packs installed"
+
 
 OPENALPR_DIR="/tmp/openalpr"
 if [ ! -d "$OPENALPR_DIR" ]; then
