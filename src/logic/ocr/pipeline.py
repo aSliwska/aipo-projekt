@@ -2,14 +2,14 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-import perspective_correction as pc
-import binarization as bn
-import perspective_corr_box as pcbox
+from . import perspective_correction as pc
+from . import binarization as bn
+from . import perspective_corr_box as pcbox
 
 # import ocr
-import tesocr as ocr
+from . import tesocr as ocr
 
-from utils import *
+from .utils import *
 
 import functools
 import os

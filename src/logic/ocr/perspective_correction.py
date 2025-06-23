@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import functools
-from utils import *
+from .utils import *
 from matplotlib import pyplot as plt
 
 H_CORR_SETTINGS = dict()
