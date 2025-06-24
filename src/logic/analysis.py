@@ -89,7 +89,7 @@ def analyze_video(path_to_video, frame_skip):
                     keyword_output = keywords.extract_named_entities_with_distance(translation_output, ocr_output)
                     places_with_distances = merge_dictionaries(keyword_output, places_with_distances)
             except RuntimeError as e:
-                print(e)
+                print('Error!',e)
 
 
 
