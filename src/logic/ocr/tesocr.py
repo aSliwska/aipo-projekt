@@ -54,17 +54,25 @@ def ocr_multigroup(data: dict, min_conf: float = 0.6, debug: bool = False, lang_
         # langs = "+".join(lang_groups[grp])
         # print("Langs:", langs)
         for lang in langs: #fallback since tesseract3 and not 4 for whatever reason
-            lang_flag = "-l " + lang#+ "+".join(langs)
+            #lang_flag = "-l " + lang#+ "+".join(langs)
 
             
 
 
             #for lang in langs:
             # Use image_to_string for the full text output
-            full_text = pytesseract.image_to_string(rgb, config=f'--oem 3 --psm 11 {lang_flag}')
-            output_full_string[grp].append(full_text.strip()) # Append and add newline for readability
-
-            print("Obtained the output!")
+            try:
+                full_text = pytesseract.image_to_string(rgb, lang=lang, config=f'--psm 11') #--oem 3   {lang_flag}
+                output_full_string[grp].append(full_text.strip()) # Append and add newline for readability
+                print(f"Obtained the output for {lang}!")
+            except Exception as e:
+                if e.args[0] == -11:
+                    try:
+                        full_text = pytesseract.image_to_string(rgb, lang=lang) #--oem 3   {lang_flag}
+                        output_full_string[grp].append(full_text.strip()) # Append and add newline for readability
+                        print(f"Obtained the output for {lang}!")
+                    except Exception as e:
+                        print(f"Error processing {lang}: {e}")
 
         # Use image_to_data for bounding box and confidence information
         # ocr_data = pytesseract.image_to_data(

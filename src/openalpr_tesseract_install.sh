@@ -15,7 +15,7 @@ sudo rm -rf /usr/local/include/alpr*
 sudo rm -rf /usr/local/share/openalpr
 sudo rm -rf /etc/openalpr
 sudo rm -f /usr/local/lib/pkgconfig/openalpr.pc
-sudo rm -rf /tmp/tesseract-3.04.01
+sudo rm -rf /tmp/tesseract*
 sudo rm -rf /tmp/openalpr-build
 
 sudo ldconfig
@@ -62,7 +62,7 @@ make -j$(nproc)
 sudo make install
 
 sudo ldconfig
-#why tesseract3 and not 4???? why???
+
 hash -r
 if /usr/local/bin/tesseract --version 2>&1 | grep -q "3.04.01"; then
     echo "✓ Tesseract 3.04.01 installed successfully"
@@ -77,7 +77,7 @@ fi
 ##
 echo "Cloning official tessdata repository..."
 cd /tmp
-git clone --depth 1 https://github.com/tesseract-ocr/tessdata.git
+git clone --depth 1 --branch 3.04.00 https://github.com/tesseract-ocr/tessdata.git
 
 echo "Installing traineddata files to /usr/local/share/tessdata..."
 sudo mkdir -p /usr/local/share/tessdata
@@ -130,7 +130,7 @@ fi
 
 
 cd /
-rm -rf /tmp/tesseract-3.04.01*
+rm -rf /tmp/tesseract*
 rm -rf /tmp/openalpr
 
 echo "Installation script completed successfully!"
